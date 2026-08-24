@@ -209,7 +209,7 @@ From Alexandra's email:
 - Booking-call path.
 - Future phase should be possible without rebuilding the site.
 
-Recommended CMS candidates can be decided later based on stack, budget, and who will edit content. At minimum, projects, partners/logos, people, and possibly services should be editable.
+CMS decision: use Payload CMS inside the Next.js repo with Postgres as the content database. Editors should use `/admin` to update page copy, projects, services, people, partners, settings, and media without pushing to GitHub. Production media uploads should use persistent object storage, such as Vercel Blob, rather than local filesystem uploads.
 
 ## Visual Direction
 
