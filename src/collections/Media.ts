@@ -21,27 +21,6 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    adminThumbnail: "thumbnail",
-    imageSizes: [
-      {
-        name: "thumbnail",
-        height: 300,
-        position: "centre",
-        width: 400,
-      },
-      {
-        name: "card",
-        height: 1200,
-        position: "centre",
-        width: 900,
-      },
-      {
-        name: "wide",
-        height: 1200,
-        position: "centre",
-        width: 1800,
-      },
-    ],
     mimeTypes: ["image/*", "application/pdf"],
     staticDir: "media",
   },

@@ -157,7 +157,7 @@ export const fallbackServices: ServiceSummary[] = [
 ];
 
 async function getPayloadClient() {
-  if (!process.env.DATABASE_URL || !process.env.PAYLOAD_SECRET) {
+  if (!process.env.PAYLOAD_SECRET) {
     return null;
   }
 
@@ -188,9 +188,15 @@ async function queryPayload<T>(
 }
 
 function stringValue(value: unknown, fallback = "") {
-  return typeof value === "string" && value.trim().length > 0
-    ? value
-    : fallback;
+  if (typeof value === "string" && value.trim().length > 0) {
+    return value;
+  }
+
+  if (typeof value === "number") {
+    return String(value);
+  }
+
+  return fallback;
 }
 
 function pageContent(

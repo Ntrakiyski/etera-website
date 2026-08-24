@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "etera-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-24",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "vars": {
+    "PAYLOAD_DATABASE": "d1"
+  },
+  "secrets": {
+    "required": [
+      "PAYLOAD_SECRET"
+    ]
+  },
+  "routes": [
+    {
+      "pattern": "etera.trakiyski.work",
+      "custom_domain": true
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "D1",
+      "database_name": "etera-website",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "etera-website-media"
+    }
+  ]
+}

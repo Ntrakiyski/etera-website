@@ -1,10 +1,11 @@
-import { postgresAdapter } from "@payloadcms/db-postgres";
+import { sqliteD1Adapter } from "@payloadcms/db-d1-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
+import { r2Storage } from "@payloadcms/storage-r2";
+import { getCloudflareContext, type CloudflareContext } from "@opennextjs/cloudflare";
 import path from "path";
 import { buildConfig } from "payload";
+import type { GetPlatformProxyOptions } from "wrangler";
 import { fileURLToPath } from "url";
-import sharp from "sharp";
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
@@ -21,6 +22,24 @@ import { WorkPage } from "./globals/WorkPage";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const realpath = (value: string) => {
+  try {
+    return value ? path.resolve(value) : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+const isPayloadCLI = process.argv.some((value) =>
+  realpath(value)?.endsWith(path.join("payload", "bin.js")),
+);
+const isProduction = process.env.NODE_ENV === "production";
+
+const cloudflare =
+  isPayloadCLI || !isProduction
+    ? await getCloudflareContextFromWrangler()
+    : await getCloudflareContext({ async: true });
 
 export default buildConfig({
   admin: {
@@ -43,22 +62,28 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URL || "",
-    },
+  db: sqliteD1Adapter({
+    binding: cloudflare.env.D1 as D1Database,
+    idType: "uuid",
   }),
-  sharp,
   plugins: [
-    vercelBlobStorage({
-      addRandomSuffix: true,
+    r2Storage({
       alwaysInsertFields: true,
+      bucket: cloudflare.env.R2 as R2Bucket,
       clientUploads: true,
       collections: {
         media: true,
       },
-      enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
-      token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
   ],
 });
+
+function getCloudflareContextFromWrangler(): Promise<CloudflareContext> {
+  return import(/* webpackIgnore: true */ `${"__wrangler".replaceAll("_", "")}`).then(
+    ({ getPlatformProxy }) =>
+      getPlatformProxy({
+        environment: process.env.CLOUDFLARE_ENV,
+        remoteBindings: isProduction,
+      } satisfies GetPlatformProxyOptions),
+  );
+}

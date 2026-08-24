@@ -12,7 +12,7 @@ Why Payload fits this repo:
 - The content model is code-first, which is easier for agents to inspect, modify, diff, and refactor safely.
 - It provides an admin panel, migrations, REST, GraphQL, auth, access control, uploads, and live preview from one owned codebase.
 - It avoids introducing a separate CMS service unless we choose to split it later.
-- It stores editor changes in Postgres, so Alexandra's team can edit website content through `/admin` without pushing to GitHub.
+- It supports the Cloudflare deployment path for this repo: editor content in D1, media in R2, and Alexandra's team editing through `/admin` without pushing to GitHub.
 
 Use **Directus** instead if the priority becomes the best no-code admin experience plus direct AI/MCP operations over the content database.
 

@@ -92,7 +92,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   fallbackLocale: null;
   globals: {
@@ -144,7 +144,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   role: 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
@@ -170,9 +170,8 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -184,39 +183,13 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    wide?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
  */
 export interface Service {
-  id: number;
+  id: string;
   name: string;
   area: 'brand-culture' | 'creative-visual' | 'content-influence' | 'experiences-partnerships' | 'digital-growth';
   summary: string;
@@ -246,7 +219,7 @@ export interface Service {
  * via the `definition` "projects".
  */
 export interface Project {
-  id: number;
+  id: string;
   clientName: string;
   projectName: string;
   /**
@@ -257,8 +230,8 @@ export interface Project {
   year?: string | null;
   featured?: boolean | null;
   sortOrder?: number | null;
-  services?: (number | Service)[] | null;
-  heroImage?: (number | null) | Media;
+  services?: (string | Service)[] | null;
+  heroImage?: (string | null) | Media;
   overview?: string | null;
   context?: {
     root: {
@@ -299,7 +272,7 @@ export interface Project {
     | null;
   gallery?:
     | {
-        asset: number | Media;
+        asset: string | Media;
         caption?: string | null;
         id?: string | null;
       }[]
@@ -320,11 +293,11 @@ export interface Project {
  * via the `definition` "people".
  */
 export interface Person {
-  id: number;
+  id: string;
   name: string;
   role: string;
   bio?: string | null;
-  portrait?: (number | null) | Media;
+  portrait?: (string | null) | Media;
   featured?: boolean | null;
   sortOrder?: number | null;
   updatedAt: string;
@@ -335,9 +308,9 @@ export interface Person {
  * via the `definition` "partners".
  */
 export interface Partner {
-  id: number;
+  id: string;
   name: string;
-  logo?: (number | null) | Media;
+  logo?: (string | null) | Media;
   summary?: string | null;
   url?: string | null;
   featured?: boolean | null;
@@ -350,7 +323,7 @@ export interface Partner {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: number;
+  id: string;
   key: string;
   data:
     | {
@@ -367,36 +340,36 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'services';
-        value: number | Service;
+        value: string | Service;
       } | null)
     | ({
         relationTo: 'projects';
-        value: number | Project;
+        value: string | Project;
       } | null)
     | ({
         relationTo: 'people';
-        value: number | Person;
+        value: string | Person;
       } | null)
     | ({
         relationTo: 'partners';
-        value: number | Partner;
+        value: string | Partner;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -406,10 +379,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -429,7 +402,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -464,7 +437,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -476,40 +448,6 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        card?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        wide?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -641,7 +579,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "home-page".
  */
 export interface HomePage {
-  id: number;
+  id: string;
   heroKicker: string;
   heroHeadline: string;
   heroSupportingCopy: string;
@@ -651,8 +589,8 @@ export interface HomePage {
     label: string;
     id?: string | null;
   }[];
-  featuredProjects?: (number | Project)[] | null;
-  featuredPartners?: (number | Partner)[] | null;
+  featuredProjects?: (string | Project)[] | null;
+  featuredPartners?: (string | Partner)[] | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -662,7 +600,7 @@ export interface HomePage {
  * via the `definition` "work-page".
  */
 export interface WorkPage {
-  id: number;
+  id: string;
   kicker: string;
   headline: string;
   intro: string;
@@ -675,12 +613,12 @@ export interface WorkPage {
  * via the `definition` "atelier-page".
  */
 export interface AtelierPage {
-  id: number;
+  id: string;
   kicker: string;
   headline: string;
   intro: string;
   aetherNarrative?: string | null;
-  featuredPeople?: (number | Person)[] | null;
+  featuredPeople?: (string | Person)[] | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -690,7 +628,7 @@ export interface AtelierPage {
  * via the `definition` "services-page".
  */
 export interface ServicesPage {
-  id: number;
+  id: string;
   kicker: string;
   headline: string;
   intro?: string | null;
@@ -703,7 +641,7 @@ export interface ServicesPage {
  * via the `definition` "contact-page".
  */
 export interface ContactPage {
-  id: number;
+  id: string;
   kicker: string;
   headline: string;
   intro: string;
@@ -718,7 +656,7 @@ export interface ContactPage {
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
-  id: number;
+  id: string;
   contactEmail: string;
   bookingURL?: string | null;
   footerTagline: string;

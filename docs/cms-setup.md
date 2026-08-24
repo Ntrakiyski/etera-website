@@ -1,6 +1,11 @@
 # Payload CMS Setup
 
-Payload is installed inside the Next.js app. The editor/admin interface is available at `/admin` when the app is running.
+Payload is installed inside the Next.js app. The public site and CMS are deployed together as one Cloudflare Worker:
+
+- Website: `https://etera.trakiyski.work`
+- CMS: `https://etera.trakiyski.work/admin`
+- Database: Cloudflare D1 binding `D1`
+- Media uploads: Cloudflare R2 binding `R2`
 
 ## What Editors Can Manage
 
@@ -12,35 +17,70 @@ Payload is installed inside the Next.js app. The editor/admin interface is avail
 
 ## Local Development
 
-1. Start Postgres:
+1. Install dependencies:
 
    ```bash
-   docker compose up -d postgres
+   npm install
    ```
 
-2. Run the app:
+2. Create `.env` from `.env.example` and set a long random `PAYLOAD_SECRET`.
+
+3. Run the app:
 
    ```bash
    npm run dev
    ```
 
-3. Open `http://localhost:3000/admin` and create the first CMS user.
+4. Open `http://localhost:3000/admin` and create the first CMS user.
 
-The local `.env` uses:
+Local development uses Wrangler's local D1/R2 simulation through `getPlatformProxy`, so Docker/Postgres are not needed.
+
+## First Cloudflare Deploy
+
+Wrangler must be authenticated before the remote resources can be created:
 
 ```bash
-DATABASE_URL=postgres://payload:payload@127.0.0.1:5432/etera_website
+npx wrangler login
 ```
 
-## Production Environment
+Create the D1 database and replace the placeholder `database_id` in `wrangler.jsonc` with the UUID returned by Cloudflare:
 
-Set these environment variables on the deployment host:
+```bash
+npx wrangler d1 create etera-website
+```
 
-- `PAYLOAD_SECRET`: long random secret for Payload auth/encryption.
-- `DATABASE_URL`: managed Postgres connection string.
-- `BLOB_READ_WRITE_TOKEN`: optional Vercel Blob token for persistent media uploads.
+Create the R2 bucket:
 
-If `BLOB_READ_WRITE_TOKEN` is absent, Payload falls back to local upload storage. That is acceptable for local development, but production on serverless hosting needs persistent object storage for uploaded media.
+```bash
+npx wrangler r2 bucket create etera-website-media
+```
+
+Set the production Payload secret:
+
+```bash
+openssl rand -hex 32 | npx wrangler secret put PAYLOAD_SECRET
+```
+
+Generate binding types after changing `wrangler.jsonc`:
+
+```bash
+npm run cf:typegen
+```
+
+Create and apply production migrations after schema changes:
+
+```bash
+npm run migrate:create
+npm run cf:migrate
+```
+
+Deploy the app:
+
+```bash
+npm run cf:deploy
+```
+
+`wrangler.jsonc` attaches the Worker to `etera.trakiyski.work` as a custom domain. Change the route there only if the deployment should use the root domain or a different subdomain.
 
 ## Developer Notes
 
@@ -50,11 +90,4 @@ If `BLOB_READ_WRITE_TOKEN` is absent, Payload falls back to local upload storage
 
   ```bash
   npm run generate:types
-  ```
-
-- Create and run migrations before production schema changes:
-
-  ```bash
-  npm run migrate:create
-  npm run migrate
   ```

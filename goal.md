@@ -209,7 +209,7 @@ From Alexandra's email:
 - Booking-call path.
 - Future phase should be possible without rebuilding the site.
 
-CMS decision: use Payload CMS inside the Next.js repo with Postgres as the content database. Editors should use `/admin` to update page copy, projects, services, people, partners, settings, and media without pushing to GitHub. Production media uploads should use persistent object storage, such as Vercel Blob, rather than local filesystem uploads.
+CMS decision: use Payload CMS inside the Next.js repo. For the Cloudflare deployment, editor content is stored in D1 and media uploads are stored in R2. Editors should use `/admin` to update page copy, projects, services, people, partners, settings, and media without pushing to GitHub.
 
 ## Visual Direction
 
