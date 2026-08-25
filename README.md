@@ -18,6 +18,7 @@ Next.js site for ETÉRA Creative Atelier.
   - `references/screenshots`
 - CMS research is in `docs/cms-options.md`.
 - CMS and deployment notes are in `docs/cms-setup.md`.
+- Tech stack and Cloudflare maintenance notes are in `docs/tech-stack-cloudflare.md`.
 
 ## Local Development
 
