@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  outputFileTracingExcludes: {
+    "**/*": ["next/dist/compiled/@vercel/og/**/*"],
+  },
   serverExternalPackages: ["jose", "pg-cloudflare"],
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {

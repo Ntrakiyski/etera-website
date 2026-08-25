@@ -35,9 +35,13 @@ const isPayloadCLI = process.argv.some((value) =>
   realpath(value)?.endsWith(path.join("payload", "bin.js")),
 );
 const isProduction = process.env.NODE_ENV === "production";
+const shouldUseWranglerContext =
+  process.env.PAYLOAD_CLOUDFLARE_CONTEXT === "wrangler" ||
+  isPayloadCLI ||
+  !isProduction;
 
 const cloudflare =
-  isPayloadCLI || !isProduction
+  shouldUseWranglerContext
     ? await getCloudflareContextFromWrangler()
     : await getCloudflareContext({ async: true });
 
@@ -58,6 +62,9 @@ export default buildConfig({
     ContactPage,
     SiteSettings,
   ],
+  graphQL: {
+    disable: true,
+  },
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
