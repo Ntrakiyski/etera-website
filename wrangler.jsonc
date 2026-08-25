@@ -29,13 +29,15 @@
     {
       "binding": "D1",
       "database_name": "etera-website",
-      "database_id": "66622e1f-8b34-4013-875f-e10d75f17a46"
+      "database_id": "66622e1f-8b34-4013-875f-e10d75f17a46",
+      "remote": true
     }
   ],
   "r2_buckets": [
     {
       "binding": "R2",
-      "bucket_name": "etera-website-media"
+      "bucket_name": "etera-website-media",
+      "remote": true
     }
   ]
 }
