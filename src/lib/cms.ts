@@ -13,12 +13,15 @@ type QueryPayload = {
     where?: Record<string, unknown>;
   }) => Promise<{ docs: Record<string, unknown>[] }>;
   findGlobal: (args: {
+    depth?: number;
     draft?: boolean;
     slug: string;
   }) => Promise<Record<string, unknown>>;
 };
 
 export type HomeContent = {
+  featuredPartners: PartnerSummary[];
+  featuredProjects: ProjectSummary[];
   heroAdditionalCopy: string;
   heroCTA: string;
   heroHeadline: string;
@@ -35,11 +38,11 @@ export type PageContent = {
 
 export type AtelierContent = PageContent & {
   aetherNarrative: string;
+  featuredPeople: PersonSummary[];
 };
 
 export type ContactContent = PageContent & {
   email: string;
-  successMessage: string;
 };
 
 export type ServiceSummary = {
@@ -70,6 +73,7 @@ export type PersonSummary = {
   bio: string;
   id: string;
   name: string;
+  portrait?: MediaSummary;
   role: string;
 };
 
@@ -82,8 +86,11 @@ export type PartnerSummary = {
 };
 
 export type SiteSettingsContent = {
+  bookingURL: string;
   contactEmail: string;
   footerTagline: string;
+  seoDescription: string;
+  seoTitle: string;
   socialLinks: Array<{
     label: string;
     url: string;
@@ -101,6 +108,8 @@ const serviceAreaLabels: Record<string, string> = {
 };
 
 export const fallbackHomePage: HomeContent = {
+  featuredPartners: [],
+  featuredProjects: [],
   heroAdditionalCopy:
     "Strategy, creativity, cultural context and execution come together across brands, campaigns, content and experiences.",
   heroCTA: "Discover ETÉRA",
@@ -122,6 +131,7 @@ export const fallbackAtelierPage: AtelierContent = {
   aetherNarrative:
     "The Aether narrative and founder/team content will be shaped once the final brand materials arrive.",
   headline: "Strategy, creativity and attention to every detail.",
+  featuredPeople: [],
   intro:
     "ETÉRA is an independent creative atelier built around the belief that strong brands are shaped through the right balance of strategy, creativity, cultural context, and effort.",
   kicker: "The Atelier",
@@ -140,13 +150,15 @@ export const fallbackContactPage: ContactContent = {
   intro:
     "The project inquiry form, booking path, and success state will be wired after the preferred workflow and booking tool are confirmed.",
   kicker: "Contact",
-  successMessage:
-    "Thank you. We've received your inquiry and will get back to you once we've reviewed the project details.",
 };
 
 export const fallbackSiteSettings: SiteSettingsContent = {
+  bookingURL: "",
   contactEmail: "hello@eteracreative.com",
   footerTagline: "Define your era.",
+  seoDescription:
+    "ETÉRA is a creative atelier that builds presence and shapes culture.",
+  seoTitle: "ETÉRA Creative Atelier",
   socialLinks: [],
 };
 
@@ -210,9 +222,7 @@ async function queryPayload<T>(
 
     return await query(payload as unknown as QueryPayload);
   } catch (error) {
-    if (process.env.NODE_ENV !== "production") {
-      console.warn("Payload CMS unavailable; using fallback content.", error);
-    }
+    console.error("Payload CMS unavailable; using fallback content.", error);
 
     return fallback;
   }
@@ -267,9 +277,84 @@ function mediaSummary(value: unknown): MediaSummary | undefined {
   };
 }
 
+function httpURL(value: unknown) {
+  const url = stringValue(value);
+
+  if (!url) {
+    return "";
+  }
+
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "http:" || parsed.protocol === "https:"
+      ? url
+      : "";
+  } catch {
+    return "";
+  }
+}
+
+function relatedDocuments(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(
+    (document): document is Record<string, unknown> =>
+      typeof document === "object" && document !== null,
+  );
+}
+
+function projectSummary(
+  project: Record<string, unknown>,
+): ProjectSummary | null {
+  if (project._status && project._status !== "published") {
+    return null;
+  }
+
+  const summary = {
+    clientName: stringValue(project.clientName),
+    heroImage: mediaSummary(project.heroImage),
+    id: stringValue(project.id),
+    overview: stringValue(project.overview),
+    projectName: stringValue(project.projectName),
+    slug: stringValue(project.slug),
+    year: stringValue(project.year),
+  };
+
+  return summary.id && summary.projectName ? summary : null;
+}
+
+function partnerSummary(
+  partner: Record<string, unknown>,
+): PartnerSummary | null {
+  const summary = {
+    id: stringValue(partner.id),
+    logo: mediaSummary(partner.logo),
+    name: stringValue(partner.name),
+    summary: stringValue(partner.summary),
+    url: httpURL(partner.url),
+  };
+
+  return summary.id && summary.name ? summary : null;
+}
+
+function personSummary(person: Record<string, unknown>): PersonSummary | null {
+  const summary = {
+    bio: stringValue(person.bio),
+    id: stringValue(person.id),
+    name: stringValue(person.name),
+    portrait: mediaSummary(person.portrait),
+    role: stringValue(person.role),
+  };
+
+  return summary.id && summary.name ? summary : null;
+}
+
 export async function getHomePage() {
   return queryPayload<HomeContent>(async (payload) => {
     const page = await payload.findGlobal({
+      depth: 1,
       draft: false,
       slug: "home-page",
     });
@@ -285,6 +370,12 @@ export async function getHomePage() {
       : fallbackHomePage.methodSteps;
 
     return {
+      featuredPartners: relatedDocuments(page.featuredPartners)
+        .map(partnerSummary)
+        .filter((partner): partner is PartnerSummary => Boolean(partner)),
+      featuredProjects: relatedDocuments(page.featuredProjects)
+        .map(projectSummary)
+        .filter((project): project is ProjectSummary => Boolean(project)),
       heroAdditionalCopy: stringValue(
         page.heroAdditionalCopy,
         fallbackHomePage.heroAdditionalCopy,
@@ -322,6 +413,7 @@ export async function getWorkPage() {
 export async function getAtelierPage() {
   return queryPayload<AtelierContent>(async (payload) => {
     const page = await payload.findGlobal({
+      depth: 1,
       draft: false,
       slug: "atelier-page",
     });
@@ -332,6 +424,9 @@ export async function getAtelierPage() {
         page.aetherNarrative,
         fallbackAtelierPage.aetherNarrative,
       ),
+      featuredPeople: relatedDocuments(page.featuredPeople)
+        .map(personSummary)
+        .filter((person): person is PersonSummary => Boolean(person)),
     };
   }, fallbackAtelierPage);
 }
@@ -360,10 +455,6 @@ export async function getContactPage() {
     return {
       ...pageContent(page, fallbackContactPage),
       email: stringValue(page.email, fallbackContactPage.email),
-      successMessage: stringValue(
-        page.successMessage,
-        fallbackContactPage.successMessage,
-      ),
     };
   }, fallbackContactPage);
 }
@@ -403,50 +494,11 @@ export async function getProjects() {
       draft: false,
       limit: 50,
       sort: "sortOrder",
-      where: {
-        status: {
-          equals: "published",
-        },
-      },
     });
 
     return result.docs
-      .map((project) => ({
-        clientName: stringValue(project.clientName),
-        heroImage: mediaSummary(project.heroImage),
-        id: stringValue(project.id),
-        overview: stringValue(project.overview),
-        projectName: stringValue(project.projectName),
-        slug: stringValue(project.slug),
-        year: stringValue(project.year),
-      }))
-      .filter((project) => project.id && project.projectName);
-  }, []);
-}
-
-export async function getPartners() {
-  return queryPayload<PartnerSummary[]>(async (payload) => {
-    const result = await payload.find({
-      collection: "partners",
-      depth: 1,
-      limit: 50,
-      sort: "sortOrder",
-      where: {
-        featured: {
-          equals: true,
-        },
-      },
-    });
-
-    return result.docs
-      .map((partner) => ({
-        id: stringValue(partner.id),
-        logo: mediaSummary(partner.logo),
-        name: stringValue(partner.name),
-        summary: stringValue(partner.summary),
-        url: stringValue(partner.url),
-      }))
-      .filter((partner) => partner.id && partner.name);
+      .map(projectSummary)
+      .filter((project): project is ProjectSummary => Boolean(project));
   }, []);
 }
 
@@ -464,14 +516,17 @@ export async function getSiteSettings() {
 
             const record = link as Record<string, unknown>;
             const label = stringValue(record.label);
-            const url = stringValue(record.url);
+            const url = httpURL(record.url);
 
             return label && url ? { label, url } : null;
           })
-          .filter((link): link is { label: string; url: string } => Boolean(link))
+          .filter((link): link is { label: string; url: string } =>
+            Boolean(link),
+          )
       : [];
 
     return {
+      bookingURL: httpURL(settings.bookingURL),
       contactEmail: stringValue(
         settings.contactEmail,
         fallbackSiteSettings.contactEmail,
@@ -480,31 +535,12 @@ export async function getSiteSettings() {
         settings.footerTagline,
         fallbackSiteSettings.footerTagline,
       ),
+      seoDescription: stringValue(
+        settings.seoDescription,
+        fallbackSiteSettings.seoDescription,
+      ),
+      seoTitle: stringValue(settings.seoTitle, fallbackSiteSettings.seoTitle),
       socialLinks,
     };
   }, fallbackSiteSettings);
-}
-
-export async function getPeople() {
-  return queryPayload<PersonSummary[]>(async (payload) => {
-    const result = await payload.find({
-      collection: "people",
-      limit: 50,
-      sort: "sortOrder",
-      where: {
-        featured: {
-          equals: true,
-        },
-      },
-    });
-
-    return result.docs
-      .map((person) => ({
-        bio: stringValue(person.bio),
-        id: stringValue(person.id),
-        name: stringValue(person.name),
-        role: stringValue(person.role),
-      }))
-      .filter((person) => person.id && person.name);
-  }, []);
 }

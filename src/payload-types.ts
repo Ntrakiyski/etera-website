@@ -226,9 +226,7 @@ export interface Project {
    * URL-safe project identifier, for example brand-campaign.
    */
   slug: string;
-  status: 'draft' | 'published';
   year?: string | null;
-  featured?: boolean | null;
   sortOrder?: number | null;
   services?: (string | Service)[] | null;
   heroImage?: (string | null) | Media;
@@ -298,7 +296,6 @@ export interface Person {
   role: string;
   bio?: string | null;
   portrait?: (string | null) | Media;
-  featured?: boolean | null;
   sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -313,7 +310,6 @@ export interface Partner {
   logo?: (string | null) | Media;
   summary?: string | null;
   url?: string | null;
-  featured?: boolean | null;
   sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -472,9 +468,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   clientName?: T;
   projectName?: T;
   slug?: T;
-  status?: T;
   year?: T;
-  featured?: T;
   sortOrder?: T;
   services?: T;
   heroImage?: T;
@@ -515,7 +509,6 @@ export interface PeopleSelect<T extends boolean = true> {
   role?: T;
   bio?: T;
   portrait?: T;
-  featured?: T;
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -529,7 +522,6 @@ export interface PartnersSelect<T extends boolean = true> {
   logo?: T;
   summary?: T;
   url?: T;
-  featured?: T;
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -646,7 +638,6 @@ export interface ContactPage {
   headline: string;
   intro: string;
   email: string;
-  successMessage?: string | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -745,7 +736,6 @@ export interface ContactPageSelect<T extends boolean = true> {
   headline?: T;
   intro?: T;
   email?: T;
-  successMessage?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

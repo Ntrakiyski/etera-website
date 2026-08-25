@@ -10,10 +10,17 @@ Payload is installed inside the Next.js app. The public site and CMS are deploye
 ## What Editors Can Manage
 
 - Home, Work, The Atelier, Services, and Contact page copy.
-- Projects, including client/project details, status, roles, results, collaborators, and galleries.
+- Projects, including client/project details, Payload draft/publish state, roles, results, collaborators, and galleries.
 - Services grouped by the ETÉRA service areas from the brief.
-- People, partners, and media assets.
-- Site settings such as contact email, social links, footer tagline, and SEO defaults.
+- People, partners, and media assets. Homepage projects/partners and Atelier people are selected from their page edit screens.
+- Site settings such as contact email, booking URL, social links, footer tagline, and SEO defaults.
+
+## User Roles
+
+- Administrators can manage users and all website content.
+- Editors can manage website content and their own account, but cannot create or delete users or change account roles.
+- Only administrators should create new CMS accounts.
+- Image placements such as project heroes, partner logos, and portraits accept image media only. PDFs can still be stored in Media for documents.
 
 ## Local Development
 
@@ -85,7 +92,7 @@ npm run cf:deploy
 ## Developer Notes
 
 - CMS schema lives in `src/collections`, `src/globals`, and `src/payload.config.ts`.
-- Public pages read through `src/lib/cms.ts`, which falls back to launch placeholder content when Payload is not reachable.
+- Public pages read through `src/lib/cms.ts`, which logs CMS failures and falls back to launch placeholder content when Payload is not reachable.
 - Regenerate Payload TypeScript types after schema changes:
 
   ```bash

@@ -18,7 +18,9 @@ export const metadata: Metadata = {
     "ETÉRA is a creative atelier that builds presence and shapes culture.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"

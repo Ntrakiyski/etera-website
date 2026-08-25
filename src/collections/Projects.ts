@@ -36,7 +36,7 @@ export const Projects: CollectionConfig = {
     update: loggedIn,
   },
   admin: {
-    defaultColumns: ["clientName", "projectName", "year", "status"],
+    defaultColumns: ["clientName", "projectName", "year", "_status"],
     group: "Content",
     useAsTitle: "projectName",
   },
@@ -65,38 +65,11 @@ export const Projects: CollectionConfig = {
       validate: validateUniqueProjectSlug,
     },
     {
-      name: "status",
-      type: "select",
-      admin: {
-        position: "sidebar",
-      },
-      defaultValue: "draft",
-      options: [
-        {
-          label: "Draft",
-          value: "draft",
-        },
-        {
-          label: "Published",
-          value: "published",
-        },
-      ],
-      required: true,
-    },
-    {
       name: "year",
       type: "text",
       admin: {
         position: "sidebar",
       },
-    },
-    {
-      name: "featured",
-      type: "checkbox",
-      admin: {
-        position: "sidebar",
-      },
-      defaultValue: false,
     },
     {
       name: "sortOrder",
@@ -115,6 +88,11 @@ export const Projects: CollectionConfig = {
     {
       name: "heroImage",
       type: "upload",
+      filterOptions: {
+        mimeType: {
+          contains: "image/",
+        },
+      },
       label: "Hero Image",
       relationTo: "media",
     },

@@ -37,12 +37,6 @@ export const ContactPage: GlobalConfig = {
       defaultValue: "hello@eteracreative.com",
       required: true,
     },
-    {
-      name: "successMessage",
-      type: "textarea",
-      defaultValue:
-        "Thank you. We've received your inquiry and will get back to you once we've reviewed the project details.",
-    },
   ],
   label: "Contact Page",
   versions: {

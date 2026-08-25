@@ -25,6 +25,11 @@ export const Partners: CollectionConfig = {
     {
       name: "logo",
       type: "upload",
+      filterOptions: {
+        mimeType: {
+          contains: "image/",
+        },
+      },
       relationTo: "media",
     },
     {
@@ -35,14 +40,6 @@ export const Partners: CollectionConfig = {
       name: "url",
       type: "text",
       label: "Website URL",
-    },
-    {
-      name: "featured",
-      type: "checkbox",
-      admin: {
-        position: "sidebar",
-      },
-      defaultValue: true,
     },
     {
       name: "sortOrder",

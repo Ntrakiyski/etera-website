@@ -80,10 +80,12 @@ Local development uses Wrangler's platform proxy from `src/payload.config.ts`. I
 
 ## Build and Deploy
 
-Run lint before deployment:
+Run the local verification suite before deployment:
 
 ```bash
 npm run lint
+npm run typecheck
+npm run test
 ```
 
 Generate Cloudflare binding types after changing `wrangler.jsonc`:
@@ -163,24 +165,15 @@ The `@vercel/og` trace exclusion exists because Payload/Next file tracing can in
 
 Generated Payload route files can be rewritten by Payload. If a future generation restores imports like `@payloadcms/next/css` into API routes, check the Worker bundle size again.
 
-## Current Cloudflare Limit Caveat
+## Current Cloudflare Plan
 
-As of the first Cloudflare deployment on 2026-08-25:
+The Worker uses Workers Paid because Payload's admin application exceeds the CPU allowance of Workers Free. The site and CMS are both operational on the paid plan.
 
-- The public homepage deployed and returned `200`.
-- `/admin` deployed but hit Cloudflare error `1102` on the Free Workers plan.
-- Wrangler tail showed `outcome: exceededCpu` for `/admin`.
+- Website: `https://etera.trakiyski.work`
+- CMS: `https://etera.trakiyski.work/admin`
+- Persistent Worker logs and sampled traces are enabled in `wrangler.jsonc`.
 
-This means the public website can run on Workers Free, but the Payload admin is too CPU-heavy for the Free plan. To use the hosted CMS reliably, upgrade the Cloudflare Workers plan and redeploy.
-
-After upgrading:
-
-```bash
-npm run cf:deploy
-curl -I https://etera.trakiyski.work/admin
-```
-
-Expected result for `/admin` after the plan upgrade is an HTTP `200` login or setup screen.
+Do not downgrade the Worker to Free without replacing or moving the CMS admin runtime.
 
 ## Live Debugging
 
@@ -219,7 +212,7 @@ Common symptoms:
 ## Maintenance Rules
 
 - Do not commit `.env`, `.dev.vars`, API tokens, or generated secrets.
-- Run `npm run lint` before pushing.
+- Run `npm run lint`, `npm run typecheck`, and `npm run test` before pushing. GitHub Actions runs the same checks on `main` and pull requests.
 - Run `npm run cf:build` and a dry deploy before production deploys that touch CMS, Next config, Payload config, or Cloudflare config.
 - Regenerate `cloudflare-env.d.ts` after Cloudflare binding changes.
 - Keep migrations in `src/migrations` committed.

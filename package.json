@@ -8,6 +8,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types src/tests/access.test.ts",
     "payload": "payload",
     "generate:types": "payload generate:types",
     "generate:importmap": "payload generate:importmap",
@@ -41,5 +43,8 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.125.0"
+  },
+  "overrides": {
+    "dompurify": "3.4.14"
   }
 }

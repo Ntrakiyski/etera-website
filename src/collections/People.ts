@@ -34,15 +34,12 @@ export const People: CollectionConfig = {
     {
       name: "portrait",
       type: "upload",
-      relationTo: "media",
-    },
-    {
-      name: "featured",
-      type: "checkbox",
-      admin: {
-        position: "sidebar",
+      filterOptions: {
+        mimeType: {
+          contains: "image/",
+        },
       },
-      defaultValue: true,
+      relationTo: "media",
     },
     {
       name: "sortOrder",
