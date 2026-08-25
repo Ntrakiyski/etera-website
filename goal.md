@@ -237,10 +237,11 @@ Avoid:
 
 ## Reference Sites And Interpretation
 
-All screenshots are desktop captures, generally 1440px wide. Some sites use scroll-driven rendering, so static screenshots capture composition and visual direction more than exact animation.
+All screenshots are desktop captures, generally 1440px wide. Some sites use scroll-driven rendering, so static screenshots capture composition and visual direction more than exact animation. The [client inspiration map](references/client-inspiration/README.md) adds red-box annotations around the exact evidence connected to each client note.
 
 | Rank | Reference | Alexandra's note | Screenshots | Interpretation for ETÉRA |
 |---:|---|---|---|---|
+| 0 | Gloria Rusenova | Existing benchmark; overall digital tone and homepage scroll behavior. | [top](references/screenshots/00-gloria-rusenova-top.png), [full](references/screenshots/00-gloria-rusenova-full.png), [annotated](references/client-inspiration/annotated/00-gloria-rusenova-full-annotated.png) | Keep the identity-to-work transition fluid and image-led, but translate it into ETÉRA's quieter palette and editorial voice. |
 | 1 | Magnetism | Opening desktop animation and downward scroll. | [loading](references/screenshots/01-magnetism-loading-mm.png), [top](references/screenshots/01-magnetism-top.png), [full](references/screenshots/01-magnetism-full.png) | Strong candidate for ETÉRA's intro/monogram behavior: restrained mark, lots of space, then visual project rhythm on scroll. |
 | 2 | Homework | Minimalist and strongly visual feeling. | [top](references/screenshots/02-homework-top.png), [full](references/screenshots/02-homework-full.png) | Use as a restraint reference: large imagery, quiet typography, broad whitespace, minimal navigation clutter. |
 | 3 | Gisèle Paris | Client portfolio and logo arrangement. | [top](references/screenshots/03-gisele-paris-top.png), [full](references/screenshots/03-gisele-paris-full.png) | Good model for selected partners/client logos and credibility blocks without making the site feel corporate. |
@@ -290,7 +291,7 @@ Also still needed:
 
 1. Should `Services` be a separate page at launch, a Home section, or an anchor in the main nav?
 2. Is the launch English-only, Bulgarian-only, or bilingual? The email says Bulgarian and English copy exist, but the attached PDF extract is English.
-3. What is the URL for "Gloria's website", and which parts of it should influence ETÉRA?
+3. Which parts of the Gloria Rusenova reference should influence ETÉRA beyond the homepage scroll behavior already identified?
 4. Should the ETÉRA monogram become a 3D/animated signature element, or should it stay flat/typographic for launch?
 5. Which projects are ready for the Work page at launch, and do they have final visuals, roles, years, results, and collaborators?
 6. Which client/partner logos can be shown publicly on day one?

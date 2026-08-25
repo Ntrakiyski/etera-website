@@ -146,11 +146,11 @@ This section distinguishes confirmed client direction from design proposals and 
 
 ### Reference Evidence Limits
 
-- The research set contains desktop captures, generally at 1440px. Responsive behavior must be designed for ETÉRA rather than inferred from those images.
-- Most references have `top` and `full` captures. YKONE has only a reliable `top` capture because its scroll-rendered full page did not capture consistently.
+- The research set contains desktop captures, generally at 1440px, plus a red-box [client inspiration map](references/client-inspiration/README.md) identifying the evidence attached to each client note. Responsive behavior must be designed for ETÉRA rather than inferred from those images.
+- Most references have `top` and `full` captures. YKONE includes both a reliable `top` capture and a full-page section stack; its `top` capture remains the more faithful record of the scroll-rendered opening.
 - Magnetism includes an additional loading/monogram capture that is useful for sequence and pacing, not for copying the mark treatment.
 - Static captures show composition and hierarchy more reliably than animation timing. Motion conclusions are therefore design hypotheses until tested in a browser.
-- Gloria Rusenova was mentioned in the August 24 follow-up and is not one of the original 12-site screenshot captures.
+- Gloria Rusenova now has `top` and `full` captures and is included as the benchmark reference before the original 12-site set.
 
 ## Reference Distillation
 
