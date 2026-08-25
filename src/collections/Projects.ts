@@ -1,6 +1,31 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, TextFieldSingleValidation } from "payload";
 
 import { anyone, loggedIn } from "../access";
+
+const validateUniqueProjectSlug: TextFieldSingleValidation = async (
+  value,
+  { id, req },
+) => {
+  if (!value) {
+    return "A project URL is required.";
+  }
+
+  const existing = await req.payload.find({
+    collection: "projects",
+    depth: 0,
+    limit: 1,
+    overrideAccess: true,
+    where: {
+      slug: {
+        equals: value,
+      },
+    },
+  });
+
+  return existing.docs.some((project) => String(project.id) !== String(id))
+    ? "This project URL is already in use."
+    : true;
+};
 
 export const Projects: CollectionConfig = {
   slug: "projects",
@@ -37,27 +62,7 @@ export const Projects: CollectionConfig = {
       },
       required: true,
       unique: true,
-      validate: async (value, { id, req }) => {
-        if (!value) {
-          return "A project URL is required.";
-        }
-
-        const existing = await req.payload.find({
-          collection: "projects",
-          depth: 0,
-          limit: 1,
-          overrideAccess: true,
-          where: {
-            slug: {
-              equals: value,
-            },
-          },
-        });
-
-        return existing.docs.some((project) => String(project.id) !== String(id))
-          ? "This project URL is already in use."
-          : true;
-      },
+      validate: validateUniqueProjectSlug,
     },
     {
       name: "status",
