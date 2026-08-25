@@ -1,51 +1,109 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
-import { SiteHeader } from "@/components/SiteHeader";
+import { AetherMedia } from "@/components/AetherMedia";
+import { ArrowIcon } from "@/components/ArrowIcon";
+import { MethodSequence } from "@/components/MethodSequence";
 import { getAtelierPage } from "@/lib/cms";
+import { isLaunchReadyPerson } from "@/lib/content-readiness";
+import { buildPageMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
-export default async function TheAtelierPage() {
+const methodSteps = ["Discover", "Define", "Create", "Elevate"];
+
+export async function generateMetadata(): Promise<Metadata> {
   const page = await getAtelierPage();
 
+  return buildPageMetadata({
+    description: page.intro,
+    path: "/the-atelier",
+    title: "The Atelier",
+  });
+}
+
+export default async function TheAtelierPage() {
+  const page = await getAtelierPage();
+  const people = page.featuredPeople.filter(isLaunchReadyPerson);
+
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto min-h-screen w-full max-w-7xl px-6 py-10 sm:px-10">
-        <p className="mb-8 text-sm uppercase text-muted">{page.kicker}</p>
-        <h1 className="max-w-4xl text-5xl font-medium leading-tight sm:text-7xl">
-          {page.headline}
-        </h1>
-        <div className="mt-12 max-w-3xl space-y-6 text-xl leading-8 text-muted">
-          <p>{page.intro}</p>
-          <p>{page.aetherNarrative}</p>
+    <main id="main-content" tabIndex={-1}>
+      <header className="page-hero page-hero--atelier">
+        <div>
+          <p>{page.kicker}</p>
+          <h1>{page.headline}</h1>
         </div>
-        {page.featuredPeople.length > 0 ? (
-          <section className="mt-16 grid gap-8 border-t border-line pt-8 sm:grid-cols-2">
-            {page.featuredPeople.map((person) => (
+        <p className="page-hero__intro">{page.intro}</p>
+      </header>
+
+      <section className="atelier-story">
+        <AetherMedia label="Aether Study 02" preload study="atelier" />
+        <div className="atelier-story__copy">
+          <h2>The missing element.</h2>
+          <p>{page.aetherNarrative}</p>
+          <p>
+            ETÉRA brings identity, communication, visual language and
+            perception into one connected presence, shaped for each context.
+          </p>
+        </div>
+      </section>
+
+      <section className="atelier-model">
+        <div className="atelier-model__statement">
+          <h2>A small core. The right wider team.</h2>
+          <p>
+            The atelier model brings specialists together around the needs of
+            the project. Founder profiles and portraits will be added only
+            after ETÉRA approves the final biographies and imagery.
+          </p>
+        </div>
+        {people.length > 0 ? (
+          <div className="people-grid">
+            {people.map((person) => (
               <article key={person.id}>
                 {person.portrait ? (
                   <Image
-                    src={person.portrait.url}
                     alt={person.portrait.alt}
-                    width={person.portrait.width ?? 720}
-                    height={person.portrait.height ?? 900}
-                    className="mb-6 aspect-[4/5] w-full object-cover"
+                    height={person.portrait.height ?? 1000}
+                    sizes="(max-width: 767px) 100vw, 45vw"
+                    src={person.portrait.url}
                     unoptimized
+                    width={person.portrait.width ?? 800}
                   />
                 ) : null}
-                <p className="text-sm uppercase text-muted">{person.role}</p>
-                <h2 className="mt-4 text-3xl">{person.name}</h2>
-                {person.bio ? (
-                  <p className="mt-5 text-lg leading-7 text-muted">
-                    {person.bio}
-                  </p>
-                ) : null}
+                <p>{person.role}</p>
+                <h3>{person.name}</h3>
+                <p>{person.bio}</p>
               </article>
             ))}
-          </section>
-        ) : null}
-      </main>
-    </>
+          </div>
+        ) : (
+          <div className="people-pending">
+            <span>People</span>
+            <p>Names, titles, biographies and portraits pending client approval.</p>
+          </div>
+        )}
+      </section>
+
+      <section className="atelier-method">
+        <div>
+          <h2>ETÉRA Method</h2>
+          <p>
+            A precise sequence that stays flexible enough to meet the project
+            where it is.
+          </p>
+        </div>
+        <MethodSequence steps={methodSteps} />
+      </section>
+
+      <section className="page-close page-close--maroon">
+        <h2>Let&apos;s define your era.</h2>
+        <Link href="/contact#inquiry">
+          Start a Project
+          <ArrowIcon />
+        </Link>
+      </section>
+    </main>
   );
 }

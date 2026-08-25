@@ -1,7 +1,22 @@
-import { SiteHeader } from "@/components/SiteHeader";
+import type { Metadata } from "next";
+import Link from "next/link";
+
+import { ArrowIcon } from "@/components/ArrowIcon";
+import { ServiceIndex } from "@/components/ServiceIndex";
 import { getServices, getServicesPage } from "@/lib/cms";
+import { buildPageMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getServicesPage();
+
+  return buildPageMetadata({
+    description: page.intro,
+    path: "/services",
+    title: "Services",
+  });
+}
 
 export default async function ServicesPage() {
   const [page, services] = await Promise.all([
@@ -10,33 +25,36 @@ export default async function ServicesPage() {
   ]);
 
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto min-h-screen w-full max-w-7xl px-6 py-10 sm:px-10">
-        <p className="mb-8 text-sm uppercase text-muted">{page.kicker}</p>
-        <h1 className="max-w-4xl text-5xl font-medium leading-tight sm:text-7xl">
-          {page.headline}
-        </h1>
-        <p className="mt-8 max-w-2xl text-xl leading-8 text-muted">
-          {page.intro}
-        </p>
-        <div className="mt-16 divide-y divide-line border-y border-line">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className="grid gap-3 py-6 sm:grid-cols-[0.45fr_1fr] sm:gap-10"
-            >
-              <div>
-                <p className="text-sm uppercase text-muted">{service.area}</p>
-                <h2 className="mt-2 text-2xl">{service.name}</h2>
-              </div>
-              <p className="max-w-2xl text-lg leading-7 text-muted">
-                {service.summary}
-              </p>
-            </div>
-          ))}
+    <main id="main-content" tabIndex={-1}>
+      <header className="page-hero page-hero--services">
+        <div>
+          <p>{page.kicker}</p>
+          <h1>{page.headline}</h1>
         </div>
-      </main>
-    </>
+        <p className="page-hero__intro">{page.intro}</p>
+      </header>
+
+      <section aria-labelledby="services-capabilities-title" className="services-directory">
+        <aside className="services-directory__aside">
+          <p>Capabilities</p>
+          <h2 id="services-capabilities-title">
+            Strategy and execution, assembled around the brief.
+          </h2>
+          <p>
+            ETÉRA brings the relevant disciplines together as one considered
+            practice, with the approach and team shaped for each project.
+          </p>
+        </aside>
+        <ServiceIndex services={services} tone="light" />
+      </section>
+
+      <section className="page-close page-close--powder">
+        <h2>Let&apos;s define your era together.</h2>
+        <Link href="/contact#inquiry">
+          Start a Project
+          <ArrowIcon />
+        </Link>
+      </section>
+    </main>
   );
 }

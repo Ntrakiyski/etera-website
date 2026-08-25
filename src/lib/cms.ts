@@ -1,5 +1,6 @@
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
+import { cache } from "react";
 
 type PayloadClient = Awaited<ReturnType<typeof getPayload>>;
 
@@ -69,6 +70,36 @@ export type ProjectSummary = {
   year: string;
 };
 
+export type RichTextContent = Record<string, unknown>;
+
+export type ProjectCollaborator = {
+  name: string;
+  role: string;
+};
+
+export type ProjectGalleryItem = {
+  asset: MediaSummary;
+  caption: string;
+};
+
+export type ProjectResult = {
+  label: string;
+  value: string;
+};
+
+export type ProjectService = ServiceSummary & {
+  details: RichTextContent | null;
+};
+
+export type ProjectDetail = ProjectSummary & {
+  approach: RichTextContent | null;
+  collaborators: ProjectCollaborator[];
+  context: RichTextContent | null;
+  gallery: ProjectGalleryItem[];
+  results: ProjectResult[];
+  services: ProjectService[];
+};
+
 export type PersonSummary = {
   bio: string;
   id: string;
@@ -123,13 +154,13 @@ export const fallbackHomePage: HomeContent = {
 export const fallbackWorkPage: PageContent = {
   headline: "Selected Work",
   intro:
-    "A selection of projects, campaigns, and brand work. Final project content and visuals are pending from ETÉRA.",
+    "A selection of projects, campaigns and brand work. Approved case materials will be added as they become available.",
   kicker: "Work",
 };
 
 export const fallbackAtelierPage: AtelierContent = {
   aetherNarrative:
-    "The Aether narrative and founder/team content will be shaped once the final brand materials arrive.",
+    "Like Aether, ETÉRA is the missing element: the invisible thread connecting identity, communication, visual language and perception.",
   headline: "Strategy, creativity and attention to every detail.",
   featuredPeople: [],
   intro:
@@ -138,9 +169,9 @@ export const fallbackAtelierPage: AtelierContent = {
 };
 
 export const fallbackServicesPage: PageContent = {
-  headline: "A compact services structure for launch.",
+  headline: "Built around the brief.",
   intro:
-    "Services are grouped into clear editorial areas so the first version stays focused and visual.",
+    "ETÉRA connects strategy, creativity, culture and execution through a compact set of capabilities shaped for each project.",
   kicker: "Services",
 };
 
@@ -148,7 +179,7 @@ export const fallbackContactPage: ContactContent = {
   email: "hello@eteracreative.com",
   headline: "Let's define your era.",
   intro:
-    "The project inquiry form, booking path, and success state will be wired after the preferred workflow and booking tool are confirmed.",
+    "Start with a project brief or a direct conversation. ETÉRA will shape the right approach from there.",
   kicker: "Contact",
 };
 
@@ -240,6 +271,16 @@ function stringValue(value: unknown, fallback = "") {
   return fallback;
 }
 
+function launchStringValue(
+  value: unknown,
+  fallback: string,
+  legacyPlaceholders: string[],
+) {
+  const current = stringValue(value);
+
+  return current && !legacyPlaceholders.includes(current) ? current : fallback;
+}
+
 function pageContent(
   doc: Record<string, unknown>,
   fallback: PageContent,
@@ -305,6 +346,54 @@ function relatedDocuments(value: unknown) {
   );
 }
 
+function richTextContent(value: unknown): RichTextContent | null {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return null;
+  }
+
+  const content = value as Record<string, unknown>;
+
+  if (
+    typeof content.root !== "object" ||
+    content.root === null ||
+    Array.isArray(content.root)
+  ) {
+    return null;
+  }
+
+  return content;
+}
+
+function serviceSummary(
+  service: Record<string, unknown>,
+): ServiceSummary | null {
+  if (service._status && service._status !== "published") {
+    return null;
+  }
+
+  const summary = {
+    area: serviceAreaLabel(service.area),
+    id: stringValue(service.id),
+    name: stringValue(service.name),
+    summary: stringValue(service.summary),
+  };
+
+  return summary.id && summary.name ? summary : null;
+}
+
+function projectService(
+  service: Record<string, unknown>,
+): ProjectService | null {
+  const summary = serviceSummary(service);
+
+  return summary
+    ? {
+        ...summary,
+        details: richTextContent(service.details),
+      }
+    : null;
+}
+
 function projectSummary(
   project: Record<string, unknown>,
 ): ProjectSummary | null {
@@ -351,10 +440,69 @@ function personSummary(person: Record<string, unknown>): PersonSummary | null {
   return summary.id && summary.name ? summary : null;
 }
 
-export async function getHomePage() {
+function projectDetail(
+  project: Record<string, unknown>,
+): ProjectDetail | null {
+  const summary = projectSummary(project);
+
+  if (!summary) {
+    return null;
+  }
+
+  const collaborators = relatedDocuments(project.collaborators)
+    .map((collaborator): ProjectCollaborator | null => {
+      const name = stringValue(collaborator.name);
+
+      return name
+        ? {
+            name,
+            role: stringValue(collaborator.role),
+          }
+        : null;
+    })
+    .filter(
+      (collaborator): collaborator is ProjectCollaborator =>
+        Boolean(collaborator),
+    );
+  const gallery = relatedDocuments(project.gallery)
+    .map((item): ProjectGalleryItem | null => {
+      const asset = mediaSummary(item.asset);
+
+      return asset
+        ? {
+            asset,
+            caption: stringValue(item.caption),
+          }
+        : null;
+    })
+    .filter((item): item is ProjectGalleryItem => Boolean(item));
+  const results = relatedDocuments(project.results)
+    .map((result): ProjectResult | null => {
+      const label = stringValue(result.label);
+      const value = stringValue(result.value);
+
+      return label && value ? { label, value } : null;
+    })
+    .filter((result): result is ProjectResult => Boolean(result));
+  const services = relatedDocuments(project.services)
+    .map(projectService)
+    .filter((service): service is ProjectService => Boolean(service));
+
+  return {
+    ...summary,
+    approach: richTextContent(project.approach),
+    collaborators,
+    context: richTextContent(project.context),
+    gallery,
+    results,
+    services,
+  };
+}
+
+export const getHomePage = cache(async () => {
   return queryPayload<HomeContent>(async (payload) => {
     const page = await payload.findGlobal({
-      depth: 1,
+      depth: 2,
       draft: false,
       slug: "home-page",
     });
@@ -394,58 +542,78 @@ export async function getHomePage() {
         methodSteps.length > 0 ? methodSteps : fallbackHomePage.methodSteps,
     };
   }, fallbackHomePage);
-}
+});
 
-export async function getWorkPage() {
+export const getWorkPage = cache(async () => {
   return queryPayload(
-    async (payload) =>
-      pageContent(
-        await payload.findGlobal({
-          draft: false,
-          slug: "work-page",
-        }),
-        fallbackWorkPage,
-      ),
+    async (payload) => {
+      const page = await payload.findGlobal({
+        draft: false,
+        slug: "work-page",
+      });
+      const content = pageContent(page, fallbackWorkPage);
+
+      return {
+        ...content,
+        intro: launchStringValue(page.intro, fallbackWorkPage.intro, [
+          "A selection of projects, campaigns, and brand work. Final project content and visuals are pending from ETÉRA.",
+        ]),
+      };
+    },
     fallbackWorkPage,
   );
-}
+});
 
-export async function getAtelierPage() {
+export const getAtelierPage = cache(async () => {
   return queryPayload<AtelierContent>(async (payload) => {
     const page = await payload.findGlobal({
-      depth: 1,
+      depth: 2,
       draft: false,
       slug: "atelier-page",
     });
 
     return {
       ...pageContent(page, fallbackAtelierPage),
-      aetherNarrative: stringValue(
+      aetherNarrative: launchStringValue(
         page.aetherNarrative,
         fallbackAtelierPage.aetherNarrative,
+        [
+          "The Aether narrative and founder/team content will be shaped once the final brand materials arrive.",
+        ],
       ),
       featuredPeople: relatedDocuments(page.featuredPeople)
         .map(personSummary)
         .filter((person): person is PersonSummary => Boolean(person)),
     };
   }, fallbackAtelierPage);
-}
+});
 
-export async function getServicesPage() {
+export const getServicesPage = cache(async () => {
   return queryPayload(
-    async (payload) =>
-      pageContent(
-        await payload.findGlobal({
-          draft: false,
-          slug: "services-page",
-        }),
-        fallbackServicesPage,
-      ),
+    async (payload) => {
+      const page = await payload.findGlobal({
+        draft: false,
+        slug: "services-page",
+      });
+      const content = pageContent(page, fallbackServicesPage);
+
+      return {
+        ...content,
+        headline: launchStringValue(
+          page.headline,
+          fallbackServicesPage.headline,
+          ["A compact services structure for launch."],
+        ),
+        intro: launchStringValue(page.intro, fallbackServicesPage.intro, [
+          "Services are grouped into clear editorial areas so the first version stays focused and visual.",
+        ]),
+      };
+    },
     fallbackServicesPage,
   );
-}
+});
 
-export async function getContactPage() {
+export const getContactPage = cache(async () => {
   return queryPayload<ContactContent>(async (payload) => {
     const page = await payload.findGlobal({
       draft: false,
@@ -455,11 +623,14 @@ export async function getContactPage() {
     return {
       ...pageContent(page, fallbackContactPage),
       email: stringValue(page.email, fallbackContactPage.email),
+      intro: launchStringValue(page.intro, fallbackContactPage.intro, [
+        "The project inquiry form, booking path, and success state will be wired after the preferred workflow and booking tool are confirmed.",
+      ]),
     };
   }, fallbackContactPage);
-}
+});
 
-export async function getServices() {
+export const getServices = cache(async () => {
   return queryPayload<ServiceSummary[]>(async (payload) => {
     const result = await payload.find({
       collection: "services",
@@ -474,19 +645,14 @@ export async function getServices() {
     });
 
     const services = result.docs
-      .map((service) => ({
-        area: serviceAreaLabel(service.area),
-        id: stringValue(service.id),
-        name: stringValue(service.name),
-        summary: stringValue(service.summary),
-      }))
-      .filter((service) => service.id && service.name);
+      .map(serviceSummary)
+      .filter((service): service is ServiceSummary => Boolean(service));
 
-    return services.length > 0 ? services : fallbackServices;
+    return services;
   }, fallbackServices);
-}
+});
 
-export async function getProjects() {
+export const getProjects = cache(async () => {
   return queryPayload<ProjectSummary[]>(async (payload) => {
     const result = await payload.find({
       collection: "projects",
@@ -500,9 +666,43 @@ export async function getProjects() {
       .map(projectSummary)
       .filter((project): project is ProjectSummary => Boolean(project));
   }, []);
-}
+});
 
-export async function getSiteSettings() {
+export const getProjectBySlug = cache(async (slug: string) => {
+  const normalizedSlug = slug.trim();
+
+  if (!normalizedSlug) {
+    return null;
+  }
+
+  return queryPayload<ProjectDetail | null>(async (payload) => {
+    const result = await payload.find({
+      collection: "projects",
+      depth: 2,
+      draft: false,
+      limit: 1,
+      where: {
+        and: [
+          {
+            slug: {
+              equals: normalizedSlug,
+            },
+          },
+          {
+            _status: {
+              equals: "published",
+            },
+          },
+        ],
+      },
+    });
+    const project = result.docs[0];
+
+    return project ? projectDetail(project) : null;
+  }, null);
+});
+
+export const getSiteSettings = cache(async () => {
   return queryPayload<SiteSettingsContent>(async (payload) => {
     const settings = await payload.findGlobal({
       slug: "site-settings",
@@ -543,4 +743,4 @@ export async function getSiteSettings() {
       socialLinks,
     };
   }, fallbackSiteSettings);
-}
+});

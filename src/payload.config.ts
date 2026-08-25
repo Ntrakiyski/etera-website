@@ -35,8 +35,11 @@ const isPayloadCLI = process.argv.some((value) =>
   realpath(value)?.endsWith(path.join("payload", "bin.js")),
 );
 const isProduction = process.env.NODE_ENV === "production";
+const shouldUseRemoteBindings =
+  isProduction && process.env.PAYLOAD_CLOUDFLARE_LOCAL !== "1";
 const shouldUseWranglerContext =
   process.env.PAYLOAD_CLOUDFLARE_CONTEXT === "wrangler" ||
+  process.env.PAYLOAD_CLOUDFLARE_LOCAL === "1" ||
   isPayloadCLI ||
   !isProduction;
 
@@ -90,7 +93,7 @@ function getCloudflareContextFromWrangler(): Promise<CloudflareContext> {
     ({ getPlatformProxy }) =>
       getPlatformProxy({
         environment: process.env.CLOUDFLARE_ENV,
-        remoteBindings: isProduction,
+        remoteBindings: shouldUseRemoteBindings,
       } satisfies GetPlatformProxyOptions),
   );
 }

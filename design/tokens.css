@@ -1,0 +1,29 @@
+:root {
+  --etera-maroon: #741018;
+  --etera-milk-white: #f9f4f4;
+  --etera-ink-black: #191818;
+  --etera-powder-blue: #d2e8f9;
+  --etera-midnight-blue: #263343;
+
+  --etera-muted-ink: rgb(25 24 24 / 0.68);
+  --etera-faint-ink: rgb(25 24 24 / 0.48);
+  --etera-hairline: rgb(25 24 24 / 0.18);
+  --etera-maroon-hairline: rgb(116 16 24 / 0.42);
+  --etera-powder-wash: rgb(210 232 249 / 0.28);
+
+  --etera-font-sans: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+
+  --etera-radius-none: 0;
+  --etera-radius-hairline: 2px;
+  --etera-radius-control: 4px;
+  --etera-radius-panel: 6px;
+  --etera-radius-media: 8px;
+
+  --etera-space-xs: 0.5rem;
+  --etera-space-sm: 1rem;
+  --etera-space-md: 1.5rem;
+  --etera-space-lg: 2rem;
+  --etera-space-xl: 3rem;
+  --etera-space-xxl: 5rem;
+  --etera-space-xxxl: 7rem;
+}

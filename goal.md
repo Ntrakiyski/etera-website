@@ -9,8 +9,23 @@ Alexandra signs the email as "Ali". The email is in Bulgarian. The attached PDF 
 - Original PDF: [assets/from-email/ETERA-WEBSITE-BRIEF.pdf](assets/from-email/ETERA-WEBSITE-BRIEF.pdf)
 - Logo, red: [assets/from-email/logo-etera-red.svg](assets/from-email/logo-etera-red.svg)
 - Logo, white: [assets/from-email/logo-etera-white.svg](assets/from-email/logo-etera-white.svg)
+- Latest brand package from Alexandra's August 24, 2026 email: [assets/from-email/2026-08-24](assets/from-email/2026-08-24)
+  - Final logo, black: [assets/from-email/2026-08-24/logo-etera-black.svg](assets/from-email/2026-08-24/logo-etera-black.svg)
+  - Final logo, red: [assets/from-email/2026-08-24/logo-etera-red-2.svg](assets/from-email/2026-08-24/logo-etera-red-2.svg)
+  - Final logo, white: [assets/from-email/2026-08-24/logo-etera-white-2.svg](assets/from-email/2026-08-24/logo-etera-white-2.svg)
+  - Logo/brand guideline: [assets/from-email/2026-08-24/etera-logo-guideline.pdf](assets/from-email/2026-08-24/etera-logo-guideline.pdf)
 - Reference screenshots: [references/screenshots](references/screenshots)
 - Source email: Alexandra Djurdjevic, `adjurdjevic@eteracreative.com`
+
+## Latest Email Answers
+
+Alexandra replied on August 24, 2026 at 17:53 EEST with answers to questions 2, 3, and 12:
+
+- Launch language: prioritize English only for the launch version. Bulgarian can be added later, after the portfolio, clients, and projects are more developed.
+- Gloria reference: [gloriarusenova.com](https://www.gloriarusenova.com) is the site she meant. She likes the home-page scroll animations; ETÉRA can try something similar, but more restrained and using ETÉRA colors.
+- Domain/hosting: no setup has been chosen yet. Alexandra said `eteracreative.com` was available the last time she checked, and she wants help with that part, with the domain cost included in the final price.
+
+She also said she will send the ETÉRA photos separately; she expects no more than around ten.
 
 ## Core Goal
 
@@ -227,6 +242,14 @@ Target feel:
 - Services should be easy to scan but visually elevated.
 - The monogram can become a signature motion/3D element if brand assets support it.
 
+Confirmed brand system from the August 24 guideline:
+
+- Primary font: Avenir Next.
+- Font weights shown: Regular, Demi Bold, Bold.
+- Primary colors: Maroon `#741018`, Milk White `#f9f4f4`, Ink Black `#191818`.
+- Secondary colors: Powder Blue `#d2e8f9`, Midnight Blue `#263343`.
+- Logo system includes primary logo, secondary logo, logo mark/submark, and color variations.
+
 Avoid:
 
 - Generic agency landing-page sections.
@@ -269,14 +292,12 @@ The likely right direction is not "build a normal agency website and make it pre
 
 Alexandra said she will send:
 
-- Exact colors.
-- Final typography and fonts.
 - ETÉRA photo/video materials.
 - Additional graphic identity elements if needed.
 
 Also still needed:
 
-- Bulgarian copy, if launch is bilingual.
+- Bulgarian copy can wait until the later bilingual phase.
 - Actual project/case-study content.
 - Partner/client logo list and permission to show each logo.
 - Founder names, titles, bios, and photos.
