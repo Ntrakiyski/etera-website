@@ -77,7 +77,7 @@ export default buildConfig({
     r2Storage({
       alwaysInsertFields: true,
       bucket: cloudflare.env.R2 as R2Bucket,
-      clientUploads: true,
+      clientUploads: false,
       collections: {
         media: true,
       },

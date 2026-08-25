@@ -1,11 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 
-import { getHomePage } from "@/lib/cms";
+import { getHomePage, getPartners } from "@/lib/cms";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const home = await getHomePage();
+  const [home, partners] = await Promise.all([getHomePage(), getPartners()]);
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 py-6 sm:px-10">
@@ -50,6 +51,34 @@ export default async function Home() {
           </div>
         ))}
       </section>
+
+      {partners.length > 0 ? (
+        <section className="border-t border-line py-12">
+          <p className="text-sm uppercase text-muted">Creative network</p>
+          <div className="mt-8 grid gap-8 sm:grid-cols-2">
+            {partners.map((partner) => (
+              <article key={partner.id} className="border-t border-line pt-5">
+                {partner.logo ? (
+                  <Image
+                    src={partner.logo.url}
+                    alt={partner.logo.alt}
+                    width={partner.logo.width ?? 640}
+                    height={partner.logo.height ?? 240}
+                    className="mb-8 h-14 w-auto max-w-full object-contain object-left"
+                    unoptimized
+                  />
+                ) : null}
+                <h2 className="text-2xl">{partner.name}</h2>
+                {partner.summary ? (
+                  <p className="mt-4 max-w-xl text-lg leading-7 text-muted">
+                    {partner.summary}
+                  </p>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }

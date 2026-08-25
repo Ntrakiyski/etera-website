@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { getProjects, getWorkPage } from "@/lib/cms";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +20,18 @@ export default async function WorkPage() {
         <div className="mt-16 grid gap-8 border-t border-line pt-8 sm:grid-cols-2">
           {projects.map((project) => (
             <article key={project.id} className="border-t border-line pt-5">
+              {project.heroImage ? (
+                <div className="mb-6 flex aspect-[4/3] items-center justify-center bg-white p-10">
+                  <Image
+                    src={project.heroImage.url}
+                    alt={project.heroImage.alt}
+                    width={project.heroImage.width ?? 960}
+                    height={project.heroImage.height ?? 720}
+                    className="max-h-full w-auto max-w-full object-contain"
+                    unoptimized
+                  />
+                </div>
+              ) : null}
               <p className="text-sm uppercase text-muted">
                 {[project.clientName, project.year].filter(Boolean).join(" / ")}
               </p>

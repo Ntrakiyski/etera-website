@@ -49,8 +49,16 @@ export type ServiceSummary = {
   summary: string;
 };
 
+export type MediaSummary = {
+  alt: string;
+  height?: number;
+  url: string;
+  width?: number;
+};
+
 export type ProjectSummary = {
   clientName: string;
+  heroImage?: MediaSummary;
   id: string;
   overview: string;
   projectName: string;
@@ -63,6 +71,14 @@ export type PersonSummary = {
   id: string;
   name: string;
   role: string;
+};
+
+export type PartnerSummary = {
+  id: string;
+  logo?: MediaSummary;
+  name: string;
+  summary: string;
+  url: string;
 };
 
 let payloadPromise: Promise<PayloadClient> | null = null;
@@ -216,6 +232,26 @@ function serviceAreaLabel(value: unknown) {
     : stringValue(value);
 }
 
+function mediaSummary(value: unknown): MediaSummary | undefined {
+  if (typeof value !== "object" || value === null) {
+    return undefined;
+  }
+
+  const media = value as Record<string, unknown>;
+  const url = stringValue(media.url);
+
+  if (!url) {
+    return undefined;
+  }
+
+  return {
+    alt: stringValue(media.alt, "ETÉRA Creative"),
+    height: typeof media.height === "number" ? media.height : undefined,
+    url,
+    width: typeof media.width === "number" ? media.width : undefined,
+  };
+}
+
 export async function getHomePage() {
   return queryPayload<HomeContent>(async (payload) => {
     const page = await payload.findGlobal({
@@ -362,6 +398,7 @@ export async function getProjects() {
     return result.docs
       .map((project) => ({
         clientName: stringValue(project.clientName),
+        heroImage: mediaSummary(project.heroImage),
         id: stringValue(project.id),
         overview: stringValue(project.overview),
         projectName: stringValue(project.projectName),
@@ -369,6 +406,32 @@ export async function getProjects() {
         year: stringValue(project.year),
       }))
       .filter((project) => project.id && project.projectName);
+  }, []);
+}
+
+export async function getPartners() {
+  return queryPayload<PartnerSummary[]>(async (payload) => {
+    const result = await payload.find({
+      collection: "partners",
+      depth: 1,
+      limit: 50,
+      sort: "sortOrder",
+      where: {
+        featured: {
+          equals: true,
+        },
+      },
+    });
+
+    return result.docs
+      .map((partner) => ({
+        id: stringValue(partner.id),
+        logo: mediaSummary(partner.logo),
+        name: stringValue(partner.name),
+        summary: stringValue(partner.summary),
+        url: stringValue(partner.url),
+      }))
+      .filter((partner) => partner.id && partner.name);
   }, []);
 }
 
