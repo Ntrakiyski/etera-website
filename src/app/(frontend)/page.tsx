@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { getHomePage, getPartners } from "@/lib/cms";
+import { getHomePage, getPartners, getSiteSettings } from "@/lib/cms";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [home, partners] = await Promise.all([getHomePage(), getPartners()]);
+  const [home, partners, settings] = await Promise.all([
+    getHomePage(),
+    getPartners(),
+    getSiteSettings(),
+  ]);
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 py-6 sm:px-10">
@@ -79,6 +83,18 @@ export default async function Home() {
           </div>
         </section>
       ) : null}
+
+      <footer className="flex flex-col gap-4 border-t border-line py-8 text-sm sm:flex-row sm:items-end sm:justify-between">
+        <p className="text-2xl">{settings.footerTagline}</p>
+        <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted">
+          <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
+          {settings.socialLinks.map((link) => (
+            <a key={link.url} href={link.url} rel="noreferrer" target="_blank">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </footer>
     </main>
   );
 }

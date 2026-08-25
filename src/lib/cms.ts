@@ -81,6 +81,15 @@ export type PartnerSummary = {
   url: string;
 };
 
+export type SiteSettingsContent = {
+  contactEmail: string;
+  footerTagline: string;
+  socialLinks: Array<{
+    label: string;
+    url: string;
+  }>;
+};
+
 let payloadPromise: Promise<PayloadClient> | null = null;
 
 const serviceAreaLabels: Record<string, string> = {
@@ -133,6 +142,12 @@ export const fallbackContactPage: ContactContent = {
   kicker: "Contact",
   successMessage:
     "Thank you. We've received your inquiry and will get back to you once we've reviewed the project details.",
+};
+
+export const fallbackSiteSettings: SiteSettingsContent = {
+  contactEmail: "hello@eteracreative.com",
+  footerTagline: "Define your era.",
+  socialLinks: [],
 };
 
 export const fallbackServices: ServiceSummary[] = [
@@ -433,6 +448,41 @@ export async function getPartners() {
       }))
       .filter((partner) => partner.id && partner.name);
   }, []);
+}
+
+export async function getSiteSettings() {
+  return queryPayload<SiteSettingsContent>(async (payload) => {
+    const settings = await payload.findGlobal({
+      slug: "site-settings",
+    });
+    const socialLinks = Array.isArray(settings.socialLinks)
+      ? settings.socialLinks
+          .map((link) => {
+            if (typeof link !== "object" || link === null) {
+              return null;
+            }
+
+            const record = link as Record<string, unknown>;
+            const label = stringValue(record.label);
+            const url = stringValue(record.url);
+
+            return label && url ? { label, url } : null;
+          })
+          .filter((link): link is { label: string; url: string } => Boolean(link))
+      : [];
+
+    return {
+      contactEmail: stringValue(
+        settings.contactEmail,
+        fallbackSiteSettings.contactEmail,
+      ),
+      footerTagline: stringValue(
+        settings.footerTagline,
+        fallbackSiteSettings.footerTagline,
+      ),
+      socialLinks,
+    };
+  }, fallbackSiteSettings);
 }
 
 export async function getPeople() {
