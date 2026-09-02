@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 import { AetherMedia } from "@/components/AetherMedia";
-import { ArrowIcon } from "@/components/ArrowIcon";
 import { MethodSequence } from "@/components/MethodSequence";
 import { getAtelierPage } from "@/lib/cms";
-import { isLaunchReadyPerson } from "@/lib/content-readiness";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
@@ -25,7 +22,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TheAtelierPage() {
   const page = await getAtelierPage();
-  const people = page.featuredPeople.filter(isLaunchReadyPerson);
 
   return (
     <main id="main-content" tabIndex={-1}>
@@ -38,7 +34,7 @@ export default async function TheAtelierPage() {
       </header>
 
       <section className="atelier-story">
-        <AetherMedia label="Aether Study 02" preload study="atelier" />
+        <AetherMedia label="Inside the Atelier" preload study="atelier" />
         <div className="atelier-story__copy">
           <h2>The missing element.</h2>
           <p>{page.aetherNarrative}</p>
@@ -53,37 +49,30 @@ export default async function TheAtelierPage() {
         <div className="atelier-model__statement">
           <h2>A small core. The right wider team.</h2>
           <p>
-            The atelier model brings specialists together around the needs of
-            the project. Founder profiles and portraits will be added only
-            after ETÉRA approves the final biographies and imagery.
+            ETÉRA&apos;s core combines brand strategy, marketing and creative
+            direction, then expands with the right specialists for each brief.
           </p>
         </div>
-        {people.length > 0 ? (
-          <div className="people-grid">
-            {people.map((person) => (
-              <article key={person.id}>
-                {person.portrait ? (
+        <div className="people-grid">
+          {page.teamMembers.map((person) => (
+            <article key={person.id}>
+              {person.portrait ? (
+                <div className="people-grid__portrait">
                   <Image
-                    alt={person.portrait.alt}
-                    height={person.portrait.height ?? 1000}
+                    alt={`Portrait of ${person.name}`}
+                    fill
                     sizes="(max-width: 767px) 100vw, 45vw"
                     src={person.portrait.url}
                     unoptimized
-                    width={person.portrait.width ?? 800}
                   />
-                ) : null}
-                <p>{person.role}</p>
-                <h3>{person.name}</h3>
-                <p>{person.bio}</p>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="people-pending">
-            <span>People</span>
-            <p>Names, titles, biographies and portraits pending client approval.</p>
-          </div>
-        )}
+                </div>
+              ) : null}
+              <p>{person.position}</p>
+              <h3>{person.name}</h3>
+              <p>{person.description}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="atelier-method">
@@ -97,13 +86,6 @@ export default async function TheAtelierPage() {
         <MethodSequence steps={methodSteps} />
       </section>
 
-      <section className="page-close page-close--maroon">
-        <h2>Let&apos;s define your era.</h2>
-        <Link href="/contact#inquiry">
-          Start a Project
-          <ArrowIcon />
-        </Link>
-      </section>
     </main>
   );
 }

@@ -2,14 +2,12 @@
   --etera-maroon: #741018;
   --etera-milk-white: #f9f4f4;
   --etera-ink-black: #191818;
-  --etera-powder-blue: #d2e8f9;
-  --etera-midnight-blue: #263343;
-
   --etera-muted-ink: rgb(25 24 24 / 0.68);
   --etera-faint-ink: rgb(25 24 24 / 0.48);
   --etera-hairline: rgb(25 24 24 / 0.18);
   --etera-maroon-hairline: rgb(116 16 24 / 0.42);
-  --etera-powder-wash: rgb(210 232 249 / 0.28);
+  --etera-milk-muted: rgb(249 244 244 / 0.68);
+  --etera-maroon-wash: rgb(116 16 24 / 0.1);
 
   --etera-font-sans: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
 

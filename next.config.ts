@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       {
         pathname: "/design/assets/**",
       },
+      {
+        pathname: "/media/**",
+      },
     ],
   },
   outputFileTracingExcludes: {

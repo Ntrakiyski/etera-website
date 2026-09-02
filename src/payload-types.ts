@@ -610,6 +610,18 @@ export interface AtelierPage {
   headline: string;
   intro: string;
   aetherNarrative?: string | null;
+  /**
+   * The core team shown on the Atelier page. Add, remove or reorder people here.
+   */
+  teamMembers?:
+    | {
+        name: string;
+        position: string;
+        description: string;
+        portrait?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   featuredPeople?: (string | Person)[] | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -708,6 +720,15 @@ export interface AtelierPageSelect<T extends boolean = true> {
   headline?: T;
   intro?: T;
   aetherNarrative?: T;
+  teamMembers?:
+    | T
+    | {
+        name?: T;
+        position?: T;
+        description?: T;
+        portrait?: T;
+        id?: T;
+      };
   featuredPeople?: T;
   _status?: T;
   updatedAt?: T;

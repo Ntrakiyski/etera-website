@@ -10,11 +10,10 @@ Job: Make ETÉRA unmistakable in the first viewport and explain the atelier prom
 
 Direction:
 
-- Lead with "Define your era." and ETÉRA's atelier positioning.
-- Use the logo/monogram as the first real brand signal, not only tiny nav text.
-- Bring scroll-driven motion inspired by Gloria Rusenova and Magnetism, but restrained and in ETÉRA colors.
-- Let What We Do, Method, Selected Work, and Partners appear as edited editorial beats.
-- Keep the first version compact and image-ready even while final photos are pending.
+- Lead with the supplied full-viewport video, centered "Define your era.", and the underlined Enter the Atelier action.
+- Follow with the approved two-line positioning statement and one What We Do preview with a single Explore Services action.
+- Omit Method, Selected Work, and Selected Partners at launch unless their existing CMS records pass the shared launch-readiness checks.
+- Close with the reusable maroon "Let's define your era together." CTA/footer pattern.
 
 Do not:
 
@@ -29,7 +28,7 @@ Job: Show ETÉRA's work as curated cultural proof.
 
 Direction:
 
-- Until real project materials arrive, keep this restrained and honest.
+- Keep the Work navigation entry and route unavailable until at least one project passes the shared launch-readiness checks.
 - Once visuals arrive, prioritize large image/video crops, project names, role, year, and a concise context line.
 - Prepare the structure for future details: client, project, role, context, visuals, KPIs, and collaborators.
 
@@ -47,7 +46,7 @@ Job: Make the Aether idea and atelier model credible.
 Direction:
 
 - Explain "the missing element" as the invisible thread between identity, communication, visual language, and perception.
-- Present Yoana and Alexandra only with confirmed names/titles/bios.
+- Present Alexandra and Yoana only with the approved CMS-backed names, titles, biographies, and portraits.
 - Use the Method sequence as a precise process, not a decorative stepper.
 - This page can carry more atmosphere than Services.
 
@@ -65,7 +64,7 @@ Direction:
 
 - Group services into Brand Culture, Creative & Visual, Content & Influence, Experiences & Partnerships, and Digital & Growth.
 - Use divided editorial rows, accordions, or compact panels.
-- Keep copy short and service names exact.
+- Keep copy short, service names exact, and all editorial content CMS-backed. Do not introduce individual service deep links before approved supporting content exists.
 
 Do not:
 
@@ -81,8 +80,10 @@ Job: Help the right prospect start a project or book a call with low friction.
 Direction:
 
 - Keep the page quiet, precise, and conversion-focused.
-- Use visible labels, clear success/error states, and a complete inquiry form when workflow is confirmed.
-- Mailto is acceptable as a temporary low-friction path, but should not be the final project inquiry experience.
+- Embed the approved Google Calendar booking section immediately before the inquiry form.
+- Use visible labels, accessible multi-select service choices, and clear email-draft readiness feedback.
+- Label Company Name without “Brand”; keep Budget and Additional Information optional.
+- Mailto remains the approved temporary low-friction path until final delivery/storage is confirmed.
 
 Do not:
 

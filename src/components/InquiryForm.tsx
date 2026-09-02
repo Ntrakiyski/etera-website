@@ -26,8 +26,10 @@ type InquiryDraft = {
   email: string;
   name: string;
   project: string;
-  service: string;
+  services: string[];
 };
+
+type InquiryTextField = Exclude<keyof InquiryDraft, "services">;
 
 const emptyDraft: InquiryDraft = {
   additional: "",
@@ -36,16 +38,16 @@ const emptyDraft: InquiryDraft = {
   email: "",
   name: "",
   project: "",
-  service: "",
+  services: [],
 };
 
 function buildMailto(recipient: string, draft: InquiryDraft) {
   const subject = `Project inquiry from ${draft.name}${draft.brand ? `, ${draft.brand}` : ""}`;
   const body = [
     `Full name: ${draft.name}`,
-    `Company / Brand: ${draft.brand || "Not provided"}`,
+    `Company Name: ${draft.brand || "Not provided"}`,
     `Email: ${draft.email}`,
-    `What can we help with?: ${draft.service}`,
+    `What can we help with?: ${draft.services.join(", ")}`,
     `Budget: ${draft.budget || "Not provided"}`,
     "",
     "Project details:",
@@ -61,11 +63,23 @@ function buildMailto(recipient: string, draft: InquiryDraft) {
 export function InquiryForm({ email }: { email: string }) {
   const [draft, setDraft] = useState<InquiryDraft>(emptyDraft);
   const [ready, setReady] = useState(false);
+  const [serviceError, setServiceError] = useState(false);
   const mailto = useMemo(() => buildMailto(email, draft), [draft, email]);
 
-  function update(field: keyof InquiryDraft, value: string) {
+  function update(field: InquiryTextField, value: string) {
     setDraft((current) => ({ ...current, [field]: value }));
     setReady(false);
+  }
+
+  function updateService(service: string, checked: boolean) {
+    setDraft((current) => ({
+      ...current,
+      services: checked
+        ? [...current.services, service]
+        : current.services.filter((item) => item !== service),
+    }));
+    setReady(false);
+    setServiceError(false);
   }
 
   return (
@@ -74,15 +88,20 @@ export function InquiryForm({ email }: { email: string }) {
       id="inquiry"
       onSubmit={(event) => {
         event.preventDefault();
+
+        if (draft.services.length === 0) {
+          setServiceError(true);
+          return;
+        }
+
         setReady(true);
       }}
     >
       <div className="inquiry-form__intro">
         <h2>Tell us what you are shaping.</h2>
         <p>
-          Direct form delivery is awaiting ETÉRA&apos;s workflow decision. For
-          this draft, the form prepares a complete email without sending or
-          storing your information.
+          Complete the form to prepare a project inquiry in your email app.
+          Nothing is sent until you review and send the message.
         </p>
       </div>
 
@@ -98,7 +117,7 @@ export function InquiryForm({ email }: { email: string }) {
           />
         </label>
         <label>
-          <span>Company / Brand</span>
+          <span>Company Name</span>
           <input
             autoComplete="organization"
             name="brand"
@@ -117,24 +136,41 @@ export function InquiryForm({ email }: { email: string }) {
             value={draft.email}
           />
         </label>
-        <label>
-          <span>What can we help with?</span>
-          <select
-            name="service"
-            onChange={(event) => update("service", event.target.value)}
-            required
-            value={draft.service}
-          >
-            <option disabled value="">
-              Select a focus
-            </option>
+        <fieldset
+          aria-describedby={serviceError ? "service-choice-error" : undefined}
+          aria-invalid={serviceError}
+          className="inquiry-form__services inquiry-form__wide"
+        >
+          <legend>
+            What can we help with?
+            <span>Select all that apply</span>
+          </legend>
+          <div className="inquiry-form__service-options">
             {serviceOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
+              <label key={option}>
+                <input
+                  checked={draft.services.includes(option)}
+                  name="services"
+                  onChange={(event) =>
+                    updateService(option, event.target.checked)
+                  }
+                  type="checkbox"
+                  value={option}
+                />
+                <span>{option}</span>
+              </label>
             ))}
-          </select>
-        </label>
+          </div>
+          {serviceError ? (
+            <p
+              className="inquiry-form__error"
+              id="service-choice-error"
+              role="alert"
+            >
+              Select at least one service.
+            </p>
+          ) : null}
+        </fieldset>
         <label className="inquiry-form__wide">
           <span>Tell us about the project</span>
           <textarea

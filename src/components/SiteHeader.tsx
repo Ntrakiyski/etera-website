@@ -5,8 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const navigation = [
-  { href: "/work", label: "Work" },
+const primaryNavigation = [
   { href: "/the-atelier", label: "The Atelier" },
   { href: "/services", label: "Services" },
   { href: "/contact", label: "Contact" },
@@ -21,8 +20,12 @@ function MenuGlyph({ open }: { open: boolean }) {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ showWork }: { showWork: boolean }) {
   const pathname = usePathname();
+  const overlaysHero = pathname === "/";
+  const navigation = showWork
+    ? [{ href: "/work", label: "Work" }, ...primaryNavigation]
+    : primaryNavigation;
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const navigationRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -78,12 +81,20 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      data-menu-open={open}
+      data-overlay={overlaysHero}
+    >
       <div className="site-header__inner">
         <Link href="/" className="site-logo" aria-label="ETÉRA home">
           <Image
             alt="ETÉRA Creative Atelier"
-            src="/design/assets/logo-etera-black.svg"
+            src={
+              overlaysHero && !open
+                ? "/design/assets/logo-etera-white.svg"
+                : "/design/assets/logo-etera-black.svg"
+            }
             width={177}
             height={80}
             priority
@@ -137,7 +148,6 @@ export function SiteHeader() {
             Start a Project
           </Link>
         </nav>
-        <span aria-hidden="true" className="route-thread" key={pathname} />
       </div>
     </header>
   );

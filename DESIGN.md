@@ -1,17 +1,16 @@
 ---
 name: ETÉRA Creative Atelier
-description: Aether editorial atelier: maroon, milk, ink, powder, and midnight in a restrained visual system for a boutique creative practice.
+description: Aether editorial atelier: maroon, milk, and graphite in a restrained visual system for a boutique creative practice.
 colors:
   maroon: "#741018"
   milk-white: "#f9f4f4"
-  ink-black: "#191818"
-  powder-blue: "#d2e8f9"
-  midnight-blue: "#263343"
+  graphite-black: "#191818"
   muted-ink: "rgb(25 24 24 / 0.68)"
   faint-ink: "rgb(25 24 24 / 0.48)"
   hairline: "rgb(25 24 24 / 0.18)"
   maroon-hairline: "rgb(116 16 24 / 0.42)"
-  powder-wash: "rgb(210 232 249 / 0.28)"
+  milk-muted: "rgb(249 244 244 / 0.68)"
+  maroon-wash: "rgb(116 16 24 / 0.1)"
 typography:
   display:
     fontFamily: "Avenir Next, Avenir, Helvetica Neue, Arial, sans-serif"
@@ -66,17 +65,17 @@ components:
     padding: "0.9rem 1.2rem"
   button-secondary:
     backgroundColor: "transparent"
-    textColor: "{colors.ink-black}"
+    textColor: "{colors.graphite-black}"
     rounded: "{rounded.none}"
     padding: "0.75rem 0"
   editorial-panel:
-    backgroundColor: "{colors.powder-wash}"
-    textColor: "{colors.ink-black}"
+    backgroundColor: "{colors.milk-white}"
+    textColor: "{colors.graphite-black}"
     rounded: "{rounded.panel}"
     padding: "1.5rem"
   project-tile:
     backgroundColor: "transparent"
-    textColor: "{colors.ink-black}"
+    textColor: "{colors.graphite-black}"
     rounded: "{rounded.media}"
     padding: "0"
 ---
@@ -99,7 +98,7 @@ The system borrows Impeccable's discipline, not its visual style: every screen m
 - Low-radius, line-led structure instead of floating cards.
 - Avenir Next as the defining typographic voice.
 - Maroon used as a brand anchor, not scattered decoration.
-- Powder and midnight used sparingly to create atmosphere and contrast.
+- Maroon, milk, and graphite own complete sections and interaction states without blue treatments.
 
 ## Source Hierarchy
 
@@ -119,19 +118,21 @@ This section distinguishes confirmed client direction from design proposals and 
 ### Confirmed By Alexandra Or Supplied Brand Material
 
 - Launch in English first. Bulgarian belongs to a later phase, after the portfolio, clients, and projects are more developed.
-- Keep launch compact: Home, Work, The Atelier, and Contact are the core pages. Services should be a concise section, anchor, or compact treatment rather than a large family of service pages.
+- Keep launch compact: Home, The Atelier, Services, and Contact are the visible pages. Work stays hidden until approved projects are launch-ready.
 - Lead with `Define your era.` and the positioning `ETÉRA is a creative atelier that builds presence and shapes culture.`
 - Use Avenir Next Regular, Demi Bold, and Bold with the supplied primary, secondary, mark, and submark logo variants.
-- Use only the confirmed palette: Maroon `#741018`, Milk White `#f9f4f4`, Ink Black `#191818`, Powder Blue `#d2e8f9`, and Midnight Blue `#263343`.
-- Alexandra expects to provide no more than approximately ten ETÉRA photos. The system must create variety through crop, scale, sequencing, and motion rather than requiring a large image library.
+- Use only the confirmed public palette: Maroon `#741018`, Milk White `#f9f4f4`, and Graphite Black `#191818`. Blue is not part of the public UI.
+- Use the supplied Home video and founder portraits as the approved launch media. The system must create variety through crop, scale, sequencing, and motion rather than requiring a large image library.
 - The Gloria Rusenova reference was supplied in the August 24 follow-up. Alexandra likes its homepage scroll animation, but ETÉRA's interpretation should be quieter and use ETÉRA colors.
 
-### Proposed Direction Requiring Client Confirmation
+### Confirmed Launch Direction
 
 - `Aether Editorial Atelier` is the working creative north star derived from the brand story and reference research.
-- The opening sequence should move from a restrained ETÉRA identity moment into one image-led hero rather than behaving like a conventional agency header.
-- Work should use a dominant landscape image with an offset portrait rail instead of equal portfolio cards.
-- Maroon, powder, and midnight should own occasional full sections; they should not appear together as decorative accents in every viewport.
+- Home opens directly on the supplied full-screen looping video with centered “Define your era.” and the underlined Enter the Atelier action.
+- The approved positioning statement follows as a large two-line desktop section aligned to the shared content gutter.
+- Selected Work and Selected Partners are omitted when no approved records pass `src/lib/content-readiness.ts`; Work also disappears from navigation and public route discovery in that state.
+- Home keeps one What We Do preview and one Explore Services action. Discover / Define / Create / Elevate belongs on The Atelier only.
+- One reusable maroon “Let's define your era together.” CTA leads into a compact graphite footer across public pages.
 - The monogram may become a signature scale, crop, or 3D moment. Start with a flat motion study and add 3D only if it improves the supplied mark and remains performant.
 - The current generated Aether Studies establish mood, crop, and material language only. They are not final photography, portfolio work, or evidence of client projects.
 
@@ -140,9 +141,10 @@ This section distinguishes confirmed client direction from design proposals and 
 - Final ETÉRA photo and video selection, including usage rights and preferred crops.
 - Launch-ready projects with approved names, imagery, roles, dates, results, and collaborators.
 - Approved partner/client logos and permission to display each one.
-- Founder names, titles, biographies, and portraits.
+- Additional approved project media and claims.
 - Approved testimonials, if the SUM-inspired quote treatment is used.
-- Final decision on whether Services is a Home anchor or compact standalone page.
+- Final Services headline/copy and any deeper service-page content.
+- Final form delivery/storage workflow and approved legal/privacy text.
 
 ### Reference Evidence Limits
 
@@ -195,7 +197,7 @@ Sources: NOT Studio, Le SMM Paris.
 Source: CHIC.
 
 - Commit to brand color at section scale instead of scattering small accents.
-- ETÉRA translation: maroon, powder, and midnight may each own a complete moment; they should not blend into gradients or compete in one viewport.
+- ETÉRA translation: maroon, milk, and graphite may each own a complete moment. Do not use blue treatments or blend the palette into gradients.
 
 ### 6. Proof And Services Without Corporate Weight
 
@@ -204,7 +206,7 @@ Sources: Gisèle Paris, SUM, So Sosha.
 - Present partner logos as a calm editorial matrix.
 - Combine proof with concise quotes only when real approved quotes exist.
 - Keep services in a compact accordion or divided index.
-- ETÉRA translation: Selected Partners is a quiet credibility field; Services supports the brand story and never becomes the opening argument.
+- ETÉRA translation: Services supports the brand story and never becomes the opening argument. Selected Partners is rendered only after approved logos and permissions are launch-ready.
 
 ### Distillation Rule
 
@@ -217,18 +219,13 @@ Before approving a reference-derived component, write its source behavior in one
 
 ## Colors
 
-The palette is warm, sharp, and boutique: milk-white paper, near-black ink, deep maroon, with powder and midnight for atmospheric contrast.
+The public palette is warm, sharp, and boutique: milk-white paper, graphite ink, and deep maroon. Blue is intentionally excluded following the consolidated client review.
 
 ### Primary
 
 - **ETÉRA Maroon** (`#741018`): primary brand signal, CTAs, active lines, monogram moments, and rare high-emphasis typography.
 - **Milk White** (`#f9f4f4`): primary page ground. Use instead of pure white.
-- **Ink Black** (`#191818`): primary text and linework. Use instead of pure black.
-
-### Secondary
-
-- **Powder Blue** (`#d2e8f9`): quiet atmospheric wash, editorial panels, hover fields, and soft page transitions.
-- **Midnight Blue** (`#263343`): dark sections, footer, contrast moments, and image-adjacent panels.
+- **Graphite Black** (`#191818`): primary text, linework, dark sections, and the compact footer. Use instead of pure black.
 
 ### Neutral
 
@@ -238,7 +235,7 @@ The palette is warm, sharp, and boutique: milk-white paper, near-black ink, deep
 
 ### Named Rules
 
-**The Maroon Rarity Rule.** Maroon should usually occupy less than 10% of a viewport. Its scarcity is what makes it feel expensive.
+**Maroon As Architecture.** Use maroon deliberately for primary emphasis, active/hover states, and complete CTA sections. It should feel decisive, not decorative.
 
 **No Generic Neutral Rule.** Do not use pure white, pure black, default gray text, or Tailwind slate/gray ramps unless a technical surface explicitly requires them.
 
@@ -276,8 +273,8 @@ Responsive behavior should preserve hierarchy. Mobile pages need generous vertic
 
 The launch system must work with approximately ten supplied photos, not depend on dozens of unique assets.
 
-- Reserve one defining landscape image or video still for the Home hero.
-- Use four to six images for Selected Work and Work, prioritizing projects with enough context to feel credible.
+- Reserve the supplied video for the full-viewport Home hero.
+- Show Selected Work and Work only after approved projects include enough real media and context to feel credible.
 - Reserve one collaborative, process, or portrait-led image for The Atelier.
 - Keep one or two assets flexible for Contact, team, or a motion transition.
 - Reuse is allowed only when the treatment changes meaningfully: wide crop versus detail crop, still versus masked reveal, or image versus monochrome texture. Do not repeat the same obvious frame across consecutive sections.
@@ -289,29 +286,21 @@ This is the design proposal to present for confirmation.
 
 ### Opening Sequence
 
-1. **0.0-0.8 seconds:** milk-white field with the ETÉRA logo mark or submark at restrained scale.
-2. **0.8-1.6 seconds:** the mark enlarges or moves toward a crop while one hairline reveals the page grid.
-3. **1.6 seconds onward:** "Define your era." and the hero image settle into an asymmetric composition; the next section remains visible at the bottom edge.
-
-Motion must feel precise and inevitable, not cinematic for its own sake. Reduced-motion users receive the settled composition immediately.
-
-The Gloria Rusenova reference supports the use of scroll-linked reveal and pacing, but not its exact movement. ETÉRA's version should use fewer transitions, shorter travel distances, no elastic motion, and no animation that delays access to content.
+The Home page opens immediately on the supplied full-screen video, set to autoplay, loop, muted, and play inline. Center “Define your era.” over the media with one underlined Enter the Atelier action. Use a restrained contrast layer only when required for legibility. Reduced-motion users receive a stable frame without delayed access to content.
 
 ### Home Hero
 
-- Quiet navigation: Work, The Atelier, Services, Contact, Start a Project.
-- The actual ETÉRA logo is a first-viewport signal, not only a small header mark.
+- Quiet launch navigation: The Atelier, Services, Contact, Start a Project. Work appears only when launch-ready projects exist.
+- Keep the ETÉRA logo in the overlaid header; do not duplicate a central hero logo.
 - "Define your era." remains the only hero headline.
-- Supporting copy stays short and uses Avenir Next Regular.
-- One original image or moving material study occupies 45-60% of the desktop viewport.
-- The image has no color overlay. It is art-directed to blend with milk white at the source.
+- The supplied video fills the viewport behind the headline and action.
 
 ### Selected Work Preview
 
 - Open with one large landscape frame, then a narrower portrait rail.
 - Separate imagery from metadata with a hairline caption band.
 - Use only real project names and media when supplied.
-- Before project media exists, use clearly labeled **Art Direction Study** imagery to confirm crop, rhythm, and palette. Never imply it is client work.
+- Before project media exists, omit the section entirely. Never show preparation messaging or an art-direction study as launch portfolio proof.
 
 ### The Atelier
 
@@ -329,14 +318,14 @@ The Gloria Rusenova reference supports the use of scroll-linked reveal and pacin
 
 - Use an open or hairline matrix inspired by editorial credits pages.
 - Logos stay monochrome unless a partner usage guideline requires color.
-- Do not fabricate partner logos or quotes.
+- Do not fabricate partner logos or quotes. Omit the entire section until approved records pass launch-readiness checks.
 
 ### Contact And Footer
 
-- Transition to a decisive maroon or midnight field.
+- Transition to a decisive maroon CTA field.
 - Lead with "Let's define your era together."
 - Keep the inquiry form on milk white with visible labels and low-radius controls.
-- The footer can use an oversized crop of the actual ETÉRA wordmark or logo mark as a closing signature.
+- Keep the graphite footer compact and information-led; do not repeat an oversized logo or duplicate the CTA content.
 
 ## Art Direction
 
@@ -346,7 +335,7 @@ Until ETÉRA's final photography and project media arrive, the design proposal u
 
 - Themes: connection, motion, perception, craft, material, and invisible structure.
 - Subjects: translucent fabric, glass, shadow, reflective metal, anonymous human movement, hands editing materials.
-- Palette: source imagery is art-directed around the official maroon, milk, ink, powder, and midnight colors.
+- Palette: source imagery is art-directed around the official maroon, milk, and graphite colors.
 - Composition: decisive crops, broad negative space, asymmetric balance, and stable landscape/portrait frames.
 - Texture: natural light, tactile materials, subtle grain, and realistic imperfections.
 
@@ -354,7 +343,7 @@ Until ETÉRA's final photography and project media arrive, the design proposal u
 
 - Do not reuse or imitate photography from the reference sites.
 - Do not generate fake branded campaigns, client products, testimonials, results, or logos.
-- Do not apply maroon/powder overlays to unrelated photography to force it into the palette.
+- Do not apply color overlays to unrelated photography to force it into the palette.
 - Do not use stock-like teams around laptops, generic office scenes, or beige moodboards.
 - Replace Aether Studies with real ETÉRA project media as it becomes available, while preserving the approved crop and layout behavior.
 
@@ -404,7 +393,7 @@ Navigation is small, uppercase, and line-led. It should feel like an editorial i
 
 ### Work Tiles
 
-Work tiles should become image-led as soon as real project media exists. Until then, use typographic placeholders sparingly and label them clearly as selected work, not fabricated case studies.
+Work tiles become image-led only when real project media exists. Until then, omit Work from the public launch experience instead of presenting placeholders.
 
 ### Services
 
@@ -432,4 +421,4 @@ Don't:
 - Do not fill the site with cards inside cards.
 - Do not invent clients, KPIs, testimonials, project proof, policy text, or booking flows.
 - Do not over-explain services or expand launch into a corporate sitemap.
-- Do not make the site beige, gray, or neutral-only. The maroon/powder/midnight system must be visible.
+- Do not make the site beige, gray, or neutral-only. Maroon, milk, and graphite must remain visibly intentional.

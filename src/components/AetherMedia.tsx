@@ -2,22 +2,22 @@ import Image from "next/image";
 
 const studies = {
   atelier: {
-    alt: "Hands arranging material, color and image studies on a worktable",
-    height: 1024,
-    src: "/design/assets/aether-atelier.webp",
-    width: 1536,
+    alt: "The ETÉRA founders developing a creative direction at the studio moodboard",
+    height: 1600,
+    src: "/media/etera-atelier-team.webp",
+    width: 2400,
   },
   hero: {
-    alt: "Translucent maroon and black material moving around glass and reflective metal",
-    height: 1003,
-    src: "/design/assets/aether-hero.webp",
-    width: 1568,
+    alt: "The founders of ETÉRA Creative Atelier",
+    height: 1600,
+    src: "/media/etera-founders.webp",
+    width: 2400,
   },
   motion: {
-    alt: "An anonymous figure moving behind translucent powder-blue fabric",
-    height: 1536,
-    src: "/design/assets/aether-motion.webp",
-    width: 1024,
+    alt: "An ETÉRA studio card placed in the pocket of a pair of jeans",
+    height: 2400,
+    src: "/media/etera-work-detail.webp",
+    width: 1600,
   },
 } as const;
 
@@ -35,7 +35,10 @@ export function AetherMedia({
   const image = studies[study];
 
   return (
-    <figure className={`aether-media ${className}`.trim()}>
+    <figure
+      aria-label={label}
+      className={`aether-media ${className}`.trim()}
+    >
       <div className="aether-media__frame">
         <Image
           alt={image.alt}
@@ -46,10 +49,6 @@ export function AetherMedia({
           width={image.width}
         />
       </div>
-      <figcaption>
-        <strong>{label}</strong>
-        <span>Original art-direction study. Not client work.</span>
-      </figcaption>
     </figure>
   );
 }

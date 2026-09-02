@@ -38,8 +38,66 @@ export const AtelierPage: GlobalConfig = {
         "The Aether narrative and founder/team content will be shaped once the final brand materials arrive.",
     },
     {
+      name: "teamMembers",
+      type: "array",
+      admin: {
+        description:
+          "The core team shown on the Atelier page. Add, remove or reorder people here.",
+      },
+      defaultValue: [
+        {
+          description:
+            "Alexandra builds meaningful brand narratives through strategy, storytelling and community. Her experience spans financial services, consumer brands, NGOs and local businesses, with a focus on identity, content and campaigns that inspire action.",
+          name: "Alexandra Djurdjevic",
+          position: "Brand & Marketing Strategist",
+        },
+        {
+          description:
+            "Yoana combines analytical thinking with creative direction across online and offline campaigns. Her work spans experiential activations, paid social, photoshoot direction and storyboarding, always focused on meaningful, results-driven ideas.",
+          name: "Yoana Stoyanova",
+          position: "Marketing Expert & Creative Strategist",
+        },
+      ],
+      fields: [
+        {
+          name: "name",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "position",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "description",
+          type: "textarea",
+          required: true,
+        },
+        {
+          name: "portrait",
+          type: "upload",
+          filterOptions: {
+            mimeType: {
+              contains: "image/",
+            },
+          },
+          label: "Portrait",
+          relationTo: "media",
+        },
+      ],
+      label: "Team Members",
+      labels: {
+        plural: "Team Members",
+        singular: "Team Member",
+      },
+    },
+    {
       name: "featuredPeople",
       type: "relationship",
+      admin: {
+        hidden: true,
+      },
       hasMany: true,
       relationTo: "people",
     },

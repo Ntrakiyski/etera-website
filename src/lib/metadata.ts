@@ -13,7 +13,7 @@ export function buildPageMetadata({
 }): Metadata {
   const siteUrl = getSiteUrl();
   const canonical = new URL(path, siteUrl);
-  const image = new URL("/design/assets/aether-hero.webp", siteUrl);
+  const image = new URL("/media/etera-founders.webp", siteUrl);
 
   return {
     alternates: { canonical },
@@ -22,7 +22,7 @@ export function buildPageMetadata({
       description,
       images: [
         {
-          alt: "ETÉRA Aether art-direction study",
+          alt: "The founders of ETÉRA Creative Atelier",
           url: image,
         },
       ],
@@ -36,7 +36,7 @@ export function buildPageMetadata({
       description,
       images: [
         {
-          alt: "ETÉRA Aether art-direction study",
+          alt: "The founders of ETÉRA Creative Atelier",
           url: image,
         },
       ],

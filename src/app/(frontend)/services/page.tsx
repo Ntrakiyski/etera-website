@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
-import { ArrowIcon } from "@/components/ArrowIcon";
 import { ServiceIndex } from "@/components/ServiceIndex";
 import { getServices, getServicesPage } from "@/lib/cms";
 import { buildPageMetadata } from "@/lib/metadata";
@@ -48,13 +46,6 @@ export default async function ServicesPage() {
         <ServiceIndex services={services} tone="light" />
       </section>
 
-      <section className="page-close page-close--powder">
-        <h2>Let&apos;s define your era together.</h2>
-        <Link href="/contact#inquiry">
-          Start a Project
-          <ArrowIcon />
-        </Link>
-      </section>
     </main>
   );
 }

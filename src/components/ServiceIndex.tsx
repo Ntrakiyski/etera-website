@@ -38,15 +38,7 @@ export function ServiceIndex({
   );
 
   if (groups.length === 0) {
-    return (
-      <div className="service-index__empty" data-tone={tone}>
-        <span aria-hidden="true">01—05</span>
-        <div>
-          <strong>Capability details pending approval.</strong>
-          <p>Final service entries are being prepared for launch.</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (

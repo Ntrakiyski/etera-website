@@ -21,6 +21,8 @@ export const SiteSettings: GlobalConfig = {
     {
       name: "bookingURL",
       type: "text",
+      defaultValue:
+        "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1cN59tKh527V9JQcQH9yd31V3Z0VRf9Ue3MMUZ58UwPWM-gVdLhEacKQurbpdEbFh-pLZv07sm?gv=true",
       label: "Booking URL",
     },
     {
@@ -32,6 +34,24 @@ export const SiteSettings: GlobalConfig = {
     {
       name: "socialLinks",
       type: "array",
+      defaultValue: [
+        {
+          label: "Instagram",
+          url: "https://www.instagram.com/etera.creative/",
+        },
+        {
+          label: "Facebook",
+          url: "https://www.facebook.com/people/ET%C3%89RA-Creative-Atelier/61593393231866/",
+        },
+        {
+          label: "LinkedIn",
+          url: "https://www.linkedin.com/company/et%C3%A9ra/about/",
+        },
+        {
+          label: "TikTok",
+          url: "https://www.tiktok.com/@etera.creative",
+        },
+      ],
       fields: [
         {
           name: "label",

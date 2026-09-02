@@ -5,7 +5,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { SerializedEditorState } from "lexical";
 
-import { ArrowIcon } from "@/components/ArrowIcon";
 import { getProjectBySlug, type RichTextContent } from "@/lib/cms";
 import { isLaunchReadyProject } from "@/lib/content-readiness";
 import { buildPageMetadata } from "@/lib/metadata";
@@ -161,13 +160,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </section>
       ) : null}
 
-      <section className="page-close page-close--maroon">
-        <h2>Let&apos;s define your era together.</h2>
-        <Link href="/contact#inquiry">
-          Start a Project
-          <ArrowIcon />
-        </Link>
-      </section>
     </main>
   );
 }

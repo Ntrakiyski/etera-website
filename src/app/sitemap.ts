@@ -1,13 +1,21 @@
 import type { MetadataRoute } from "next";
 
+import { getProjects } from "@/lib/cms";
+import { isLaunchReadyProject } from "@/lib/content-readiness";
 import { getSiteUrl } from "@/lib/site";
 
-const publicRoutes = ["/", "/work", "/the-atelier", "/services", "/contact"];
+const publicRoutes = ["/", "/the-atelier", "/services", "/contact"];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
+  const projects = (await getProjects()).filter(isLaunchReadyProject);
+  const workRoutes = projects.length > 0
+    ? ["/work", ...projects.map((project) => `/work/${project.slug}`)]
+    : [];
 
-  return publicRoutes.map((route) => ({
+  return [...publicRoutes, ...workRoutes].map((route) => ({
     url: new URL(route, siteUrl).toString(),
   }));
 }

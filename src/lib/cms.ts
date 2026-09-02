@@ -40,6 +40,7 @@ export type PageContent = {
 export type AtelierContent = PageContent & {
   aetherNarrative: string;
   featuredPeople: PersonSummary[];
+  teamMembers: TeamMemberSummary[];
 };
 
 export type ContactContent = PageContent & {
@@ -108,6 +109,14 @@ export type PersonSummary = {
   role: string;
 };
 
+export type TeamMemberSummary = {
+  description: string;
+  id: string;
+  name: string;
+  portrait?: MediaSummary;
+  position: string;
+};
+
 export type PartnerSummary = {
   id: string;
   logo?: MediaSummary;
@@ -166,6 +175,22 @@ export const fallbackAtelierPage: AtelierContent = {
   intro:
     "ETÉRA is an independent creative atelier built around the belief that strong brands are shaped through the right balance of strategy, creativity, cultural context, and effort.",
   kicker: "The Atelier",
+  teamMembers: [
+    {
+      description:
+        "Alexandra builds meaningful brand narratives through strategy, storytelling and community. Her experience spans financial services, consumer brands, NGOs and local businesses, with a focus on identity, content and campaigns that inspire action.",
+      id: "alexandra-djurdjevic",
+      name: "Alexandra Djurdjevic",
+      position: "Brand & Marketing Strategist",
+    },
+    {
+      description:
+        "Yoana combines analytical thinking with creative direction across online and offline campaigns. Her work spans experiential activations, paid social, photoshoot direction and storyboarding, always focused on meaningful, results-driven ideas.",
+      id: "yoana-stoyanova",
+      name: "Yoana Stoyanova",
+      position: "Marketing Expert & Creative Strategist",
+    },
+  ],
 };
 
 export const fallbackServicesPage: PageContent = {
@@ -184,13 +209,31 @@ export const fallbackContactPage: ContactContent = {
 };
 
 export const fallbackSiteSettings: SiteSettingsContent = {
-  bookingURL: "",
+  bookingURL:
+    "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1cN59tKh527V9JQcQH9yd31V3Z0VRf9Ue3MMUZ58UwPWM-gVdLhEacKQurbpdEbFh-pLZv07sm?gv=true",
   contactEmail: "hello@eteracreative.com",
   footerTagline: "Define your era.",
   seoDescription:
     "ETÉRA is a creative atelier that builds presence and shapes culture.",
   seoTitle: "ETÉRA Creative Atelier",
-  socialLinks: [],
+  socialLinks: [
+    {
+      label: "Instagram",
+      url: "https://www.instagram.com/etera.creative/",
+    },
+    {
+      label: "Facebook",
+      url: "https://www.facebook.com/people/ET%C3%89RA-Creative-Atelier/61593393231866/",
+    },
+    {
+      label: "LinkedIn",
+      url: "https://www.linkedin.com/company/et%C3%A9ra/about/",
+    },
+    {
+      label: "TikTok",
+      url: "https://www.tiktok.com/@etera.creative",
+    },
+  ],
 };
 
 export const fallbackServices: ServiceSummary[] = [
@@ -440,6 +483,25 @@ function personSummary(person: Record<string, unknown>): PersonSummary | null {
   return summary.id && summary.name ? summary : null;
 }
 
+function teamMemberSummary(
+  member: Record<string, unknown>,
+): TeamMemberSummary | null {
+  const summary = {
+    description: stringValue(member.description),
+    id: stringValue(member.id),
+    name: stringValue(member.name),
+    portrait: mediaSummary(member.portrait),
+    position: stringValue(member.position),
+  };
+
+  return summary.name && summary.position && summary.description
+    ? {
+        ...summary,
+        id: summary.id || summary.name.toLowerCase().replaceAll(" ", "-"),
+      }
+    : null;
+}
+
 function projectDetail(
   project: Record<string, unknown>,
 ): ProjectDetail | null {
@@ -572,6 +634,10 @@ export const getAtelierPage = cache(async () => {
       slug: "atelier-page",
     });
 
+    const teamMembers = relatedDocuments(page.teamMembers)
+      .map(teamMemberSummary)
+      .filter((member): member is TeamMemberSummary => Boolean(member));
+
     return {
       ...pageContent(page, fallbackAtelierPage),
       aetherNarrative: launchStringValue(
@@ -584,6 +650,10 @@ export const getAtelierPage = cache(async () => {
       featuredPeople: relatedDocuments(page.featuredPeople)
         .map(personSummary)
         .filter((person): person is PersonSummary => Boolean(person)),
+      teamMembers:
+        teamMembers.length > 0
+          ? teamMembers
+          : fallbackAtelierPage.teamMembers,
     };
   }, fallbackAtelierPage);
 });
@@ -648,7 +718,7 @@ export const getServices = cache(async () => {
       .map(serviceSummary)
       .filter((service): service is ServiceSummary => Boolean(service));
 
-    return services;
+    return services.length > 0 ? services : fallbackServices;
   }, fallbackServices);
 });
 
@@ -726,7 +796,8 @@ export const getSiteSettings = cache(async () => {
       : [];
 
     return {
-      bookingURL: httpURL(settings.bookingURL),
+      bookingURL:
+        httpURL(settings.bookingURL) || fallbackSiteSettings.bookingURL,
       contactEmail: stringValue(
         settings.contactEmail,
         fallbackSiteSettings.contactEmail,
@@ -740,7 +811,10 @@ export const getSiteSettings = cache(async () => {
         fallbackSiteSettings.seoDescription,
       ),
       seoTitle: stringValue(settings.seoTitle, fallbackSiteSettings.seoTitle),
-      socialLinks,
+      socialLinks:
+        socialLinks.length > 0
+          ? socialLinks
+          : fallbackSiteSettings.socialLinks,
     };
   }, fallbackSiteSettings);
 });

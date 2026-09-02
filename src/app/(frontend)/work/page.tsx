@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { AetherMedia } from "@/components/AetherMedia";
 import { ArrowIcon } from "@/components/ArrowIcon";
-import { EditorialLink } from "@/components/EditorialLink";
 import { getProjects, getWorkPage } from "@/lib/cms";
 import { isLaunchReadyProject } from "@/lib/content-readiness";
 import { buildPageMetadata } from "@/lib/metadata";
+import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +24,10 @@ export default async function WorkPage() {
   const [page, allProjects] = await Promise.all([getWorkPage(), getProjects()]);
   const projects = allProjects.filter(isLaunchReadyProject);
 
+  if (projects.length === 0) {
+    notFound();
+  }
+
   return (
     <main id="main-content" tabIndex={-1}>
       <header className="page-hero page-hero--work">
@@ -35,8 +38,7 @@ export default async function WorkPage() {
         <p className="page-hero__intro">{page.intro}</p>
       </header>
 
-      {projects.length > 0 ? (
-        <section aria-label="Selected projects" className="work-index">
+      <section aria-label="Selected projects" className="work-index">
           {projects.map((project, index) => (
             <Link
               className="work-index__item"
@@ -66,29 +68,6 @@ export default async function WorkPage() {
               </div>
             </Link>
           ))}
-        </section>
-      ) : (
-        <section className="work-empty">
-          <AetherMedia label="Art Direction Study" study="motion" />
-          <div className="work-empty__copy">
-            <p>Launch portfolio</p>
-            <h2>Project materials are the remaining element.</h2>
-            <p>
-              Approved client names, imagery, roles, dates, results and
-              collaborators have not yet been supplied. The archive is ready
-              to become image-led as soon as that material arrives.
-            </p>
-            <EditorialLink href="/contact#inquiry">Discuss a project</EditorialLink>
-          </div>
-        </section>
-      )}
-
-      <section className="page-close page-close--powder">
-        <h2>Work is selected. The approach is built for the brief.</h2>
-        <Link href="/services">
-          Explore Services
-          <ArrowIcon />
-        </Link>
       </section>
     </main>
   );

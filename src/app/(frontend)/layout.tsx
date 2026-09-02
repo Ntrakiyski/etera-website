@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getSiteSettings } from "@/lib/cms";
+import { getProjects, getSiteSettings } from "@/lib/cms";
+import { isLaunchReadyProject } from "@/lib/content-readiness";
 import { getSiteUrl } from "@/lib/site";
 
 import "../globals.css";
@@ -40,7 +41,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const settings = await getSiteSettings();
+  const [settings, projects] = await Promise.all([
+    getSiteSettings(),
+    getProjects(),
+  ]);
+  const showWork = projects.some(isLaunchReadyProject);
   const siteUrl = getSiteUrl();
   const organizationJsonLd = {
     "@context": "https://schema.org",
@@ -66,9 +71,9 @@ export default async function RootLayout({
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
-        <SiteHeader />
+        <SiteHeader showWork={showWork} />
         {children}
-        <SiteFooter settings={settings} />
+        <SiteFooter settings={settings} showWork={showWork} />
         <script
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),

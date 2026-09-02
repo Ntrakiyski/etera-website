@@ -3,9 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AetherMedia } from "@/components/AetherMedia";
-import { ArrowIcon } from "@/components/ArrowIcon";
 import { EditorialLink } from "@/components/EditorialLink";
-import { MethodSequence } from "@/components/MethodSequence";
+import { HeroVideo } from "@/components/HeroVideo";
 import { ServiceIndex } from "@/components/ServiceIndex";
 import {
   getAtelierPage,
@@ -32,8 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
       description: settings.seoDescription,
       images: [
         {
-          alt: "ETÉRA Aether art-direction study",
-          url: new URL("/design/assets/aether-hero.webp", siteUrl),
+          alt: "The founders of ETÉRA Creative Atelier",
+          url: new URL("/media/etera-founders.webp", siteUrl),
         },
       ],
       title: settings.seoTitle,
@@ -46,8 +45,8 @@ export async function generateMetadata(): Promise<Metadata> {
       description: settings.seoDescription,
       images: [
         {
-          alt: "ETÉRA Aether art-direction study",
-          url: new URL("/design/assets/aether-hero.webp", siteUrl),
+          alt: "The founders of ETÉRA Creative Atelier",
+          url: new URL("/media/etera-founders.webp", siteUrl),
         },
       ],
       title: settings.seoTitle,
@@ -56,11 +55,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [home, atelier, services, settings] = await Promise.all([
+  const [home, atelier, services] = await Promise.all([
     getHomePage(),
     getAtelierPage(),
     getServices(),
-    getSiteSettings(),
   ]);
   const projects = home.featuredProjects.filter(isLaunchReadyProject);
   const partners = home.featuredPartners.filter(isLaunchReadyPartner);
@@ -68,38 +66,30 @@ export default async function Home() {
   return (
     <main id="main-content" tabIndex={-1}>
       <section className="home-hero">
+        <HeroVideo />
         <div className="home-hero__copy">
-          <h1>{home.heroHeadline}</h1>
-          <p className="home-hero__lead">{home.heroSupportingCopy}</p>
-          {home.heroAdditionalCopy ? (
-            <p className="home-hero__support">{home.heroAdditionalCopy}</p>
-          ) : null}
-          <EditorialLink href="/the-atelier">{home.heroCTA}</EditorialLink>
+          <h1>Define your era.</h1>
+          <EditorialLink href="/the-atelier">Enter the atelier</EditorialLink>
         </div>
-        <AetherMedia
-          className="home-hero__media"
-          label="Aether Study 01"
-          preload
-          study="hero"
-        />
-        <a className="home-hero__scroll" href="#selected-work">
-          <span>Scroll to explore</span>
-          <ArrowIcon direction="down" />
-        </a>
       </section>
 
-      <section className="work-preview" id="selected-work">
-        <div className="work-preview__heading">
-          <h2>Selected Work</h2>
-          <p>
-            A future home for approved projects, campaign worlds and the roles
-            ETÉRA shaped within them.
-          </p>
-        </div>
+      <section
+        aria-labelledby="home-positioning-title"
+        className="home-positioning"
+      >
+        <h2 id="home-positioning-title">
+          <span>ETÉRA is a creative atelier that</span>{" "}
+          <span>builds presence and shapes culture.</span>
+        </h2>
+      </section>
 
-        {projects.length > 0 ? (
+      {projects.length > 0 ? (
+        <section className="work-preview" id="selected-work">
+          <div className="work-preview__heading">
+            <h2>Selected Work</h2>
+          </div>
           <div className="project-preview-grid">
-            {projects.slice(0, 2).map((project, index) => (
+            {projects.slice(0, 3).map((project, index) => (
               <Link
                 className="project-preview"
                 data-orientation={index % 2 === 0 ? "landscape" : "portrait"}
@@ -123,29 +113,15 @@ export default async function Home() {
               </Link>
             ))}
           </div>
-        ) : (
-          <div className="work-preview__study">
-            <AetherMedia label="Art Direction Study" study="motion" />
-            <div className="work-preview__pending">
-              <span aria-hidden="true">01</span>
-              <h3>Portfolio materials are being prepared for launch.</h3>
-              <p>
-                This study shows the intended crop, movement and visual rhythm.
-                It does not represent client work or project proof.
-              </p>
-              <EditorialLink href="/work">View the Work page</EditorialLink>
-            </div>
-          </div>
-        )}
-      </section>
+        </section>
+      ) : null}
 
       <section className="atelier-preview">
-        <AetherMedia label="Aether Study 02" study="atelier" />
+        <AetherMedia label="Inside the Atelier" study="atelier" />
         <div className="atelier-preview__copy">
           <h2>{atelier.headline}</h2>
           <p>{atelier.intro}</p>
           <EditorialLink href="/the-atelier">Discover the Atelier</EditorialLink>
-          <MethodSequence steps={home.methodSteps} />
         </div>
       </section>
 
@@ -161,12 +137,11 @@ export default async function Home() {
         <ServiceIndex services={services} tone="dark" />
       </section>
 
-      <section className="partners-preview">
-        <div>
-          <h2>Selected Partners</h2>
-          <p>Relationships are shown only when names, assets and permissions are approved.</p>
-        </div>
-        {partners.length > 0 ? (
+      {partners.length > 0 ? (
+        <section className="partners-preview">
+          <div>
+            <h2>Selected Partners</h2>
+          </div>
           <div className="partners-preview__grid">
             {partners.map((partner) => (
               <article key={partner.id}>
@@ -183,26 +158,8 @@ export default async function Home() {
               </article>
             ))}
           </div>
-        ) : (
-          <p className="partners-preview__pending">
-            Partner names and logo permissions are pending client confirmation.
-          </p>
-        )}
-      </section>
-
-      <section className="home-contact">
-        <div>
-          <p>{settings.footerTagline}</p>
-          <h2>Let&apos;s define your era together.</h2>
-        </div>
-        <div className="home-contact__actions">
-          <Link className="home-contact__primary" href="/contact#inquiry">
-            Start a Project
-            <ArrowIcon />
-          </Link>
-          <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
-        </div>
-      </section>
+        </section>
+      ) : null}
     </main>
   );
 }

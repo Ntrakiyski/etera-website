@@ -11,7 +11,11 @@ Meeting: 1 September 2026, 10:30 EEST. Times below refer to the meeting recordin
 | Standardize primary and secondary actions. Primary actions receive red emphasis/hover; secondary actions stay quieter. Keep the line/arrow interaction and pointer cursor for interactive logos. | 02:57; 05:36–06:51; 13:24 | Reuse existing `EditorialLink`, shared action classes, and header/footer styles. |
 | Keep content and imagery editable through Payload; audit missing fields once page structure is final. | 04:08; 48:00–48:51 | Extend existing globals/collections only when a confirmed field is missing. |
 
-## Structural decisions awaiting Ioanna's consolidated confirmation
+## Consolidated review status
+
+Confirmed on 2 September 2026 through the client implementation handoff: preserve the approved Home hero, positioning section, Atelier founder profiles, and Contact booking calendar, and implement the remaining structural decisions in this branch. The items below are therefore approved for implementation unless a later client delta is recorded here.
+
+## Confirmed structural decisions
 
 | Area | Decision | Evidence time |
 |---|---|---:|
@@ -28,11 +32,17 @@ Meeting: 1 September 2026, 10:30 EEST. Times below refer to the meeting recordin
 
 | Owner | Input | Blocks |
 |---|---|---|
-| Alexandra / Ioanna | Consolidated approval and any deltas | Structural implementation gate |
-| Client | Replacement hero/team photos and final page copy | Home, Atelier, Services, Contact |
-| Client | Founder bios/roles and chosen section reference | Atelier people section |
-| Client | Approved partner logos and social URLs | Partners and footer |
-| Client | Booking provider/link and final inquiry delivery workflow | Contact calendar and form submission |
+| Client | Final replacement copy for Services and any later page-copy refinements | Services and remaining editorial copy |
+| Client | Launch-ready projects with approved names, imagery, roles, results, and collaborators | Work route and Home Selected Work visibility |
+| Client | Approved partner logos and permission to display each one | Home Selected Partners visibility |
+| Client | Final inquiry delivery/storage workflow | Contact form submission beyond the current email-draft flow |
+
+## Inputs received after the review
+
+- Home hero video, final hero treatment, and positioning statement.
+- Alexandra Djurdjevic and Yoana Stoyanova names, roles, biographies, and portraits for the Atelier CMS section.
+- Instagram, Facebook, LinkedIn, and TikTok URLs for the shared footer.
+- Google Calendar appointment-scheduling URL and approval to embed it before the Contact form.
 
 ## Deliberate exclusions
 
