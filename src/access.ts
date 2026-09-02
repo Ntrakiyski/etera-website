@@ -1,22 +1,29 @@
 import type { Access, PayloadRequest } from "payload";
 
-type UserWithRole = PayloadRequest["user"] & {
-  role?: "admin" | "editor";
-};
+type CmsUser = Extract<
+  NonNullable<PayloadRequest["user"]>,
+  { collection: "users" }
+>;
+
+const isCmsUser = (user: PayloadRequest["user"]): user is CmsUser =>
+  user?.collection === "users";
+
+export const isAdminUser = (user: PayloadRequest["user"]) =>
+  isCmsUser(user) && user.role === "admin";
 
 export const anyone: Access = () => true;
 
-export const loggedIn: Access = ({ req: { user } }) => Boolean(user);
+export const loggedIn: Access = ({ req: { user } }) => isCmsUser(user);
 
 export const adminsOnly: Access = ({ req: { user } }) =>
-  Boolean(user && (user as UserWithRole).role === "admin");
+  isAdminUser(user);
 
 export const adminsOrSelf: Access = ({ id, req: { user } }) => {
-  if (!user) {
+  if (!isCmsUser(user)) {
     return false;
   }
 
-  if ((user as UserWithRole).role === "admin") {
+  if (user.role === "admin") {
     return true;
   }
 

@@ -1,5 +1,6 @@
 import { sqliteD1Adapter } from "@payloadcms/db-d1-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { mcpPlugin } from "@payloadcms/plugin-mcp";
 import { r2Storage } from "@payloadcms/storage-r2";
 import { getCloudflareContext, type CloudflareContext } from "@opennextjs/cloudflare";
 import path from "path";
@@ -77,6 +78,106 @@ export default buildConfig({
     idType: "uuid",
   }),
   plugins: [
+    mcpPlugin({
+      collections: {
+        media: {
+          description:
+            "ETÉRA's media library for images and documents used throughout the website.",
+          enabled: {
+            create: true,
+            find: true,
+            update: true,
+          },
+        },
+        partners: {
+          description:
+            "Organizations and brands displayed as ETÉRA partners on the website.",
+          enabled: {
+            create: true,
+            find: true,
+            update: true,
+          },
+        },
+        people: {
+          description:
+            "People profiles with names, roles, biographies, portraits, and display order.",
+          enabled: {
+            create: true,
+            find: true,
+            update: true,
+          },
+        },
+        projects: {
+          description:
+            "ETÉRA portfolio projects, including their presentation copy, media, services, results, ordering, and publication status.",
+          enabled: {
+            create: true,
+            find: true,
+            update: true,
+          },
+        },
+        services: {
+          description:
+            "ETÉRA service offerings, categories, descriptions, ordering, and publication status.",
+          enabled: {
+            create: true,
+            find: true,
+            update: true,
+          },
+        },
+      },
+      globals: {
+        "atelier-page": {
+          description:
+            "Content for the Atelier page, including the atelier story, team members, portraits, and method.",
+          enabled: {
+            find: true,
+            update: true,
+          },
+        },
+        "contact-page": {
+          description:
+            "Content for the Contact page, including its heading, introduction, and contact email.",
+          enabled: {
+            find: true,
+            update: true,
+          },
+        },
+        "home-page": {
+          description:
+            "Content for the ETÉRA homepage, including the hero, introduction, section headings, and calls to action.",
+          enabled: {
+            find: true,
+            update: true,
+          },
+        },
+        "services-page": {
+          description:
+            "Content for the Services page, including its heading and introduction.",
+          enabled: {
+            find: true,
+            update: true,
+          },
+        },
+        "site-settings": {
+          description:
+            "Site-wide ETÉRA settings, including contact details, booking URL, footer, social links, and SEO metadata.",
+          enabled: {
+            find: true,
+            update: true,
+          },
+        },
+        "work-page": {
+          description:
+            "Content for the Work index page, including its heading and introduction.",
+          enabled: {
+            find: true,
+            update: true,
+          },
+        },
+      },
+      userCollection: "users",
+    }),
     r2Storage({
       alwaysInsertFields: true,
       bucket: cloudflare.env.R2 as R2Bucket,

@@ -22,6 +22,26 @@ Payload is installed inside the Next.js app. The public site and CMS are deploye
 - Only administrators should create new CMS accounts.
 - Image placements such as project heroes, partner logos, and portraits accept image media only. PDFs can still be stored in Media for documents.
 
+## MCP Content Access
+
+Payload's official MCP plugin exposes the CMS at:
+
+```text
+https://etera.trakiyski.work/api/mcp
+```
+
+The endpoint uses Streamable HTTP and requires an MCP API key in the request header:
+
+```text
+Authorization: Bearer <MCP_API_KEY>
+```
+
+Create a key while signed in at `/admin` under **MCP → API Keys**. Each key belongs to the CMS user who created it and can be restricted to individual operations.
+
+The server exposes find, create, and update operations for media, partners, people, projects, and services. It exposes find and update operations for all page globals and site settings. Delete operations, the users collection, and experimental configuration/authentication tools are not exposed.
+
+Enable only the permissions needed by a particular client. Never commit an MCP API key to the repository or include it in client-side code.
+
 ## Local Development
 
 1. Install dependencies:

@@ -24,6 +24,7 @@
   "dependencies": {
     "@payloadcms/db-d1-sqlite": "^3.88.0",
     "@payloadcms/next": "^3.88.0",
+    "@payloadcms/plugin-mcp": "^3.88.0",
     "@payloadcms/richtext-lexical": "^3.88.0",
     "@payloadcms/storage-r2": "^3.88.0",
     "graphql": "^16.14.2",
