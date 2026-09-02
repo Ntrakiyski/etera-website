@@ -44,6 +44,14 @@ Confirmed on 2 September 2026 through the client implementation handoff: preserv
 - Instagram, Facebook, LinkedIn, and TikTok URLs for the shared footer.
 - Google Calendar appointment-scheduling URL and approval to embed it before the Contact form.
 
+## Visual-review delta — 2 September 2026
+
+- Restore the Work navigation entry, Work route, and Home Selected Work section for client visual review.
+- Show three items on Home and six items on Work. When fewer approved CMS projects exist, fill the review layouts with explicitly labelled project previews using existing ETÉRA-owned visual studies. These previews are not client work, do not link to case-study pages, and must be replaced or removed before launch.
+- Keep the shared closing statement on exactly two controlled lines at every supported viewport.
+- Add recognizable icons to the existing footer social links.
+- Change the Home hero's underlined Enter the Atelier action to the confirmed maroon accent on hover.
+
 ## Deliberate exclusions
 
 The meeting recording, extracted audio, automatic transcript, credentials, personal scheduling discussion, model cache, virtual environment, and transcription scripts are intentionally not part of this branch. This document contains the implementation-relevant decisions only.

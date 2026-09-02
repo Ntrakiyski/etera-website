@@ -12,7 +12,7 @@ Direction:
 
 - Lead with the supplied full-viewport video, centered "Define your era.", and the underlined Enter the Atelier action.
 - Follow with the approved two-line positioning statement and one What We Do preview with a single Explore Services action.
-- Omit Method, Selected Work, and Selected Partners at launch unless their existing CMS records pass the shared launch-readiness checks.
+- Omit Method and Selected Partners at launch unless their existing CMS records pass the shared launch-readiness checks. During the current client review, show three Selected Work items and fill missing approved projects with clearly labelled non-clickable previews.
 - Close with the reusable maroon "Let's define your era together." CTA/footer pattern.
 
 Do not:
@@ -28,7 +28,7 @@ Job: Show ETÉRA's work as curated cultural proof.
 
 Direction:
 
-- Keep the Work navigation entry and route unavailable until at least one project passes the shared launch-readiness checks.
+- Keep the Work navigation entry and route visible during client review, showing six items in total. Fill missing approved projects with clearly labelled non-clickable previews and replace or remove those previews before launch.
 - Once visuals arrive, prioritize large image/video crops, project names, role, year, and a concise context line.
 - Prepare the structure for future details: client, project, role, context, visuals, KPIs, and collaborators.
 

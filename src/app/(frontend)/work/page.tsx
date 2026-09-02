@@ -6,7 +6,11 @@ import { ArrowIcon } from "@/components/ArrowIcon";
 import { getProjects, getWorkPage } from "@/lib/cms";
 import { isLaunchReadyProject } from "@/lib/content-readiness";
 import { buildPageMetadata } from "@/lib/metadata";
-import { notFound } from "next/navigation";
+import {
+  fillProjectPreview,
+  projectCardItem,
+  type ProjectCardItem,
+} from "@/lib/project-previews";
 
 export const dynamic = "force-dynamic";
 
@@ -22,11 +26,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function WorkPage() {
   const [page, allProjects] = await Promise.all([getWorkPage(), getProjects()]);
-  const projects = allProjects.filter(isLaunchReadyProject);
-
-  if (projects.length === 0) {
-    notFound();
-  }
+  const projects = fillProjectPreview(
+    allProjects
+      .filter(isLaunchReadyProject)
+      .map(projectCardItem)
+      .filter((project): project is ProjectCardItem => Boolean(project)),
+    6,
+  );
 
   return (
     <main id="main-content" tabIndex={-1}>
@@ -39,21 +45,17 @@ export default async function WorkPage() {
       </header>
 
       <section aria-label="Selected projects" className="work-index">
-          {projects.map((project, index) => (
-            <Link
-              className="work-index__item"
-              data-layout={index % 3 === 1 ? "offset" : "wide"}
-              href={`/work/${project.slug}`}
-              key={project.id}
-            >
+        {projects.map((project, index) => {
+          const content = (
+            <>
               <div className="work-index__media">
                 <Image
-                  alt={project.heroImage?.alt ?? ""}
-                  height={project.heroImage?.height ?? 900}
+                  alt={project.heroImage.alt}
+                  height={project.heroImage.height ?? 900}
                   sizes="(max-width: 767px) 100vw, 85vw"
-                  src={project.heroImage?.url ?? ""}
+                  src={project.heroImage.url}
                   unoptimized
-                  width={project.heroImage?.width ?? 1400}
+                  width={project.heroImage.width ?? 1400}
                 />
               </div>
               <div className="work-index__caption">
@@ -63,11 +65,31 @@ export default async function WorkPage() {
                 </div>
                 <div>
                   <span>{project.year}</span>
-                  <ArrowIcon />
+                  {project.href ? <ArrowIcon /> : <span>Preview</span>}
                 </div>
               </div>
+            </>
+          );
+
+          return project.href ? (
+            <Link
+              className="work-index__item"
+              data-layout={index % 3 === 1 ? "offset" : "wide"}
+              href={project.href}
+              key={project.id}
+            >
+              {content}
             </Link>
-          ))}
+          ) : (
+            <article
+              className="work-index__item work-index__item--review"
+              data-layout={index % 3 === 1 ? "offset" : "wide"}
+              key={project.id}
+            >
+              {content}
+            </article>
+          );
+        })}
       </section>
     </main>
   );

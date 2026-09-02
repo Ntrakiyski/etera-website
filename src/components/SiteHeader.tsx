@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const primaryNavigation = [
+  { href: "/work", label: "Work" },
   { href: "/the-atelier", label: "The Atelier" },
   { href: "/services", label: "Services" },
   { href: "/contact", label: "Contact" },
@@ -20,12 +21,9 @@ function MenuGlyph({ open }: { open: boolean }) {
   );
 }
 
-export function SiteHeader({ showWork }: { showWork: boolean }) {
+export function SiteHeader() {
   const pathname = usePathname();
   const overlaysHero = pathname === "/";
-  const navigation = showWork
-    ? [{ href: "/work", label: "Work" }, ...primaryNavigation]
-    : primaryNavigation;
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const navigationRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
@@ -123,7 +121,7 @@ export function SiteHeader({ showWork }: { showWork: boolean }) {
           ref={navigationRef}
         >
           <div className="site-nav__links">
-            {navigation.map((item) => {
+            {primaryNavigation.map((item) => {
               const active =
                 pathname === item.href || pathname.startsWith(`${item.href}/`);
 

@@ -130,7 +130,7 @@ This section distinguishes confirmed client direction from design proposals and 
 - `Aether Editorial Atelier` is the working creative north star derived from the brand story and reference research.
 - Home opens directly on the supplied full-screen looping video with centered “Define your era.” and the underlined Enter the Atelier action.
 - The approved positioning statement follows as a large two-line desktop section aligned to the shared content gutter.
-- Selected Work and Selected Partners are omitted when no approved records pass `src/lib/content-readiness.ts`; Work also disappears from navigation and public route discovery in that state.
+- Selected Partners remains omitted when no approved records pass `src/lib/content-readiness.ts`. For the current client review, Work is visible in navigation and route discovery, Home shows three work-layout items, and Work shows six; missing approved records are filled with explicitly labelled, non-clickable review previews.
 - Home keeps one What We Do preview and one Explore Services action. Discover / Define / Create / Elevate belongs on The Atelier only.
 - One reusable maroon “Let's define your era together.” CTA leads into a compact graphite footer across public pages.
 - The monogram may become a signature scale, crop, or 3D moment. Start with a flat motion study and add 3D only if it improves the supplied mark and remains performant.
@@ -300,7 +300,7 @@ The Home page opens immediately on the supplied full-screen video, set to autopl
 - Open with one large landscape frame, then a narrower portrait rail.
 - Separate imagery from metadata with a hairline caption band.
 - Use only real project names and media when supplied.
-- Before project media exists, omit the section entirely. Never show preparation messaging or an art-direction study as launch portfolio proof.
+- During client review, use clearly labelled non-clickable preview items only to assess layout; they are never launch portfolio proof. Replace or remove every preview before launch.
 
 ### The Atelier
 

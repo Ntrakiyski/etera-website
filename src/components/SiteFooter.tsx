@@ -3,18 +3,20 @@ import Link from "next/link";
 
 import type { SiteSettingsContent } from "@/lib/cms";
 import { ArrowIcon } from "./ArrowIcon";
+import { SocialIcon } from "./SocialIcon";
 
 export function SiteFooter({
   settings,
-  showWork,
 }: {
   settings: SiteSettingsContent;
-  showWork: boolean;
 }) {
   return (
     <footer className="site-footer">
       <div className="site-footer__cta">
-        <h2>Let&apos;s Define Your Era Together.</h2>
+        <h2>
+          <span>Let&apos;s Define</span>
+          <span>Your Era Together.</span>
+        </h2>
         <Link className="site-footer__cta-link" href="/contact#inquiry">
           Start a Project
           <ArrowIcon />
@@ -31,7 +33,7 @@ export function SiteFooter({
           />
         </Link>
         <nav aria-label="Footer navigation" className="site-footer__nav">
-          {showWork ? <Link href="/work">Work</Link> : null}
+          <Link href="/work">Work</Link>
           <Link href="/the-atelier">The Atelier</Link>
           <Link href="/services">Services</Link>
           <Link href="/contact">Contact</Link>
@@ -42,6 +44,7 @@ export function SiteFooter({
             <div className="site-footer__socials">
               {settings.socialLinks.map((link) => (
                 <a href={link.url} key={link.url} rel="noreferrer" target="_blank">
+                  <SocialIcon label={link.label} />
                   {link.label}
                 </a>
               ))}

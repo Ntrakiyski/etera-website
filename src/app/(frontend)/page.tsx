@@ -9,6 +9,7 @@ import { ServiceIndex } from "@/components/ServiceIndex";
 import {
   getAtelierPage,
   getHomePage,
+  getProjects,
   getServices,
   getSiteSettings,
 } from "@/lib/cms";
@@ -17,6 +18,11 @@ import {
   isLaunchReadyProject,
 } from "@/lib/content-readiness";
 import { getSiteUrl } from "@/lib/site";
+import {
+  fillProjectPreview,
+  projectCardItem,
+  type ProjectCardItem,
+} from "@/lib/project-previews";
 
 export const dynamic = "force-dynamic";
 
@@ -55,12 +61,24 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [home, atelier, services] = await Promise.all([
+  const [home, atelier, services, allProjects] = await Promise.all([
     getHomePage(),
     getAtelierPage(),
     getServices(),
+    getProjects(),
   ]);
-  const projects = home.featuredProjects.filter(isLaunchReadyProject);
+  const readyProjects = allProjects.filter(isLaunchReadyProject);
+  const featuredIds = new Set(home.featuredProjects.map((project) => project.id));
+  const orderedProjects = [
+    ...home.featuredProjects.filter(isLaunchReadyProject),
+    ...readyProjects.filter((project) => !featuredIds.has(project.id)),
+  ];
+  const projects = fillProjectPreview(
+    orderedProjects
+      .map(projectCardItem)
+      .filter((project): project is ProjectCardItem => Boolean(project)),
+    3,
+  );
   const partners = home.featuredPartners.filter(isLaunchReadyPartner);
 
   return (
@@ -83,38 +101,56 @@ export default async function Home() {
         </h2>
       </section>
 
-      {projects.length > 0 ? (
-        <section className="work-preview" id="selected-work">
-          <div className="work-preview__heading">
-            <h2>Selected Work</h2>
-          </div>
-          <div className="project-preview-grid">
-            {projects.slice(0, 3).map((project, index) => (
-              <Link
-                className="project-preview"
-                data-orientation={index % 2 === 0 ? "landscape" : "portrait"}
-                href={`/work/${project.slug}`}
-                key={project.id}
-              >
+      <section className="work-preview" id="selected-work">
+        <div className="work-preview__heading">
+          <h2>Selected Work</h2>
+        </div>
+        <div className="project-preview-grid">
+          {projects.map((project, index) => {
+            const content = (
+              <>
                 <div className="project-preview__media">
                   <Image
-                    alt={project.heroImage?.alt ?? ""}
-                    height={project.heroImage?.height ?? 900}
+                    alt={project.heroImage.alt}
+                    height={project.heroImage.height ?? 900}
                     sizes="(max-width: 767px) 100vw, 70vw"
-                    src={project.heroImage?.url ?? ""}
+                    src={project.heroImage.url}
                     unoptimized
-                    width={project.heroImage?.width ?? 1200}
+                    width={project.heroImage.width ?? 1200}
                   />
                 </div>
                 <div className="project-preview__meta">
                   <strong>{project.projectName}</strong>
-                  <span>{[project.clientName, project.year].filter(Boolean).join(" / ")}</span>
+                  <span>
+                    {[project.clientName, project.year]
+                      .filter(Boolean)
+                      .join(" / ")}
+                  </span>
                 </div>
+              </>
+            );
+
+            return project.href ? (
+              <Link
+                className="project-preview"
+                data-orientation={index % 2 === 0 ? "landscape" : "portrait"}
+                href={project.href}
+                key={project.id}
+              >
+                {content}
               </Link>
-            ))}
-          </div>
-        </section>
-      ) : null}
+            ) : (
+              <article
+                className="project-preview project-preview--review"
+                data-orientation={index % 2 === 0 ? "landscape" : "portrait"}
+                key={project.id}
+              >
+                {content}
+              </article>
+            );
+          })}
+        </div>
+      </section>
 
       <section className="atelier-preview">
         <AetherMedia label="Inside the Atelier" study="atelier" />
