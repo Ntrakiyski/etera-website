@@ -286,7 +286,9 @@ This is the design proposal to present for confirmation.
 
 ### Opening Sequence
 
-The Home page opens immediately on the supplied full-screen video, set to autoplay, loop, muted, and play inline. Center “Define your era.” over the media with one underlined Enter the Atelier action. Use a restrained contrast layer only when required for legibility. Reduced-motion users receive a stable frame without delayed access to content.
+The Home page opens immediately on the supplied full-screen video, set to autoplay, loop, muted, and play inline. Center “Define your era.” over the media with one underlined Enter the Atelier action. Use a restrained contrast layer only when required for legibility.
+
+The approved scroll transition joins this hero to the milk positioning field in a 160–200svh pinned sequence. “Define your” rises and fades, `era.` eases into and remains at the visual center, and the action retracts. The milk field then wipes upward; aligned white and maroon copies let its horizontal boundary recolor `era.` without moving it. Once the milk field mostly covers the hero, `era.` fades in place and the two-line positioning statement rises into its settled composition. The video continues normal autoplay with a subtle scale and no timeline scrubbing. Reduced-motion users receive the hero and positioning section in normal document flow with no pinning or scroll-linked transforms.
 
 ### Home Hero
 

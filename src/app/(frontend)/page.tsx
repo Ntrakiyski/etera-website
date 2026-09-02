@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { AetherMedia } from "@/components/AetherMedia";
 import { EditorialLink } from "@/components/EditorialLink";
-import { HeroVideo } from "@/components/HeroVideo";
+import { HomeHeroSequence } from "@/components/HomeHeroSequence";
 import { ServiceIndex } from "@/components/ServiceIndex";
 import {
   getAtelierPage,
@@ -83,23 +83,7 @@ export default async function Home() {
 
   return (
     <main id="main-content" tabIndex={-1}>
-      <section className="home-hero">
-        <HeroVideo />
-        <div className="home-hero__copy">
-          <h1>Define your era.</h1>
-          <EditorialLink href="/the-atelier">Enter the atelier</EditorialLink>
-        </div>
-      </section>
-
-      <section
-        aria-labelledby="home-positioning-title"
-        className="home-positioning"
-      >
-        <h2 id="home-positioning-title">
-          <span>ETÉRA is a creative atelier that</span>{" "}
-          <span>builds presence and shapes culture.</span>
-        </h2>
-      </section>
+      <HomeHeroSequence />
 
       <section className="work-preview" id="selected-work">
         <div className="work-preview__heading">

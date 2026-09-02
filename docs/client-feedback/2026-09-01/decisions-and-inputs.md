@@ -52,6 +52,16 @@ Confirmed on 2 September 2026 through the client implementation handoff: preserv
 - Add recognizable icons to the existing footer social links.
 - Change the Home hero's underlined Enter the Atelier action to the confirmed maroon accent on hover.
 
+## Approved Home transition — 2 September 2026
+
+- Join the existing Home hero and milk positioning field in one restrained scroll-driven sequence. Desktop receives the complete pinned transition; tablet and mobile retain a shorter responsive version.
+- Keep the video autoplaying normally and scale it only slightly. Do not scrub `video.currentTime`.
+- Move and fade “Define your” while `era.` eases into the visual center. Retract and fade the Enter the Atelier action without compromising its initial pointer or keyboard access.
+- Raise the milk positioning field as a horizontal boundary. Use aligned white and maroon copies so the boundary visibly changes `era.` from white over video to maroon over milk.
+- Keep `era.` centered while the boundary crosses it, then fade it away in place before revealing the approved two-line positioning statement. The upper-left `era.` placement in the third composition reference is explicitly rejected.
+- Implement the interaction with one passive scroll listener and `requestAnimationFrame`, expose normalized progress to CSS, and animate compositor-friendly properties.
+- Under reduced motion, remove pinning and scroll-linked transforms and render the existing hero followed by the settled positioning section in normal document flow.
+
 ## Deliberate exclusions
 
 The meeting recording, extracted audio, automatic transcript, credentials, personal scheduling discussion, model cache, virtual environment, and transcription scripts are intentionally not part of this branch. This document contains the implementation-relevant decisions only.

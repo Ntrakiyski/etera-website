@@ -11,6 +11,7 @@ Job: Make ETÉRA unmistakable in the first viewport and explain the atelier prom
 Direction:
 
 - Lead with the supplied full-viewport video, centered "Define your era.", and the underlined Enter the Atelier action.
+- Join the hero and positioning field with the approved pinned transition: “Define your” exits upward, `era.` eases into the center, the rising milk boundary changes it from white to maroon, and it fades in place before the positioning line settles. Never move `era.` to a corner.
 - Follow with the approved two-line positioning statement and one What We Do preview with a single Explore Services action.
 - Omit Method and Selected Partners at launch unless their existing CMS records pass the shared launch-readiness checks. During the current client review, show three Selected Work items and fill missing approved projects with clearly labelled non-clickable previews.
 - Close with the reusable maroon "Let's define your era together." CTA/footer pattern.
