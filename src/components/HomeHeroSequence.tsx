@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 import { EditorialLink } from "./EditorialLink";
@@ -13,29 +14,31 @@ function progressBetween(progress: number, start: number, end: number) {
   return clamp((progress - start) / (end - start));
 }
 
+function easeInOut(progress: number) {
+  return progress * progress * (3 - 2 * progress);
+}
+
 export function HomeHeroSequence() {
   const sequenceRef = useRef<HTMLDivElement>(null);
   const eraRef = useRef<HTMLSpanElement>(null);
+  const submarkRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sequence = sequenceRef.current;
     const era = eraRef.current;
+    const submark = submarkRef.current;
     const cta = sequence?.querySelector<HTMLAnchorElement>(".editorial-link");
-    const eraColor = sequence?.querySelector<HTMLElement>(
-      ".home-hero__era-color span",
-    );
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    if (!sequence || !era || !cta || !eraColor) {
+    if (!sequence || !era || !submark || !cta) {
       return;
     }
 
     const sequenceElement = sequence;
     const eraElement = era;
-    const eraColorElement = eraColor;
+    const submarkElement = submark;
     const ctaElement = cta;
     let animationFrame = 0;
-    let eraColorTranslate = 0;
     let eraTranslate = 0;
     let eraTranslateY = 0;
 
@@ -64,11 +67,24 @@ export function HomeHeroSequence() {
       );
       const progress = clamp((window.scrollY - sequenceTop) / travel);
       const leadProgress = progressBetween(progress, 0.06, 0.36);
-      const eraCenterProgress = progressBetween(progress, 0.08, 0.36);
+      const eraCenterProgress = easeInOut(
+        progressBetween(progress, 0.08, 0.36),
+      );
+      const eraExitProgress = easeInOut(
+        progressBetween(progress, 0.32, 0.66),
+      );
       const ctaProgress = progressBetween(progress, 0.08, 0.34);
-      const wipeProgress = progressBetween(progress, 0.38, 0.82);
-      const eraFadeProgress = progressBetween(progress, 0.75, 0.9);
-      const statementProgress = progressBetween(progress, 0.8, 0.98);
+      const wipeProgress = easeInOut(progressBetween(progress, 0.34, 0.72));
+      const submarkEnterProgress = easeInOut(
+        progressBetween(progress, 0.56, 0.72),
+      );
+      const submarkExitProgress = easeInOut(
+        progressBetween(progress, 0.8, 0.91),
+      );
+      const submarkRevealProgress = progressBetween(progress, 0.56, 0.64);
+      const statementProgress = easeInOut(
+        progressBetween(progress, 0.89, 0.99),
+      );
       const eraRect = eraElement.getBoundingClientRect();
       const untransformedEraCenter =
         eraRect.left + eraRect.width / 2 - eraTranslate;
@@ -76,13 +92,22 @@ export function HomeHeroSequence() {
         eraRect.top + eraRect.height / 2 - eraTranslateY;
       const eraShift = window.innerWidth / 2 - untransformedEraCenter;
       const eraShiftY = window.innerHeight / 2 - untransformedEraCenterY;
-      eraTranslate = eraShift * eraCenterProgress;
+      const eraExitShift =
+        -window.innerWidth / 2 - eraRect.width / 2 - 32;
+      eraTranslate =
+        eraShift * eraCenterProgress + eraExitShift * eraExitProgress;
       eraTranslateY = eraShiftY * eraCenterProgress;
-      const eraColorRect = eraColorElement.getBoundingClientRect();
-      const untransformedEraColorCenter =
-        eraColorRect.top + eraColorRect.height / 2 - eraColorTranslate;
-      eraColorTranslate =
-        untransformedEraCenterY + eraTranslateY - untransformedEraColorCenter;
+      const submarkRect = submarkElement.getBoundingClientRect();
+      const submarkStartX =
+        window.innerWidth / 2 + submarkRect.width / 2 + 32;
+      const submarkExitShift = -window.innerWidth * 0.08;
+      const submarkTranslate =
+        submarkStartX * (1 - submarkEnterProgress) +
+        submarkExitShift * submarkExitProgress;
+      const submarkOpacity = Math.min(
+        submarkRevealProgress,
+        1 - submarkExitProgress,
+      );
 
       sequenceElement.style.setProperty("--home-progress", progress.toFixed(4));
       sequenceElement.style.setProperty(
@@ -110,12 +135,12 @@ export function HomeHeroSequence() {
         `${eraTranslateY.toFixed(2)}px`,
       );
       sequenceElement.style.setProperty(
-        "--home-era-opacity",
-        (1 - eraFadeProgress).toFixed(4),
+        "--home-submark-x",
+        `${submarkTranslate.toFixed(2)}px`,
       );
       sequenceElement.style.setProperty(
-        "--home-era-color-y",
-        `${eraColorTranslate.toFixed(2)}px`,
+        "--home-submark-opacity",
+        submarkOpacity.toFixed(4),
       );
       sequenceElement.style.setProperty(
         "--home-cta-opacity",
@@ -127,10 +152,6 @@ export function HomeHeroSequence() {
       );
       sequenceElement.style.setProperty(
         "--home-panel-y",
-        `${((1 - wipeProgress) * 100).toFixed(3)}%`,
-      );
-      sequenceElement.style.setProperty(
-        "--home-era-clip",
         `${((1 - wipeProgress) * 100).toFixed(3)}%`,
       );
       sequenceElement.style.setProperty(
@@ -201,14 +222,24 @@ export function HomeHeroSequence() {
         >
           <div className="home-positioning__inner">
             <h2 id="home-positioning-title">
-              <span>ETÉRA is a creative atelier that</span>{" "}
+              <span>We are a creative atelier that</span>{" "}
               <span>builds presence and shapes culture.</span>
             </h2>
           </div>
         </section>
 
-        <div aria-hidden="true" className="home-hero__era-color">
-          <span>era.</span>
+        <div
+          aria-hidden="true"
+          className="home-hero__submark"
+          ref={submarkRef}
+        >
+          <Image
+            alt=""
+            height={1000}
+            src="/design/assets/submark-etera-red.svg"
+            unoptimized
+            width={1000}
+          />
         </div>
       </div>
     </div>

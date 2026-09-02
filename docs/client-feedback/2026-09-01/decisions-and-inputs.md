@@ -56,9 +56,9 @@ Confirmed on 2 September 2026 through the client implementation handoff: preserv
 
 - Join the existing Home hero and milk positioning field in one restrained scroll-driven sequence. Desktop receives the complete pinned transition; tablet and mobile retain a shorter responsive version.
 - Keep the video autoplaying normally and scale it only slightly. Do not scrub `video.currentTime`.
-- Move and fade “Define your” while `era.` eases into the visual center. Retract and fade the Enter the Atelier action without compromising its initial pointer or keyboard access.
-- Raise the milk positioning field as a horizontal boundary. Use aligned white and maroon copies so the boundary visibly changes `era.` from white over video to maroon over milk.
-- Keep `era.` centered while the boundary crosses it, then fade it away in place before revealing the approved two-line positioning statement. The upper-left `era.` placement in the third composition reference is explicitly rejected.
+- Move and fade “Define your” while `era.` continues travelling left until it clears the viewport. Retract and fade the Enter the Atelier action without compromising its initial pointer or keyboard access.
+- Raise the milk positioning field as a horizontal boundary over the white `era.`. As it crosses, introduce the supplied red ETÉRA submark from the right; let it settle briefly, then fade and drift away.
+- Reveal the approved two-line positioning statement only after the submark disappears, changing its opening to “We are a creative atelier”. The earlier centered recolour treatment and the upper-left `era.` placement are superseded.
 - Implement the interaction with one passive scroll listener and `requestAnimationFrame`, expose normalized progress to CSS, and animate compositor-friendly properties.
 - Under reduced motion, remove pinning and scroll-linked transforms and render the existing hero followed by the settled positioning section in normal document flow.
 
