@@ -30,6 +30,8 @@ Job: Show ETÉRA's work as curated cultural proof.
 Direction:
 
 - Keep the Work navigation entry and route visible during client review, showing six items in total. Fill missing approved projects with clearly labelled non-clickable previews and replace or remove those previews before launch.
+- Replace numbered placeholder titles with the real selected-experience names available in the supplied founder profiles. Keep these records review-only until ETÉRA confirms them as atelier case studies.
+- Treat each review project card as one complete hover target. On fine pointers, replace the native cursor inside the card with a circular white “Read more →” label that follows the pointer; keep the card destination-free for now. Do not show the custom cursor on touch devices.
 - Once visuals arrive, prioritize large image/video crops, project names, role, year, and a concise context line.
 - Prepare the structure for future details: client, project, role, context, visuals, KPIs, and collaborators.
 

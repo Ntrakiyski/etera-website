@@ -51,6 +51,8 @@ Confirmed on 2 September 2026 through the client implementation handoff: preserv
 - Keep the shared closing statement on exactly two controlled lines at every supported viewport.
 - Add recognizable icons to the existing footer social links.
 - Change the Home hero's underlined Enter the Atelier action to the confirmed maroon accent on hover.
+- Replace the numbered project-review labels with selected-experience names drawn from the supplied Alexandra and Yoana profile material. These are review labels, not launch-ready ETÉRA case-study claims.
+- Make every Home and Work project card the hover target for a circular white “Read more →” cursor that follows the pointer. Keep review cards destination-free for now and omit the custom cursor on coarse/touch pointers.
 
 ## Approved Home transition — 2 September 2026
 

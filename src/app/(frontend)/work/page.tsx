@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
-import { ArrowIcon } from "@/components/ArrowIcon";
+import { ProjectHoverCard } from "@/components/ProjectHoverCard";
 import { getProjects, getWorkPage } from "@/lib/cms";
 import { isLaunchReadyProject } from "@/lib/content-readiness";
 import { buildPageMetadata } from "@/lib/metadata";
@@ -55,6 +54,7 @@ export default async function WorkPage() {
                   sizes="(max-width: 767px) 100vw, 85vw"
                   src={project.heroImage.url}
                   unoptimized
+                  preload={index === 0}
                   width={project.heroImage.width ?? 1400}
                 />
               </div>
@@ -65,29 +65,19 @@ export default async function WorkPage() {
                 </div>
                 <div>
                   <span>{project.year}</span>
-                  {project.href ? <ArrowIcon /> : <span>Preview</span>}
                 </div>
               </div>
             </>
           );
 
-          return project.href ? (
-            <Link
-              className="work-index__item"
-              data-layout={index % 3 === 1 ? "offset" : "wide"}
-              href={project.href}
-              key={project.id}
-            >
-              {content}
-            </Link>
-          ) : (
-            <article
+          return (
+            <ProjectHoverCard
               className="work-index__item work-index__item--review"
-              data-layout={index % 3 === 1 ? "offset" : "wide"}
               key={project.id}
+              layout={index % 3 === 1 ? "offset" : "wide"}
             >
               {content}
-            </article>
+            </ProjectHoverCard>
           );
         })}
       </section>

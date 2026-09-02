@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 import { AetherMedia } from "@/components/AetherMedia";
 import { EditorialLink } from "@/components/EditorialLink";
 import { HomeHeroSequence } from "@/components/HomeHeroSequence";
+import { ProjectHoverCard } from "@/components/ProjectHoverCard";
 import { ServiceIndex } from "@/components/ServiceIndex";
 import {
   getAtelierPage,
@@ -114,23 +114,14 @@ export default async function Home() {
               </>
             );
 
-            return project.href ? (
-              <Link
-                className="project-preview"
-                data-orientation={index % 2 === 0 ? "landscape" : "portrait"}
-                href={project.href}
-                key={project.id}
-              >
-                {content}
-              </Link>
-            ) : (
-              <article
+            return (
+              <ProjectHoverCard
                 className="project-preview project-preview--review"
-                data-orientation={index % 2 === 0 ? "landscape" : "portrait"}
                 key={project.id}
+                orientation={index % 2 === 0 ? "landscape" : "portrait"}
               >
                 {content}
-              </article>
+              </ProjectHoverCard>
             );
           })}
         </div>

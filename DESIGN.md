@@ -360,6 +360,7 @@ Current proposal assets:
 - **Monogram reveal:** scale, crop, or lateral movement over 800-1400ms.
 - **Image entrance:** clip-path or masked reveal aligned to the editorial grid; no parallax for every image.
 - **Project rail:** one controlled vertical or horizontal offset tied to scroll.
+- **Project cursor:** on fine pointers only, a compact circular milk-white “Read more →” label follows the pointer within the full project card. The card remains the interaction boundary; touch devices retain their native behavior.
 - **Marquee:** allowed once for a short method or closing phrase, never as background noise.
 - **Hover:** image crop shifts 1-2%, metadata line changes to maroon, and text links underline.
 - Respect `prefers-reduced-motion`; all content must remain complete without animation.
