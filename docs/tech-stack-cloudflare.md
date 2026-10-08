@@ -226,3 +226,16 @@ Common symptoms:
 - Keep migrations in `src/migrations` committed.
 - Keep `wrangler.jsonc` as the source of truth for Cloudflare bindings and custom domain routing.
 - When changing the domain, update `wrangler.jsonc`, deploy, and verify DNS plus HTTPS.
+
+## Offline release verification
+
+Build with the production origin explicitly, since NEXT_PUBLIC_SITE_URL is embedded at build time:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://etera.trakiyski.work PAYLOAD_CLOUDFLARE_LOCAL=1 npm run cf:build
+npx wrangler dev --local --port 8787
+```
+
+Check Home and the CMS-backed public pages in this compiled Worker before deployment. Payload detects the Worker runtime through WebSocketPair so offline-build flags cannot select the Node-only Wrangler proxy at runtime. Stop the local Worker, then deploy the existing bundle with `npx wrangler deploy --minify`.
+
+If local `.env` selects local bindings, override that flag for production migrations: `PAYLOAD_CLOUDFLARE_LOCAL=0 npm run cf:migrate`. This applies committed migrations to remote D1 without overwriting content.
