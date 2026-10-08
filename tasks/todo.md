@@ -138,3 +138,11 @@ Constraints: Preserve original photos and CMS portrait overrides; no email sendi
 - [x] Update client wording and record evidence.
 
 Review: Added two optimized JPEG portraits with 160px circular face crops, retaining CMS portrait overrides. Local and live 1440/390px checks confirm both images loaded, dimensions and no horizontal overflow; screenshots reviewed. Lint, production Cloudflare build and diff check passed. Deployed Worker version 5a08e3a9-f4dc-441a-ab5f-86919cb74a0d. Client wording now includes portraits and planned Resend domain setup; no credentials or email integration changed.
+
+## Rectangular portrait refinement
+
+Goal: Taller compact rectangles with looser head framing.
+- [x] Adjust shared portrait CSS and visually check desktop/mobile.
+- [x] Build, publish and verify live photos.
+
+Review: Portraits now use 160×240px rectangles and 1.25× zoom instead of circles and 1.65× zoom. Both full heads are visible in reviewed desktop/mobile screenshots. Lint, TypeScript production build and diff check passed; Cloudflare deployment and live geometry/image-load checks passed at 1440/390px. Original photos and CMS overrides preserved.

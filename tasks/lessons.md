@@ -76,3 +76,10 @@ Mistake: Earlier email treated iPhone playback as unverified after the user conf
 Why it happened: Verification status was not updated from direct user testing.
 Rule for next time: Record user-confirmed iPhone behaviour separately from desktop Safari; omit the Safari paragraph from this client email as requested.
 Example check: iPhone works per user; desktop Safari issue remains outside policy publication scope.
+
+## 2026-10-08 - Founder portrait framing
+
+Mistake: Circular face crops cut off the tops of the founders’ heads.
+Why it happened: LinkedIn-style was interpreted as circular and tightly zoomed.
+Rule for next time: Use the requested taller rectangular framing and preserve the full head with space above it.
+Example check: Inspect both portraits before publishing, including the hairline and chin.
