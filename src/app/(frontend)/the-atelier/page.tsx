@@ -55,24 +55,29 @@ export default async function TheAtelierPage() {
           </p>
         </div>
         <div className="people-grid">
-          {page.teamMembers.map((person) => (
-            <article key={person.id}>
-              {person.portrait ? (
-                <div className="people-grid__portrait">
-                  <Image
-                    alt={`Portrait of ${person.name}`}
-                    fill
-                    sizes="(max-width: 767px) 100vw, 45vw"
-                    src={person.portrait.url}
-                    unoptimized
-                  />
-                </div>
-              ) : null}
-              <p>{person.position}</p>
-              <h3>{person.name}</h3>
-              <p>{person.description}</p>
-            </article>
-          ))}
+          {page.teamMembers.map((person) => {
+            const portrait = person.portrait?.url ?? (person.name.startsWith("Alexandra")
+              ? "/media/alexandra-profile.jpg"
+              : /^(Yoana|Joana)/.test(person.name) ? "/media/joana-profile.jpg" : null);
+            return (
+              <article key={person.id}>
+                {portrait ? (
+                  <div className="people-grid__portrait">
+                    <Image
+                      alt={`Portrait of ${person.name}`}
+                      fill
+                      sizes="160px"
+                      src={portrait}
+                      unoptimized
+                    />
+                  </div>
+                ) : null}
+                <p>{person.position}</p>
+                <h3>{person.name}</h3>
+                <p>{person.description}</p>
+              </article>
+            );
+          })}
         </div>
       </section>
 

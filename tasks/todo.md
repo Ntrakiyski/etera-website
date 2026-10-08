@@ -128,3 +128,13 @@ Goal: publish three client-supplied Word documents as readable website pages, de
 - [x] Push main, deploy and verify live policies; prepare updated email.
 
 Review: Three policy pages published on Cloudflare from b3c3b1a. All extracted text matches Word sources; six local and six live page/viewport checks passed for complete text, links and no overflow. Desktop/mobile screenshots reviewed. Lint/build/TypeScript passed. Legal links added to footer/related navigation/sitemap. Client email updated in singular Bulgarian, legal documents removed from outstanding inputs and Safari paragraph omitted as requested.
+
+## Founder profile photos
+
+Goal: Show supplied founder portraits as compact, face-focused profile photos and reflect planned Resend setup in client wording.
+Constraints: Preserve original photos and CMS portrait overrides; no email sending until Resend account/domain credentials are available.
+- [x] Add optimized portraits and compact face crops.
+- [x] Verify desktop/mobile rendering, build and deploy.
+- [x] Update client wording and record evidence.
+
+Review: Added two optimized JPEG portraits with 160px circular face crops, retaining CMS portrait overrides. Local and live 1440/390px checks confirm both images loaded, dimensions and no horizontal overflow; screenshots reviewed. Lint, production Cloudflare build and diff check passed. Deployed Worker version 5a08e3a9-f4dc-441a-ab5f-86919cb74a0d. Client wording now includes portraits and planned Resend domain setup; no credentials or email integration changed.
