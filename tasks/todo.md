@@ -180,3 +180,18 @@ Constraints: Preserve existing metadata until editors change it; no keywords/ran
 - [x] Deploy, verify live and document usage/limits.
 
 Review: Added Settings → SEO & Social Sharing for all seven public pages. Published values drive search/social tags, canonical URLs, uploaded sharing images/site icon, Google verification, structured data, robots and sitemap. Existing defaults and editor data preserved with two additive tables; production snapshot checks found no changed existing rows. Eleven tests, lint, TypeScript and OpenNext build passed. Local authenticated save/publish, drafts, image selection, URL validation and anonymous-write checks passed. Live metadata, icons, robots/sitemap and public SEO values verified. Cloudflare Worker 4d72e9c1-19d5-4069-9de0-67d02929226c deployed. Guide: docs/seo-editing-guide.md. Actual Google/social platform previews were not checked and may cache or rewrite website metadata.
+
+## Direct enquiry delivery with Resend
+
+Goal: Submit the website form directly to hello@eteracreative.com, CC the visitor, and BCC ystoyanova@eteracreative.com and adjurdjevic@eteracreative.com.
+Constraints: Resend API key stays in ignored local env/Cloudflare secrets. Use the verified eteracreative.com sender, fixed server-side recipients, server validation, bounded requests, abuse limits and duplicate-send protection. Preserve CMS copy controls and existing layout. Test emails are explicitly marked; no enquiry database or marketing subscription.
+- [x] Verify Resend domain and Cloudflare access; configure server-side secret.
+- [x] Implement validated delivery endpoint and replace mailto with sending/success/error states.
+- [x] Update CMS form instructions and verify routing, validation, failures and duplicate protection.
+- [x] Build, deploy, push main and verify a clearly marked live test email and responsive form.
+
+Verification: Unit tests; lint/types/build; local browser success/error/validation; Resend accepted message/recipient details; live form/metadata checks. Mailbox arrival is distinct from API acceptance.
+
+Template: responsive branded HTML with approved PNG logo, cream/red/black, website typography with email-safe fallbacks and complete plain-text alternative. Added managed Turnstile, five-attempt/minute per-location IP/address limits and fixed routing. Local desktop/mobile failure/retry/success flow and actual Worker rate binding passed. Additive copy migration verified against production snapshot; all existing rows preserved.
+
+Review: Direct Resend delivery deployed as Worker 69486882-cc46-491d-a209-96bf603d665a. Verified domain/DKIM/SPF, secured keys in Cloudflare secrets and confirmed no key in public build assets. TO/CC/BCC/Reply-To exactly match requested routing. One marked enquiry submitted through real Chrome with production Turnstile; website confirmed success and Resend message 01a11c3b-47e7-7b33-8db6-b1e1922628be reports delivered. Seventeen tests, lint, TypeScript/OpenNext build, local desktop/mobile failure/retry/success, actual Worker rate binding, additive schema preservation and live malformed/cross-origin rejection checks passed. Actual sent HTML visually rendered at desktop/mobile with live PNG logo. Automated clean-profile Chrome could not complete real Turnstile, so verification used normal Chrome without bypassing protection. Inbox/spam placement for each recipient and Outlook/Gmail rendering were not independently checked. Email clients may substitute fonts/block external images. Enquiries remain out of the CMS; no marketing subscription. Guide: docs/inquiry-email-setup.md.

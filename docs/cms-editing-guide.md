@@ -7,7 +7,7 @@ Open https://etera.trakiyski.work/admin and sign in with an editor or admin acco
 | Home Page | Hero headline/button/positioning text, video and poster; Atelier preview image/link; Services preview heading/introduction/link; partner heading and selected partners. The Atelier preview heading/introduction comes from The Atelier Page. |
 | The Atelier Page | Hero; story heading, both paragraphs and image; team introduction; names, roles, biographies and portrait uploads; Method logo, heading, introduction, ordered steps and Services link. |
 | Services Page + Services | Page hero, capabilities introduction and category labels; individual service names, summaries and rich-text details in Services. |
-| Contact Page | Hero and recipient email; booking introduction; every visible form label, service checkbox choice, validation message and email-draft status/link. Booking URL is in Site Settings. |
+| Contact Page | Hero and displayed contact email; booking introduction; every visible form label, service checkbox choice, validation message and sending/success/error/security status. Booking URL is in Site Settings. |
 | Legal Pages | Titles and rich-text bodies of Terms, Privacy and Cookie policies, preserving approved documents initially. |
 | Site Settings | Header/footer page labels, menu labels, red CTA text, project button, copyright and policy link labels; red/white logos, email, booking URL, social links. SEO has its own Settings section. |
 
@@ -17,6 +17,6 @@ Use Publish for page updates. Save Draft leaves the current public version uncha
 
 People and Projects collections contain earlier/future portfolio records. The visible founder cards are edited in The Atelier Page → Team Members, not People. Public Work pages remain deferred. Services and Contact currently use typography rather than decorative images, so no new image sections were introduced.
 
-The layout, colours and animation remain code-managed. The inquiry form still prepares an email draft until Resend is configured.
+The layout, colours and animation remain code-managed. The inquiry form sends directly through Resend. Delivery recipients are fixed server-side: hello@eteracreative.com, visitor CC and both founders BCC. The displayed Contact email is the fallback contact link. See [email setup](inquiry-email-setup.md).
 
 Search snippets, social cards, website icon and indexing: see [SEO editing guide](seo-editing-guide.md).

@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useRef, useState } from "react";
+
+import { InquiryTurnstile } from "@/components/InquiryTurnstile";
 
 import type { InquiryLabels } from "@/lib/cms";
 import {
@@ -21,38 +23,33 @@ const emptyDraft: InquiryDraft = {
   services: [],
 };
 
-function buildMailto(recipient: string, draft: InquiryDraft) {
-  const subject = `Project inquiry from ${draft.name}${draft.brand ? `, ${draft.brand}` : ""}`;
-  const body = [
-    `Full name: ${draft.name}`,
-    `Company Name: ${draft.brand || "Not provided"}`,
-    `Email: ${draft.email}`,
-    `What can we help with?: ${draft.services.join(", ")}`,
-    `Budget: ${draft.budget || "Not provided"}`,
-    "",
-    "Project details:",
-    draft.project,
-    "",
-    "Additional information:",
-    draft.additional || "Not provided",
-  ].join("\n");
-
-  return `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
 export function InquiryForm({
   email,
   labels,
   serviceOptions,
+  siteKey,
 }: {
   email: string;
   labels: InquiryLabels;
   serviceOptions: string[];
+  siteKey: string;
 }) {
   const [draft, setDraft] = useState<InquiryDraft>(emptyDraft);
   const [ready, setReady] = useState(false);
   const [errors, setErrors] = useState<InquiryErrors>({});
-  const mailto = useMemo(() => buildMailto(email, draft), [draft, email]);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
+  const [website, setWebsite] = useState("");
+  const submissionId = useRef<string | null>(null);
+  const inFlight = useRef(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [verificationReset, setVerificationReset] = useState(0);
+
+  function changed() {
+    submissionId.current = null;
+    setReady(false);
+    setSendError("");
+  }
 
   function update(field: InquiryTextField, value: string) {
     const next = { ...draft, [field]: value };
@@ -62,7 +59,7 @@ export function InquiryForm({
         ...current,
         [field]: validateInquiry(next)[field],
       }));
-    setReady(false);
+    changed();
   }
 
   function updateService(service: string, checked: boolean) {
@@ -72,7 +69,7 @@ export function InquiryForm({
         ? [...current.services, service]
         : current.services.filter((item) => item !== service),
     }));
-    setReady(false);
+    changed();
     setErrors((current) => ({ ...current, services: undefined }));
   }
 
@@ -81,8 +78,10 @@ export function InquiryForm({
       className="inquiry-form"
       id="inquiry"
       noValidate
-      onSubmit={(event) => {
+      aria-busy={sending}
+      onSubmit={async (event) => {
         event.preventDefault();
+        if (inFlight.current || ready) return;
 
         const nextErrors = validateInquiry(draft);
         setErrors(nextErrors);
@@ -93,16 +92,45 @@ export function InquiryForm({
             ?.focus();
           return;
         }
-        setDraft((current) => ({
-          ...current,
-          name: current.name.trim(),
-          email: current.email.trim(),
-          project: current.project.trim(),
-        }));
-
-        setReady(true);
+        if (!turnstileToken) {
+          setSendError(labels.verificationError);
+          return;
+        }
+        submissionId.current ??= crypto.randomUUID();
+        inFlight.current = true;
+        setSending(true);
+        setSendError("");
+        try {
+          const response = await fetch("/api/inquiry", {
+            method: "POST",
+            signal: AbortSignal.timeout(30000),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...draft, submissionId: submissionId.current, website, turnstileToken }),
+          });
+          const result = await response.json().catch(() => null) as { success?: boolean; code?: string } | null;
+          if (!response.ok || result?.success !== true) {
+            setSendError(response.status === 429
+              ? labels.rateLimitError
+              : result?.code === "verification" ? labels.verificationError : labels.sendError);
+            return;
+          }
+          setReady(true);
+        } catch {
+          setSendError(labels.sendError);
+        } finally {
+          inFlight.current = false;
+          setSending(false);
+          setTurnstileToken("");
+          setVerificationReset((value) => value + 1);
+        }
       }}
     >
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label>
+          Website
+          <input name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(event) => setWebsite(event.target.value)} />
+        </label>
+      </div>
       <div className="inquiry-form__intro">
         <h2>{labels.heading}</h2>
         <p>{labels.help}</p>
@@ -112,10 +140,12 @@ export function InquiryForm({
         <label>
           <span>{labels.name}</span>
           <input
+            disabled={sending}
             autoComplete="name"
             aria-describedby={errors.name ? "inquiry-name-error" : undefined}
             aria-invalid={Boolean(errors.name)}
             name="name"
+            maxLength={120}
             onChange={(event) => update("name", event.target.value)}
             required
             value={draft.name}
@@ -133,8 +163,10 @@ export function InquiryForm({
         <label>
           <span>{labels.brand}</span>
           <input
+            disabled={sending}
             autoComplete="organization"
             name="brand"
+            maxLength={200}
             onChange={(event) => update("brand", event.target.value)}
             value={draft.brand}
           />
@@ -142,10 +174,12 @@ export function InquiryForm({
         <label>
           <span>{labels.email}</span>
           <input
+            disabled={sending}
             autoComplete="email"
             aria-describedby={errors.email ? "inquiry-email-error" : undefined}
             aria-invalid={Boolean(errors.email)}
             name="email"
+            maxLength={254}
             onChange={(event) => update("email", event.target.value)}
             required
             type="email"
@@ -162,6 +196,7 @@ export function InquiryForm({
           ) : null}
         </label>
         <fieldset
+          disabled={sending}
           aria-describedby={
             errors.services ? "service-choice-error" : undefined
           }
@@ -176,6 +211,7 @@ export function InquiryForm({
             {serviceOptions.map((option) => (
               <label key={option}>
                 <input
+            disabled={sending}
                   checked={draft.services.includes(option)}
                   name="services"
                   onChange={(event) =>
@@ -201,11 +237,13 @@ export function InquiryForm({
         <label className="inquiry-form__wide">
           <span>{labels.project}</span>
           <textarea
+            disabled={sending}
             aria-describedby={
               errors.project ? "inquiry-project-error" : undefined
             }
             aria-invalid={Boolean(errors.project)}
             name="project"
+            maxLength={6000}
             onChange={(event) => update("project", event.target.value)}
             required
             rows={5}
@@ -224,7 +262,9 @@ export function InquiryForm({
         <label>
           <span>{labels.budget}</span>
           <input
+            disabled={sending}
             name="budget"
+            maxLength={200}
             onChange={(event) => update("budget", event.target.value)}
             value={draft.budget}
           />
@@ -232,23 +272,29 @@ export function InquiryForm({
         <label>
           <span>{labels.additional}</span>
           <input
+            disabled={sending}
             name="additional"
+            maxLength={3000}
             onChange={(event) => update("additional", event.target.value)}
             value={draft.additional}
           />
         </label>
       </div>
 
+      {!ready ? <InquiryTurnstile siteKey={siteKey} reset={verificationReset} onToken={setTurnstileToken} /> : null}
       <div aria-live="polite" className="inquiry-form__actions">
-        <button className="primary-action" type="submit">
-          {labels.submit}
+        <button className="primary-action" type="submit" disabled={sending || ready}>
+          {sending ? labels.sending : labels.submit}
         </button>
         {ready ? (
           <div className="inquiry-form__ready" role="status">
             <p>{labels.ready}</p>
-            <a className="editorial-link" href={mailto}>
-              {labels.openDraft}
-            </a>
+          </div>
+        ) : null}
+        {sendError ? (
+          <div className="inquiry-form__error" role="alert">
+            <p>{sendError}</p>
+            <a className="editorial-link" href={`mailto:${email}`}>{email}</a>
           </div>
         ) : null}
       </div>

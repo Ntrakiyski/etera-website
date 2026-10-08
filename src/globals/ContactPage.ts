@@ -45,8 +45,12 @@ export const ContactPage: GlobalConfig = {
       name: "inquiryLabels",
       type: "group",
       fields: [
-        { name: "ready", type: "textarea", defaultValue: "Your inquiry draft is ready. Open it in your email app and send it to complete the inquiry.", required: true },
-        { name: "openDraft", type: "text", defaultValue: "Open email draft", required: true },
+        { name: "ready", type: "textarea", defaultValue: "Your inquiry has been sent. A copy is on its way to your email address.", required: true },
+        { name: "openDraft", type: "text", defaultValue: "Open email draft", admin: { hidden: true } },
+        { name: "verificationError", type: "text", defaultValue: "Please complete the security check before sending. If it does not load, try again or email us directly.", required: true },
+        { name: "sending", type: "text", defaultValue: "Sending inquiry…", required: true },
+        { name: "sendError", type: "textarea", defaultValue: "Your inquiry could not be sent. Please try again or email us directly.", required: true },
+        { name: "rateLimitError", type: "textarea", defaultValue: "Too many attempts. Please wait a few minutes before trying again, or email us directly.", required: true },
         { name: "nameError", type: "text", defaultValue: "Enter your full name.", required: true },
         { name: "emailError", type: "text", defaultValue: "Enter a valid email address.", required: true },
         { name: "servicesError", type: "text", defaultValue: "Select at least one service.", required: true },
@@ -61,7 +65,7 @@ export const ContactPage: GlobalConfig = {
           name: "help",
           type: "textarea",
           defaultValue:
-            "Complete the form to prepare a project inquiry in your email app. Nothing is sent until you review and send the message.",
+            "Send your project brief directly to ETÉRA. You will receive a copy by email.",
           required: true,
         },
         {

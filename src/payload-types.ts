@@ -990,7 +990,11 @@ export interface ContactPage {
   email: string;
   inquiryLabels: {
     ready: string;
-    openDraft: string;
+    openDraft?: string | null;
+    verificationError: string;
+    sending: string;
+    sendError: string;
+    rateLimitError: string;
     nameError: string;
     emailError: string;
     servicesError: string;
@@ -1458,6 +1462,10 @@ export interface ContactPageSelect<T extends boolean = true> {
     | {
         ready?: T;
         openDraft?: T;
+        verificationError?: T;
+        sending?: T;
+        sendError?: T;
+        rateLimitError?: T;
         nameError?: T;
         emailError?: T;
         servicesError?: T;

@@ -6,6 +6,7 @@ import * as migration_20260902_110929_add_payload_mcp_api_keys from './20260902_
 import * as migration_20261008_111621_client_feedback_editable_copy from './20261008_111621_client_feedback_editable_copy';
 import * as migration_20261008_145106 from './20261008_145106';
 import * as migration_20261008_151809 from './20261008_151809';
+import * as migration_20261008_154613 from './20261008_154613';
 
 export const migrations = [
   {
@@ -46,6 +47,11 @@ export const migrations = [
   {
     up: migration_20261008_151809.up,
     down: migration_20261008_151809.down,
-    name: '20261008_151809'
+    name: '20261008_151809',
+  },
+  {
+    up: migration_20261008_154613.up,
+    down: migration_20261008_154613.down,
+    name: '20261008_154613'
   },
 ];

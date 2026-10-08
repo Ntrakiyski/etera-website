@@ -49,7 +49,7 @@ const shouldUseWranglerContext =
     !isProduction
   );
 
-const cloudflare =
+export const cloudflare =
   shouldUseWranglerContext
     ? await getCloudflareContextFromWrangler()
     : await getCloudflareContext({ async: true });

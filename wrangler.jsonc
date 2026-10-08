@@ -12,11 +12,14 @@
     "binding": "ASSETS"
   },
   "vars": {
-    "PAYLOAD_DATABASE": "d1"
+    "PAYLOAD_DATABASE": "d1",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFRcXDK9qLM35K8u"
   },
   "secrets": {
     "required": [
-      "PAYLOAD_SECRET"
+      "PAYLOAD_SECRET",
+      "RESEND_API_KEY",
+      "TURNSTILE_SECRET_KEY"
     ]
   },
   "observability": {
@@ -49,6 +52,16 @@
       "binding": "R2",
       "bucket_name": "etera-website-media",
       "remote": true
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "INQUIRY_LIMITER",
+      "namespace_id": "202610081",
+      "simple": {
+        "limit": 5,
+        "period": 60
+      }
     }
   ]
 }

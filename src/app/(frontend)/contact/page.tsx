@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cloudflare } from "@/payload.config";
 
 import { InquiryForm } from "@/components/InquiryForm";
 import { getContactPage, getSiteSettings } from "@/lib/cms";
@@ -21,6 +22,8 @@ export default async function ContactPage() {
     getContactPage(),
     getSiteSettings(),
   ]);
+
+  const siteKey = cloudflare.env.TURNSTILE_SITE_KEY;
 
   return (
     <main id="main-content" tabIndex={-1}>
@@ -50,7 +53,7 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      <InquiryForm email={page.email} labels={page.inquiryLabels} serviceOptions={page.serviceOptions} />
+      <InquiryForm siteKey={siteKey} email={page.email} labels={page.inquiryLabels} serviceOptions={page.serviceOptions} />
     </main>
   );
 }

@@ -111,3 +111,17 @@ Mistake: Live browser check asserted the admin URL before hydration and then use
 Why it happened: CMS redirects happen client-side and preserve the requested URL in a query parameter.
 Rule for next time: Wait for the login route with optional query parameters and its login control.
 Example check: Match /admin/login with a URL regular expression, then wait for the Login button.
+
+## 2026-10-08 - Shared enquiry receipt reply wording
+
+Mistake: Receipt wording told the copied visitor to Reply, while Reply-To correctly points to that visitor for staff responses.
+Why it happened: One message serves both staff and visitor.
+Rule for next time: Use an explicit contact mailto link for the visitor; preserve visitor Reply-To for staff.
+Example check: Staff Reply targets the visitor; visitor receipt says Email the ETÉRA team.
+
+## 2026-10-08 - Generated Worker types and compiled bundles
+
+Mistake: Wrangler generated a mainModule import of the compiled OpenNext Worker, causing TypeScript recursion.
+Why it happened: Type generation ran while the generated Worker artifact existed.
+Rule for next time: Generate binding types without inferring the compiled Worker module; keep generated bundle imports out of application declaration files.
+Example check: cloudflare-env.d.ts has environment bindings but no .open-next/worker import.

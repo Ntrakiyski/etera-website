@@ -64,6 +64,10 @@ export type ContactContent = PageContent & {
 };
 
 export type InquiryLabels = {
+  verificationError: string;
+  sending: string;
+  sendError: string;
+  rateLimitError: string;
   ready: string;
   openDraft: string;
   nameError: string;
@@ -269,12 +273,16 @@ export const fallbackContactPage: ContactContent = {
     "Start with a project brief or a direct conversation. ETÉRA will shape the right approach from there.",
   kicker: "Contact",
   inquiryLabels: {
-    ready: "Your inquiry draft is ready. Open it in your email app and send it to complete the inquiry.",
+    verificationError: "Please complete the security check before sending. If it does not load, try again or email us directly.",
+    sending: "Sending inquiry…",
+    sendError: "Your inquiry could not be sent. Please try again or email us directly.",
+    rateLimitError: "Too many attempts. Please wait a few minutes before trying again, or email us directly.",
+    ready: "Your inquiry has been sent. A copy is on its way to your email address.",
     openDraft: "Open email draft",
     nameError: "Enter your full name.", emailError: "Enter a valid email address.",
     servicesError: "Select at least one service.", projectError: "Tell us about your project.",
     heading: "Tell us what you are shaping.",
-    help: "Complete the form to prepare a project inquiry in your email app. Nothing is sent until you review and send the message.",
+    help: "Send your project brief directly to ETÉRA. You will receive a copy by email.",
     name: "Full Name",
     brand: "Company Name (if applicable)",
     email: "Email Address",
