@@ -125,4 +125,6 @@ Goal: publish three client-supplied Word documents as readable website pages, de
 - [x] Extract paragraphs, line breaks and lists from all documents.
 - [x] Populate Terms/Privacy, add Cookie Policy and footer/sitemap links.
 - [x] Verify text fidelity, responsive pages and build.
-- [ ] Push main, deploy and verify live policies; prepare updated email.
+- [x] Push main, deploy and verify live policies; prepare updated email.
+
+Review: Three policy pages published on Cloudflare from b3c3b1a. All extracted text matches Word sources; six local and six live page/viewport checks passed for complete text, links and no overflow. Desktop/mobile screenshots reviewed. Lint/build/TypeScript passed. Legal links added to footer/related navigation/sitemap. Client email updated in singular Bulgarian, legal documents removed from outstanding inputs and Safari paragraph omitted as requested.
