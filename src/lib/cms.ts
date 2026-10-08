@@ -1,6 +1,7 @@
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import { cache } from "react";
+import { atelierCopy, contactCopy, siteCopy, inquiryOptions } from "@/content/editable-copy";
 
 type PayloadClient = Awaited<ReturnType<typeof getPayload>>;
 
@@ -21,6 +22,14 @@ type QueryPayload = {
 };
 
 export type HomeContent = {
+  heroVideo: MediaSummary | null;
+  heroPoster: MediaSummary | null;
+  atelierPreviewImage: MediaSummary | null;
+  atelierLinkLabel: string;
+  servicesHeading: string;
+  servicesIntro: string;
+  servicesLinkLabel: string;
+  partnersHeading: string;
   featuredPartners: PartnerSummary[];
   featuredProjects: ProjectSummary[];
   heroAdditionalCopy: string;
@@ -38,17 +47,29 @@ export type PageContent = {
 };
 
 export type AtelierContent = PageContent & {
+  copy: typeof atelierCopy;
+  storyImage: MediaSummary | null;
+  methodLogo: MediaSummary | null;
+  methodSteps: string[];
   aetherNarrative: string;
   featuredPeople: PersonSummary[];
   teamMembers: TeamMemberSummary[];
 };
 
 export type ContactContent = PageContent & {
+  copy: typeof contactCopy;
+  serviceOptions: string[];
   email: string;
   inquiryLabels: InquiryLabels;
 };
 
 export type InquiryLabels = {
+  ready: string;
+  openDraft: string;
+  nameError: string;
+  emailError: string;
+  servicesError: string;
+  projectError: string;
   heading: string;
   help: string;
   name: string;
@@ -149,6 +170,9 @@ export type PartnerSummary = {
 };
 
 export type SiteSettingsContent = {
+  copy: typeof siteCopy;
+  redLogo: MediaSummary | null;
+  whiteLogo: MediaSummary | null;
   bookingURL: string;
   contactEmail: string;
   footerTagline: string;
@@ -171,15 +195,20 @@ const serviceAreaLabels: Record<string, string> = {
 };
 
 export const fallbackHomePage: HomeContent = {
+  heroVideo: null, heroPoster: null, atelierPreviewImage: null,
+  atelierLinkLabel: "Discover the Atelier",
+  servicesHeading: "What We Do",
+  servicesIntro: "ETÉRA builds the right approach and team around each brief. The capabilities stay broad; the presentation stays compact.",
+  servicesLinkLabel: "Explore Services",
+  partnersHeading: "Selected Partners",
   featuredPartners: [],
   featuredProjects: [],
   heroAdditionalCopy:
     "Strategy, creativity, cultural context and execution come together across brands, campaigns, content and experiences.",
-  heroCTA: "Discover ETÉRA",
+  heroCTA: "Enter the atelier",
   heroHeadline: "Define your era.",
   heroKicker: "Creative Atelier",
-  heroSupportingCopy:
-    "ETÉRA is a creative atelier that builds presence and shapes culture.",
+  heroSupportingCopy: "We are a creative atelier that\nbuilds presence and shapes culture.",
   methodSteps: ["Discover", "Define", "Create", "Elevate"],
 };
 
@@ -191,6 +220,8 @@ export const fallbackWorkPage: PageContent = {
 };
 
 export const fallbackAtelierPage: AtelierContent = {
+  copy: atelierCopy, storyImage: null, methodLogo: null,
+  methodSteps: ["Discover", "Define", "Create", "Elevate"],
   aetherNarrative:
     "Like Aether, ETÉRA is the missing element: the invisible thread connecting identity, communication, visual language and perception.",
   headline: "Strategy, creativity and attention to every detail.",
@@ -231,12 +262,17 @@ export const fallbackServicesPage: ServicesContent = {
 };
 
 export const fallbackContactPage: ContactContent = {
+  copy: contactCopy, serviceOptions: inquiryOptions,
   email: "hello@eteracreative.com",
   headline: "Let's define your era.",
   intro:
     "Start with a project brief or a direct conversation. ETÉRA will shape the right approach from there.",
   kicker: "Contact",
   inquiryLabels: {
+    ready: "Your inquiry draft is ready. Open it in your email app and send it to complete the inquiry.",
+    openDraft: "Open email draft",
+    nameError: "Enter your full name.", emailError: "Enter a valid email address.",
+    servicesError: "Select at least one service.", projectError: "Tell us about your project.",
     heading: "Tell us what you are shaping.",
     help: "Complete the form to prepare a project inquiry in your email app. Nothing is sent until you review and send the message.",
     name: "Full Name",
@@ -252,6 +288,7 @@ export const fallbackContactPage: ContactContent = {
 };
 
 export const fallbackSiteSettings: SiteSettingsContent = {
+  copy: siteCopy, redLogo: null, whiteLogo: null,
   bookingURL:
     "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1cN59tKh527V9JQcQH9yd31V3Z0VRf9Ue3MMUZ58UwPWM-gVdLhEacKQurbpdEbFh-pLZv07sm?gv=true",
   contactEmail: "hello@eteracreative.com",
@@ -326,7 +363,7 @@ async function getPayloadClient() {
   return payloadPromise;
 }
 
-async function queryPayload<T>(
+export async function queryPayload<T>(
   query: (payload: QueryPayload) => Promise<T>,
   fallback: T,
 ) {
@@ -527,6 +564,17 @@ function personSummary(person: Record<string, unknown>): PersonSummary | null {
   return summary.id && summary.name ? summary : null;
 }
 
+function editableCopy<T extends Record<string, string>>(value: unknown, defaults: T): T {
+  const fields = (value ?? {}) as Record<string, unknown>;
+  return Object.fromEntries(Object.entries(defaults).map(([key, fallback]) => [key,
+    typeof fields[key] === "string" ? fields[key] : fallback,
+  ])) as T;
+}
+
+function labelsArray(value: unknown, defaults: string[]): string[] {
+  return Array.isArray(value) ? relatedDocuments(value).map(row => stringValue(row.label)).filter(Boolean) : defaults;
+}
+
 function teamMemberSummary(
   member: Record<string, unknown>,
 ): TeamMemberSummary | null {
@@ -621,6 +669,14 @@ export const getHomePage = cache(async () => {
       : fallbackHomePage.methodSteps;
 
     return {
+      heroVideo: mediaSummary(page.heroVideo) ?? null,
+      heroPoster: mediaSummary(page.heroPoster) ?? null,
+      atelierPreviewImage: mediaSummary(page.atelierPreviewImage) ?? null,
+      atelierLinkLabel: stringValue(page.atelierLinkLabel, fallbackHomePage.atelierLinkLabel),
+      servicesHeading: stringValue(page.servicesHeading, fallbackHomePage.servicesHeading),
+      servicesIntro: stringValue(page.servicesIntro, fallbackHomePage.servicesIntro),
+      servicesLinkLabel: stringValue(page.servicesLinkLabel, fallbackHomePage.servicesLinkLabel),
+      partnersHeading: stringValue(page.partnersHeading, fallbackHomePage.partnersHeading),
       featuredPartners: relatedDocuments(page.featuredPartners)
         .map(partnerSummary)
         .filter((partner): partner is PartnerSummary => Boolean(partner)),
@@ -678,6 +734,10 @@ export const getAtelierPage = cache(async () => {
 
     return {
       ...pageContent(page, fallbackAtelierPage),
+      copy: editableCopy(page.copy, atelierCopy),
+      storyImage: mediaSummary(page.storyImage) ?? null,
+      methodLogo: mediaSummary(page.methodLogo) ?? null,
+      methodSteps: labelsArray(page.methodSteps, fallbackAtelierPage.methodSteps),
       aetherNarrative: launchStringValue(
         page.aetherNarrative,
         fallbackAtelierPage.aetherNarrative,
@@ -751,6 +811,8 @@ export const getContactPage = cache(async () => {
 
     return {
       ...pageContent(page, fallbackContactPage),
+      copy: editableCopy(page.copy, contactCopy),
+      serviceOptions: labelsArray(page.serviceOptions, inquiryOptions),
       email: stringValue(page.email, fallbackContactPage.email),
       inquiryLabels: Object.fromEntries(
         Object.entries(fallbackContactPage.inquiryLabels).map(
@@ -848,6 +910,7 @@ export const getSiteSettings = cache(async () => {
   return queryPayload<SiteSettingsContent>(async (payload) => {
     const settings = await payload.findGlobal({
       slug: "site-settings",
+      depth: 1,
     });
     const socialLinks = Array.isArray(settings.socialLinks)
       ? settings.socialLinks
@@ -868,6 +931,9 @@ export const getSiteSettings = cache(async () => {
       : [];
 
     return {
+      copy: editableCopy(settings.copy, siteCopy),
+      redLogo: mediaSummary(settings.redLogo) ?? null,
+      whiteLogo: mediaSummary(settings.whiteLogo) ?? null,
       bookingURL:
         httpURL(settings.bookingURL) || fallbackSiteSettings.bookingURL,
       contactEmail: stringValue(

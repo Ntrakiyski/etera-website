@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import type { MediaSummary } from "@/lib/cms";
+
 const studies = {
   atelier: {
     alt: "The ETÉRA founders developing a creative direction at the studio moodboard",
@@ -23,16 +25,20 @@ const studies = {
 
 export function AetherMedia({
   className = "",
+  image: uploadedImage,
   label,
   preload = false,
   study,
 }: {
   className?: string;
+  image?: MediaSummary | null;
   label: string;
   preload?: boolean;
   study: keyof typeof studies;
 }) {
-  const image = studies[study];
+  const image = uploadedImage
+    ? { ...studies[study], ...uploadedImage, src: uploadedImage.url }
+    : studies[study];
 
   return (
     <figure
@@ -46,6 +52,7 @@ export function AetherMedia({
           preload={preload}
           sizes="(max-width: 767px) 100vw, 60vw"
           src={image.src}
+          unoptimized={Boolean(uploadedImage)}
           width={image.width}
         />
       </div>

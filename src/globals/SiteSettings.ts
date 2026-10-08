@@ -1,6 +1,8 @@
 import type { GlobalConfig } from "payload";
 
 import { anyone, loggedIn } from "../access";
+import { siteCopy } from "../content/editable-copy";
+import { copyFields } from "./copyFields";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
@@ -12,6 +14,9 @@ export const SiteSettings: GlobalConfig = {
     group: "Settings",
   },
   fields: [
+    copyFields(siteCopy),
+    { name: "redLogo", type: "upload", relationTo: "media", filterOptions: { mimeType: { contains: "image/" } } },
+    { name: "whiteLogo", type: "upload", relationTo: "media", filterOptions: { mimeType: { contains: "image/" } } },
     {
       name: "contactEmail",
       type: "email",

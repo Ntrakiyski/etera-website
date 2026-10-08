@@ -155,3 +155,17 @@ Goal: Place each profile image beside its text with equal rendered heights.
 - [x] Build, publish and verify live layout.
 
 Review: Each portrait now sits beside its biography in a shared-height grid row. Cards become one column below 1100px, retaining portrait/text pairs; mobile uses compact typography and 110px image width. Local and live 1440/390px assertions verify equal top/height, side-by-side placement, loaded images and no horizontal overflow. Screenshots reviewed; lint, production build and diff check passed. Cloudflare published; CMS text and portrait overrides retained.
+
+## Correct portrait identity and complete CMS editing
+
+Goal: Correct reversed founder photos and let logged-in editors update public page copy and existing image/video slots, including legal pages, navigation and footer.
+Constraints: Preserve current published copy, layout, CMS records and approved policies. No email/booking provider change. Hidden portfolio routes remain deferred. Use additive migration and media upload overrides; verify authenticated save/publish locally before remote deployment.
+- [x] Correct founder mapping and audit hardcoded public content.
+- [x] Add and wire missing CMS controls for Home, Atelier, Contact, shared navigation/footer and legal pages.
+- [x] Generate and check additive migration, seed current defaults and founder media without overwriting existing edits.
+- [x] Verify CMS save/publish, image uploads, draft visibility, access control and desktop/mobile rendering.
+- [x] Publish, check live pages and document editor instructions.
+
+Verification adjustment: Payload's D1 version writer exceeded the 100-parameter limit when saving long legal block arrays. Use the existing rich-text editor with JSON storage for legal bodies instead. Generated migration table rebuilds also required correction; final migration will be tested against an exported production snapshot before applying remotely. No production schema changes have been made yet.
+
+Review: Corrected Alexandra/Yoana portraits and initialized real Media selections. Added CMS controls for all visible content on seven public pages and their existing media slots, plus header/footer labels/logos and legal rich-text editors. Existing service content and team text remain editable. Eight tests, lint, typecheck and OpenNext build passed. Editor Local API and browser login/edit/publish passed; drafts stayed off published reads and anonymous writes were rejected. Additive schema verified against production snapshot before remote migration. Live 1440/390px checks passed for all seven pages, exact approved policy text, correctly served portrait bytes and matching profile heights. Published Cloudflare version b0ceaabe-7227-457c-b04d-84603041830c. Editor guide: docs/cms-editing-guide.md; full evidence: docs/client-feedback/2026-10-08/verification/cms-complete-editing.md. Layout remains code-managed; email/booking unchanged. Browser checks used Chrome.

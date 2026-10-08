@@ -9,23 +9,6 @@ import {
   type InquiryErrors,
 } from "@/lib/inquiry-validation";
 
-const serviceOptions = [
-  "Brand Strategy",
-  "Brand Identity",
-  "Creative Direction",
-  "Campaigns",
-  "Social Media",
-  "Content Production",
-  "Influencer Marketing",
-  "PR & Communications",
-  "Events & Experiences",
-  "Partnerships",
-  "Performance Marketing",
-  "Email Marketing & CRM",
-  "Website / Landing Page",
-  "Other",
-];
-
 type InquiryTextField = Exclude<keyof InquiryDraft, "services">;
 
 const emptyDraft: InquiryDraft = {
@@ -60,9 +43,11 @@ function buildMailto(recipient: string, draft: InquiryDraft) {
 export function InquiryForm({
   email,
   labels,
+  serviceOptions,
 }: {
   email: string;
   labels: InquiryLabels;
+  serviceOptions: string[];
 }) {
   const [draft, setDraft] = useState<InquiryDraft>(emptyDraft);
   const [ready, setReady] = useState(false);
@@ -141,7 +126,7 @@ export function InquiryForm({
               id="inquiry-name-error"
               role="alert"
             >
-              {errors.name}
+              {labels.nameError}
             </span>
           ) : null}
         </label>
@@ -172,7 +157,7 @@ export function InquiryForm({
               id="inquiry-email-error"
               role="alert"
             >
-              {errors.email}
+              {labels.emailError}
             </span>
           ) : null}
         </label>
@@ -209,7 +194,7 @@ export function InquiryForm({
               id="service-choice-error"
               role="alert"
             >
-              {errors.services}
+              {labels.servicesError}
             </p>
           ) : null}
         </fieldset>
@@ -232,7 +217,7 @@ export function InquiryForm({
               id="inquiry-project-error"
               role="alert"
             >
-              {errors.project}
+              {labels.projectError}
             </span>
           ) : null}
         </label>
@@ -260,12 +245,9 @@ export function InquiryForm({
         </button>
         {ready ? (
           <div className="inquiry-form__ready" role="status">
-            <p>
-              Your inquiry draft is ready. Open it in your email app and send it
-              to complete the inquiry.
-            </p>
+            <p>{labels.ready}</p>
             <a className="editorial-link" href={mailto}>
-              Open email draft
+              {labels.openDraft}
             </a>
           </div>
         ) : null}

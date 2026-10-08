@@ -9,7 +9,6 @@ import { buildPageMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
-const methodSteps = ["Discover", "Define", "Create", "Elevate"];
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getAtelierPage();
@@ -35,30 +34,24 @@ export default async function TheAtelierPage() {
       </header>
 
       <section className="atelier-story">
-        <AetherMedia label="Inside the Atelier" preload study="atelier" />
+        <AetherMedia label={page.copy.storyLabel} image={page.storyImage ?? undefined} preload study="atelier" />
         <div className="atelier-story__copy">
-          <h2>The missing element.</h2>
+          <h2>{page.copy.storyHeading}</h2>
           <p>{page.aetherNarrative}</p>
-          <p>
-            ETÉRA brings identity, communication, visual language and
-            perception into one connected presence, shaped for each context.
-          </p>
+          <p>{page.copy.storyAdditional}</p>
         </div>
       </section>
 
       <section className="atelier-model">
         <div className="atelier-model__statement">
-          <h2>A small core. The right wider team.</h2>
-          <p>
-            ETÉRA&apos;s core combines brand strategy, marketing and creative
-            direction, then expands with the right specialists for each brief.
-          </p>
+          <h2>{page.copy.teamHeading}</h2>
+          <p>{page.copy.teamIntro}</p>
         </div>
         <div className="people-grid">
           {page.teamMembers.map((person) => {
             const portrait = person.portrait?.url ?? (person.name.startsWith("Alexandra")
-              ? "/media/alexandra-profile.jpg"
-              : /^(Yoana|Joana)/.test(person.name) ? "/media/joana-profile.jpg" : null);
+              ? "/media/joana-profile.jpg"
+              : /^(Yoana|Joana)/.test(person.name) ? "/media/alexandra-profile.jpg" : null);
             return (
               <article className={portrait ? "people-grid__person--with-portrait" : undefined} key={person.id}>
                 {portrait ? (
@@ -86,17 +79,14 @@ export default async function TheAtelierPage() {
       <section className="atelier-method">
         <div>
           <h2 className="atelier-method__heading">
-            <Image alt="ETÉRA" src="/design/assets/logo-etera-red-wordmark.svg" width={266} height={96} unoptimized />
-            <span>Method</span>
+            <Image alt="ETÉRA" src={page.methodLogo?.url ?? "/design/assets/logo-etera-red-wordmark.svg"} width={266} height={96} unoptimized />
+            <span>{page.copy.methodHeading}</span>
           </h2>
-          <p>
-            A precise sequence that stays flexible enough to meet the project
-            where it is.
-          </p>
+          <p>{page.copy.methodIntro}</p>
         </div>
         <div>
-          <MethodSequence steps={methodSteps} />
-          <EditorialLink href="/services">Explore Services</EditorialLink>
+          <MethodSequence steps={page.methodSteps} />
+          <EditorialLink href="/services">{page.copy.servicesLink}</EditorialLink>
         </div>
       </section>
 

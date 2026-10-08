@@ -65,9 +65,9 @@ export default async function RootLayout({
     >
       <body className="min-h-full bg-background text-foreground">
         <a className="skip-link" href="#main-content">
-          Skip to content
+          {settings.copy.skip}
         </a>
-        <SiteHeader />
+        <SiteHeader settings={settings} />
         <EntryMotion />
         {children}
         <SiteFooter settings={settings} />

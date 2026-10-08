@@ -21,7 +21,7 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    mimeTypes: ["image/*", "application/pdf"],
+    mimeTypes: ["image/*", "video/mp4", "video/webm", "application/pdf"],
     staticDir: "media",
   },
 };

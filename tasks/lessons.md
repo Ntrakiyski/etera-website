@@ -90,3 +90,10 @@ Mistake: Portraits remained above biographies when the desired layout was beside
 Why it happened: The first request focused on crop and dimensions rather than card composition.
 Rule for next time: Treat portrait size and placement as separate choices; verify equal-height side-by-side layout when requested.
 Example check: Compare image and biography bounding-box top and height on desktop and mobile.
+
+## 2026-10-08 - Review generated SQLite migrations before running
+
+Mistake: Generated migration rebuilt tables and selected newly added columns before they existed in the old schema; it was run locally before this was corrected.
+Why it happened: Upload foreign keys and default changes triggered Drizzle rebuilds.
+Rule for next time: Inspect every copy SELECT and preserve child tables. Use additive columns for nullable upload relationships; prove against a pre-migration database before remote application.
+Example check: Migration up contains no DROP TABLE or PRAGMA foreign_keys=OFF; all existing rows and child references remain unchanged.

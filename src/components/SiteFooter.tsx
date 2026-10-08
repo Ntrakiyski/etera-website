@@ -9,9 +9,9 @@ export function SiteFooter({ settings }: { settings: SiteSettingsContent }) {
       <div className="footer-cta-band">
         <div className="footer-directory footer-cta-container">
         <div className="footer-directory__cta">
-          <h2><span>Let&apos;s Define</span><span>Your Era Together.</span></h2>
+          <h2><span>{settings.copy.ctaLineOne}</span><span>{settings.copy.ctaLineTwo}</span></h2>
           <Link className="footer-directory__cta-link" href="/contact#inquiry">
-            Start a Project <ArrowIcon />
+            {settings.copy.project} <ArrowIcon />
           </Link>
         </div>
         </div>
@@ -20,10 +20,10 @@ export function SiteFooter({ settings }: { settings: SiteSettingsContent }) {
       <div className="footer-directory footer-directory--navigation">
         <div className="footer-directory__main">
           <nav aria-label="Footer navigation" className="footer-directory__nav">
-            <Link href="/">Home</Link>
-            <Link href="/the-atelier">The Atelier</Link>
-            <Link href="/services">Services</Link>
-            <Link href="/contact">Contact</Link>
+            <Link href="/">{settings.copy.home}</Link>
+            <Link href="/the-atelier">{settings.copy.atelier}</Link>
+            <Link href="/services">{settings.copy.services}</Link>
+            <Link href="/contact">{settings.copy.contact}</Link>
           </nav>
           <div className="footer-directory__aside">
             {settings.socialLinks.length > 0 ? (
@@ -35,15 +35,15 @@ export function SiteFooter({ settings }: { settings: SiteSettingsContent }) {
             ) : null}
             <div className="footer-directory__contact">
               <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
-              <Link href="/contact#inquiry">Start a Project</Link>
+              <Link href="/contact#inquiry">{settings.copy.project}</Link>
             </div>
           </div>
         </div>
         <div className="footer-directory__bottom">
-          <p>© {new Date().getFullYear()} ETÉRA. All rights reserved.</p>
-          <Link href="/terms-and-conditions">Terms and Conditions</Link>
-          <Link href="/privacy-policy">Privacy Policy</Link>
-          <Link href="/cookie-policy">Cookie Policy</Link>
+          <p>© {new Date().getFullYear()} {settings.copy.copyright}</p>
+          <Link href="/terms-and-conditions">{settings.copy.terms}</Link>
+          <Link href="/privacy-policy">{settings.copy.privacy}</Link>
+          <Link href="/cookie-policy">{settings.copy.cookies}</Link>
         </div>
       </div>
       </div>

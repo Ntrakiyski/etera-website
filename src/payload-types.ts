@@ -105,6 +105,7 @@ export interface Config {
     'services-page': ServicesPage;
     'contact-page': ContactPage;
     'site-settings': SiteSetting;
+    'legal-pages': LegalPage;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
@@ -113,6 +114,7 @@ export interface Config {
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
   };
   locale: null;
   widgets: {
@@ -308,6 +310,8 @@ export interface Project {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Legacy/future people records. Edit the visible founder cards in The Atelier Page → Team Members.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "people".
  */
@@ -854,6 +858,23 @@ export interface HomePage {
   heroSupportingCopy: string;
   heroAdditionalCopy?: string | null;
   heroCTA: string;
+  /**
+   * Background video. Leave empty to use the existing studio video.
+   */
+  heroVideo?: (string | null) | Media;
+  /**
+   * Still image shown while the video loads or autoplay is unavailable.
+   */
+  heroPoster?: (string | null) | Media;
+  atelierPreviewImage?: (string | null) | Media;
+  /**
+   * The preview heading and introduction use the Atelier page's headline and introduction.
+   */
+  atelierLinkLabel: string;
+  servicesHeading: string;
+  servicesIntro: string;
+  servicesLinkLabel: string;
+  partnersHeading: string;
   methodSteps: {
     label: string;
     id?: string | null;
@@ -883,6 +904,24 @@ export interface WorkPage {
  */
 export interface AtelierPage {
   id: string;
+  copy: {
+    storyLabel: string;
+    storyHeading: string;
+    storyAdditional: string;
+    teamHeading: string;
+    teamIntro: string;
+    methodHeading: string;
+    methodIntro: string;
+    servicesLink: string;
+  };
+  storyImage?: (string | null) | Media;
+  methodLogo?: (string | null) | Media;
+  methodSteps?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   kicker: string;
   headline: string;
   intro: string;
@@ -933,11 +972,27 @@ export interface ServicesPage {
  */
 export interface ContactPage {
   id: string;
+  copy: {
+    bookingKicker: string;
+    bookingHeading: string;
+    bookingIntro: string;
+    bookingFrameTitle: string;
+  };
+  serviceOptions: {
+    label: string;
+    id?: string | null;
+  }[];
   kicker: string;
   headline: string;
   intro: string;
   email: string;
   inquiryLabels: {
+    ready: string;
+    openDraft: string;
+    nameError: string;
+    emailError: string;
+    servicesError: string;
+    projectError: string;
     heading: string;
     help: string;
     name: string;
@@ -960,6 +1015,24 @@ export interface ContactPage {
  */
 export interface SiteSetting {
   id: string;
+  copy: {
+    home: string;
+    atelier: string;
+    services: string;
+    contact: string;
+    project: string;
+    ctaLineOne: string;
+    ctaLineTwo: string;
+    copyright: string;
+    terms: string;
+    privacy: string;
+    cookies: string;
+    menu: string;
+    close: string;
+    skip: string;
+  };
+  redLogo?: (string | null) | Media;
+  whiteLogo?: (string | null) | Media;
   contactEmail: string;
   bookingURL?: string | null;
   footerTagline: string;
@@ -977,6 +1050,80 @@ export interface SiteSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages".
+ */
+export interface LegalPage {
+  id: string;
+  relatedPoliciesLabel: string;
+  terms: {
+    title: string;
+    /**
+     * Edit the approved document using headings, paragraphs and lists.
+     */
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  privacy: {
+    title: string;
+    /**
+     * Edit the approved document using headings, paragraphs and lists.
+     */
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  cookies: {
+    title: string;
+    /**
+     * Edit the approved document using headings, paragraphs and lists.
+     */
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page_select".
  */
 export interface HomePageSelect<T extends boolean = true> {
@@ -985,6 +1132,14 @@ export interface HomePageSelect<T extends boolean = true> {
   heroSupportingCopy?: T;
   heroAdditionalCopy?: T;
   heroCTA?: T;
+  heroVideo?: T;
+  heroPoster?: T;
+  atelierPreviewImage?: T;
+  atelierLinkLabel?: T;
+  servicesHeading?: T;
+  servicesIntro?: T;
+  servicesLinkLabel?: T;
+  partnersHeading?: T;
   methodSteps?:
     | T
     | {
@@ -1016,6 +1171,26 @@ export interface WorkPageSelect<T extends boolean = true> {
  * via the `definition` "atelier-page_select".
  */
 export interface AtelierPageSelect<T extends boolean = true> {
+  copy?:
+    | T
+    | {
+        storyLabel?: T;
+        storyHeading?: T;
+        storyAdditional?: T;
+        teamHeading?: T;
+        teamIntro?: T;
+        methodHeading?: T;
+        methodIntro?: T;
+        servicesLink?: T;
+      };
+  storyImage?: T;
+  methodLogo?: T;
+  methodSteps?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   kicker?: T;
   headline?: T;
   intro?: T;
@@ -1065,6 +1240,20 @@ export interface ServicesPageSelect<T extends boolean = true> {
  * via the `definition` "contact-page_select".
  */
 export interface ContactPageSelect<T extends boolean = true> {
+  copy?:
+    | T
+    | {
+        bookingKicker?: T;
+        bookingHeading?: T;
+        bookingIntro?: T;
+        bookingFrameTitle?: T;
+      };
+  serviceOptions?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   kicker?: T;
   headline?: T;
   intro?: T;
@@ -1072,6 +1261,12 @@ export interface ContactPageSelect<T extends boolean = true> {
   inquiryLabels?:
     | T
     | {
+        ready?: T;
+        openDraft?: T;
+        nameError?: T;
+        emailError?: T;
+        servicesError?: T;
+        projectError?: T;
         heading?: T;
         help?: T;
         name?: T;
@@ -1094,6 +1289,26 @@ export interface ContactPageSelect<T extends boolean = true> {
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
+  copy?:
+    | T
+    | {
+        home?: T;
+        atelier?: T;
+        services?: T;
+        contact?: T;
+        project?: T;
+        ctaLineOne?: T;
+        ctaLineTwo?: T;
+        copyright?: T;
+        terms?: T;
+        privacy?: T;
+        cookies?: T;
+        menu?: T;
+        close?: T;
+        skip?: T;
+      };
+  redLogo?: T;
+  whiteLogo?: T;
   contactEmail?: T;
   bookingURL?: T;
   footerTagline?: T;
@@ -1106,6 +1321,35 @@ export interface SiteSettingsSelect<T extends boolean = true> {
       };
   seoTitle?: T;
   seoDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages_select".
+ */
+export interface LegalPagesSelect<T extends boolean = true> {
+  relatedPoliciesLabel?: T;
+  terms?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+      };
+  privacy?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+      };
+  cookies?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+      };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

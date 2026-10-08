@@ -1,6 +1,8 @@
 import type { GlobalConfig } from "payload";
 
 import { anyone, loggedIn } from "../access";
+import { contactCopy, inquiryOptions } from "../content/editable-copy";
+import { copyFields } from "./copyFields";
 
 export const ContactPage: GlobalConfig = {
   slug: "contact-page",
@@ -12,6 +14,8 @@ export const ContactPage: GlobalConfig = {
     group: "Pages",
   },
   fields: [
+    copyFields(contactCopy),
+    { name: "serviceOptions", type: "array", minRows: 1, required: true, defaultValue: inquiryOptions.map(label => ({ label })), fields: [{ name: "label", type: "text", required: true }] },
     {
       name: "kicker",
       type: "text",
@@ -41,6 +45,12 @@ export const ContactPage: GlobalConfig = {
       name: "inquiryLabels",
       type: "group",
       fields: [
+        { name: "ready", type: "textarea", defaultValue: "Your inquiry draft is ready. Open it in your email app and send it to complete the inquiry.", required: true },
+        { name: "openDraft", type: "text", defaultValue: "Open email draft", required: true },
+        { name: "nameError", type: "text", defaultValue: "Enter your full name.", required: true },
+        { name: "emailError", type: "text", defaultValue: "Enter a valid email address.", required: true },
+        { name: "servicesError", type: "text", defaultValue: "Select at least one service.", required: true },
+        { name: "projectError", type: "text", defaultValue: "Tell us about your project.", required: true },
         {
           name: "heading",
           type: "text",

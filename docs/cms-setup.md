@@ -7,6 +7,8 @@ Payload is installed inside the Next.js app. The public site and CMS are deploye
 - Database: Cloudflare D1 binding `D1`
 - Media uploads: Cloudflare R2 binding `R2`
 
+See [the current editing guide](cms-editing-guide.md) for the complete page and media controls.
+
 ## What Editors Can Manage
 
 - Home, Work, The Atelier, Services, and Contact page copy.

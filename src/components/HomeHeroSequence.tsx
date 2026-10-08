@@ -2,10 +2,14 @@
 
 import { useEffect, useRef } from "react";
 
+import type { HomeContent } from "@/lib/cms";
+
 import { EditorialLink } from "./EditorialLink";
 import { HeroVideo } from "./HeroVideo";
 
-export function HomeHeroSequence() {
+export function HomeHeroSequence({ home }: { home: HomeContent }) {
+  const headlineWords = home.heroHeadline.trim().split(/\s+/);
+  const headlineEnd = headlineWords.pop();
   const sequenceRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -74,15 +78,15 @@ export function HomeHeroSequence() {
     <div className="home-hero-sequence" ref={sequenceRef}>
       <div className="home-hero-sequence__stage">
         <section className="home-hero">
-          <HeroVideo />
+          <HeroVideo poster={home.heroPoster?.url} src={home.heroVideo?.url} />
           <div className="home-hero__copy">
             <h1>
-              <span className="home-hero__lead">Define your</span>{" "}
+              <span className="home-hero__lead">{headlineWords.join(" ")}</span>{" "}
               <span className="home-hero__era">
-                era.
+                {headlineEnd}
               </span>
             </h1>
-            <EditorialLink href="/the-atelier">Enter the atelier</EditorialLink>
+            <EditorialLink href="/the-atelier">{home.heroCTA}</EditorialLink>
           </div>
         </section>
 
@@ -92,8 +96,9 @@ export function HomeHeroSequence() {
         >
           <div className="home-positioning__inner">
             <h2 id="home-positioning-title">
-              <span>We are a creative atelier that</span>{" "}
-              <span>builds presence and shapes culture.</span>
+              {home.heroSupportingCopy.split("\n").map((line, index) => (
+                <span key={index}>{line}{" "}</span>
+              ))}
             </h2>
           </div>
         </section>

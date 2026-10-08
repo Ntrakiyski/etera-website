@@ -13,6 +13,7 @@ export const People: CollectionConfig = {
   admin: {
     defaultColumns: ["name", "role", "sortOrder"],
     group: "Content",
+    description: "Legacy/future people records. Edit the visible founder cards in The Atelier Page → Team Members.",
     useAsTitle: "name",
   },
   defaultSort: "sortOrder",

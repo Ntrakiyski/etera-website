@@ -1,6 +1,8 @@
 import type { GlobalConfig } from "payload";
 
 import { anyone, loggedIn } from "../access";
+import { atelierCopy } from "../content/editable-copy";
+import { copyFields } from "./copyFields";
 
 export const AtelierPage: GlobalConfig = {
   slug: "atelier-page",
@@ -12,6 +14,10 @@ export const AtelierPage: GlobalConfig = {
     group: "Pages",
   },
   fields: [
+    copyFields(atelierCopy),
+    { name: "storyImage", type: "upload", relationTo: "media", filterOptions: { mimeType: { contains: "image/" } } },
+    { name: "methodLogo", type: "upload", relationTo: "media", filterOptions: { mimeType: { contains: "image/" } } },
+    { name: "methodSteps", type: "array", defaultValue: ["Discover", "Define", "Create", "Elevate"].map(label => ({ label })), fields: [{ name: "label", type: "text", required: true }] },
     {
       name: "kicker",
       type: "text",

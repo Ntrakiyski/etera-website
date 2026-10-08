@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/LegalDocument";
-import content from "@/content/legal/privacy-policy.json";
+import { getLegalPages } from "@/lib/legal-content";
 
-export const metadata: Metadata = { title: content.title };
+export const dynamic = "force-dynamic";
 
-export default function LegalPage() {
-  return <LegalDocument title={content.title} blocks={content.blocks} />;
+export async function generateMetadata(): Promise<Metadata> {
+  const pages = await getLegalPages();
+  return { title: pages.privacy.title };
+}
+
+export default async function LegalPage() {
+  const pages = await getLegalPages();
+  return <LegalDocument title={pages.privacy.title} body={pages.privacy.body} pages={pages} />;
 }

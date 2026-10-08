@@ -3,13 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { SiteSettingsContent } from "@/lib/cms";
 import { useEffect, useRef, useState } from "react";
 
-const primaryNavigation = [
-  { href: "/the-atelier", label: "The Atelier" },
-  { href: "/services", label: "Services" },
-  { href: "/contact", label: "Contact" },
-];
 
 function MenuGlyph({ open }: { open: boolean }) {
   return (
@@ -20,7 +16,12 @@ function MenuGlyph({ open }: { open: boolean }) {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ settings }: { settings: SiteSettingsContent }) {
+  const primaryNavigation = [
+    { href: "/the-atelier", label: settings.copy.atelier },
+    { href: "/services", label: settings.copy.services },
+    { href: "/contact", label: settings.copy.contact },
+  ];
   const pathname = usePathname();
   const overlaysHero = pathname === "/";
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -106,9 +107,9 @@ export function SiteHeader() {
       <div className="site-header__inner">
         <Link href="/" className="site-logo" aria-label="ETÉRA home">
           <Image
-            alt="ETÉRA Creative Atelier"
+            alt={settings.redLogo?.alt ?? "ETÉRA Creative Atelier"}
             className="site-logo__red"
-            src="/design/assets/logo-etera-red.svg"
+            src={settings.redLogo?.url ?? "/design/assets/logo-etera-red.svg"}
             width={177}
             height={80}
             unoptimized
@@ -117,7 +118,7 @@ export function SiteHeader() {
             alt=""
             aria-hidden="true"
             className="site-logo__milk"
-            src="/design/assets/logo-etera-white.svg"
+            src={settings.whiteLogo?.url ?? "/design/assets/logo-etera-white.svg"}
             width={177}
             height={80}
             unoptimized
@@ -133,7 +134,7 @@ export function SiteHeader() {
           ref={menuButtonRef}
           type="button"
         >
-          <span>{open ? "Close" : "Menu"}</span>
+          <span>{open ? settings.copy.close : settings.copy.menu}</span>
           <MenuGlyph open={open} />
         </button>
 
@@ -167,7 +168,7 @@ export function SiteHeader() {
             href="/contact#inquiry"
             onClick={() => setOpen(false)}
           >
-            Start a Project
+            {settings.copy.project}
           </Link>
         </nav>
       </div>

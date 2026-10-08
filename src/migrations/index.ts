@@ -4,6 +4,7 @@ import * as migration_20260902_081859_add_atelier_team_members from './20260902_
 import * as migration_20260902_083601_add_atelier_team_portraits from './20260902_083601_add_atelier_team_portraits';
 import * as migration_20260902_110929_add_payload_mcp_api_keys from './20260902_110929_add_payload_mcp_api_keys';
 import * as migration_20261008_111621_client_feedback_editable_copy from './20261008_111621_client_feedback_editable_copy';
+import * as migration_20261008_145106 from './20261008_145106';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20261008_111621_client_feedback_editable_copy.up,
     down: migration_20261008_111621_client_feedback_editable_copy.down,
-    name: '20261008_111621_client_feedback_editable_copy'
+    name: '20261008_111621_client_feedback_editable_copy',
+  },
+  {
+    up: migration_20261008_145106.up,
+    down: migration_20261008_145106.down,
+    name: '20261008_145106'
   },
 ];

@@ -2,7 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
-export function HeroVideo() {
+export function HeroVideo({
+  src = "/media/etera-hero.mp4",
+  poster = "/media/etera-hero-poster.jpg",
+}: { src?: string; poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -38,7 +41,7 @@ export function HeroVideo() {
       document.removeEventListener("visibilitychange", syncPlayback);
       video.removeEventListener("canplay", syncPlayback);
     };
-  }, []);
+  }, [src]);
 
   return (
     <>
@@ -49,12 +52,12 @@ export function HeroVideo() {
         loop
         muted
         playsInline
-        poster="/media/etera-hero-poster.jpg"
+        poster={poster}
         preload="metadata"
         ref={videoRef}
         tabIndex={-1}
       >
-        <source src="/media/etera-hero.mp4" type="video/mp4" />
+        <source src={src} />
       </video>
     </>
   );

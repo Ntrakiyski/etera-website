@@ -19,6 +19,7 @@ import { ContactPage } from "./globals/ContactPage";
 import { HomePage } from "./globals/HomePage";
 import { ServicesPage } from "./globals/ServicesPage";
 import { SiteSettings } from "./globals/SiteSettings";
+import { LegalPages } from "./globals/LegalPages";
 import { WorkPage } from "./globals/WorkPage";
 
 const filename = fileURLToPath(import.meta.url);
@@ -68,6 +69,7 @@ export default buildConfig({
     ServicesPage,
     ContactPage,
     SiteSettings,
+    LegalPages,
   ],
   graphQL: {
     disable: true,

@@ -61,25 +61,22 @@ export default async function Home() {
 
   return (
     <main id="main-content" tabIndex={-1}>
-      <HomeHeroSequence />
+      <HomeHeroSequence home={home} />
 
       <section className="atelier-preview">
-        <AetherMedia label="Inside the Atelier" study="atelier" />
+        <AetherMedia image={home.atelierPreviewImage} label="Inside the Atelier" study="atelier" />
         <div className="atelier-preview__copy">
           <h2>{atelier.headline}</h2>
           <p>{atelier.intro}</p>
-          <EditorialLink href="/the-atelier">Discover the Atelier</EditorialLink>
+          <EditorialLink href="/the-atelier">{home.atelierLinkLabel}</EditorialLink>
         </div>
       </section>
 
       <section className="services-preview">
         <div className="services-preview__intro">
-          <h2>What We Do</h2>
-          <p>
-            ETÉRA builds the right approach and team around each brief. The
-            capabilities stay broad; the presentation stays compact.
-          </p>
-          <EditorialLink href="/services">Explore Services</EditorialLink>
+          <h2>{home.servicesHeading}</h2>
+          <p>{home.servicesIntro}</p>
+          <EditorialLink href="/services">{home.servicesLinkLabel}</EditorialLink>
         </div>
         <ServiceIndex services={services} tone="light" />
       </section>
@@ -87,7 +84,7 @@ export default async function Home() {
       {partners.length > 0 ? (
         <section className="partners-preview">
           <div>
-            <h2>Selected Partners</h2>
+            <h2>{home.partnersHeading}</h2>
           </div>
           <div className="partners-preview__grid">
             {partners.map((partner) => (
