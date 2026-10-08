@@ -12,43 +12,18 @@ import {
   getSiteSettings,
 } from "@/lib/cms";
 import { isLaunchReadyPartner } from "@/lib/content-readiness";
-import { getSiteUrl } from "@/lib/site";
+import { buildPageMetadata } from "@/lib/metadata";
 
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
-  const siteUrl = getSiteUrl();
-
-  return {
-    alternates: { canonical: new URL("/", siteUrl) },
+  return buildPageMetadata({
     description: settings.seoDescription,
-    openGraph: {
-      description: settings.seoDescription,
-      images: [
-        {
-          alt: "The founders of ETÉRA Creative Atelier",
-          url: new URL("/media/etera-founders.webp", siteUrl),
-        },
-      ],
-      title: settings.seoTitle,
-      type: "website",
-      url: siteUrl,
-    },
-    title: { absolute: settings.seoTitle },
-    twitter: {
-      card: "summary_large_image",
-      description: settings.seoDescription,
-      images: [
-        {
-          alt: "The founders of ETÉRA Creative Atelier",
-          url: new URL("/media/etera-founders.webp", siteUrl),
-        },
-      ],
-      title: settings.seoTitle,
-    },
-  };
+    path: "/",
+    title: settings.seoTitle,
+  });
 }
 
 export default async function Home() {

@@ -1,14 +1,19 @@
 import type { MetadataRoute } from "next";
 
-import { getSiteUrl } from "@/lib/site";
-
-const publicRoutes = ["/", "/the-atelier", "/services", "/contact", "/terms-and-conditions", "/privacy-policy", "/cookie-policy"];
+import { getSEOSettings, getSEOSiteUrl, seoRoutes } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = getSiteUrl();
-  return publicRoutes.map((route) => ({
-    url: new URL(route, siteUrl).toString(),
-  }));
+  const seo = await getSEOSettings();
+  if (!seo.indexingEnabled) return [];
+
+  const siteUrl = getSEOSiteUrl(seo);
+  return Object.entries(seoRoutes).flatMap(([route, key]) => {
+    const page = seo.pages[key];
+    const url = new URL(route, siteUrl).toString();
+    return page.noIndex || (page.canonicalURL && page.canonicalURL !== url)
+      ? []
+      : [{ url }];
+  });
 }

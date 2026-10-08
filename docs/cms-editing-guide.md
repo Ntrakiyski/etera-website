@@ -9,7 +9,7 @@ Open https://etera.trakiyski.work/admin and sign in with an editor or admin acco
 | Services Page + Services | Page hero, capabilities introduction and category labels; individual service names, summaries and rich-text details in Services. |
 | Contact Page | Hero and recipient email; booking introduction; every visible form label, service checkbox choice, validation message and email-draft status/link. Booking URL is in Site Settings. |
 | Legal Pages | Titles and rich-text bodies of Terms, Privacy and Cookie policies, preserving approved documents initially. |
-| Site Settings | Header/footer page labels, menu labels, red CTA text, project button, copyright and policy link labels; red/white logos, email, booking URL, social links and SEO title/description. |
+| Site Settings | Header/footer page labels, menu labels, red CTA text, project button, copyright and policy link labels; red/white logos, email, booking URL, social links. SEO has its own Settings section. |
 
 Upload images in Media with meaningful Alt text, then select them in the relevant page's image field. Existing image slots keep their approved fallback when no upload is selected. Team portraits now have real Media selections, so changing a person's name does not change their photograph. Upload MP4 or WebM for the Home video; select an image for its poster.
 
@@ -18,3 +18,5 @@ Use Publish for page updates. Save Draft leaves the current public version uncha
 People and Projects collections contain earlier/future portfolio records. The visible founder cards are edited in The Atelier Page → Team Members, not People. Public Work pages remain deferred. Services and Contact currently use typography rather than decorative images, so no new image sections were introduced.
 
 The layout, colours and animation remain code-managed. The inquiry form still prepares an email draft until Resend is configured.
+
+Search snippets, social cards, website icon and indexing: see [SEO editing guide](seo-editing-guide.md).

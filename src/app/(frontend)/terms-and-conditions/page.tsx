@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/LegalDocument";
 import { getLegalPages } from "@/lib/legal-content";
+import { buildPageMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const pages = await getLegalPages();
-  return { title: pages.terms.title };
+  return buildPageMetadata({
+    description: "",
+    path: "/terms-and-conditions",
+    title: pages.terms.title,
+  });
 }
 
 export default async function LegalPage() {

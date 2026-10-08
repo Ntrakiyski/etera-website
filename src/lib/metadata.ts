@@ -1,46 +1,8 @@
 import type { Metadata } from "next";
+import { getSEOSettings, getSEOSiteUrl, seoRoutes } from "./seo";
+import { resolvePageMetadata } from "./seo-metadata";
 
-import { getSiteUrl } from "./site";
-
-export function buildPageMetadata({
-  description,
-  path,
-  title,
-}: {
-  description: string;
-  path: string;
-  title: string;
-}): Metadata {
-  const siteUrl = getSiteUrl();
-  const canonical = new URL(path, siteUrl);
-  const image = new URL("/media/etera-founders.webp", siteUrl);
-
-  return {
-    alternates: { canonical },
-    description,
-    openGraph: {
-      description,
-      images: [
-        {
-          alt: "The founders of ETÉRA Creative Atelier",
-          url: image,
-        },
-      ],
-      title,
-      type: "website",
-      url: canonical,
-    },
-    title,
-    twitter: {
-      card: "summary_large_image",
-      description,
-      images: [
-        {
-          alt: "The founders of ETÉRA Creative Atelier",
-          url: image,
-        },
-      ],
-      title,
-    },
-  };
+export async function buildPageMetadata(input: { title: string; description: string; path: string }): Promise<Metadata> {
+  const settings = await getSEOSettings();
+  return resolvePageMetadata(input, settings, getSEOSiteUrl(settings), seoRoutes[input.path as keyof typeof seoRoutes]);
 }

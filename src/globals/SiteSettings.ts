@@ -72,12 +72,14 @@ export const SiteSettings: GlobalConfig = {
     },
     {
       name: "seoTitle",
+      admin: { hidden: true },
       type: "text",
       defaultValue: "ETÉRA Creative Atelier",
       required: true,
     },
     {
       name: "seoDescription",
+      admin: { hidden: true },
       type: "textarea",
       defaultValue:
         "ETÉRA is a creative atelier that builds presence and shapes culture.",

@@ -97,3 +97,17 @@ Mistake: Generated migration rebuilt tables and selected newly added columns bef
 Why it happened: Upload foreign keys and default changes triggered Drizzle rebuilds.
 Rule for next time: Inspect every copy SELECT and preserve child tables. Use additive columns for nullable upload relationships; prove against a pre-migration database before remote application.
 Example check: Migration up contains no DROP TABLE or PRAGMA foreign_keys=OFF; all existing rows and child references remain unchanged.
+
+## 2026-10-08 - Let crawlers read noindex
+
+Mistake: Initial SEO crawler rules blocked all public URLs when indexing was disabled.
+Why it happened: Crawl blocking was treated as equivalent to removing pages from search.
+Rule for next time: Keep public pages crawlable so engines can read noindex; exclude noindex pages from the sitemap. Noindex is not a privacy control.
+Example check: Indexing disabled yields page noindex and empty sitemap while robots.txt still allows public crawling.
+
+## 2026-10-08 - Wait for authenticated-route redirects
+
+Mistake: Live browser check asserted the admin URL before hydration and then used a pattern that omitted the redirect query.
+Why it happened: CMS redirects happen client-side and preserve the requested URL in a query parameter.
+Rule for next time: Wait for the login route with optional query parameters and its login control.
+Example check: Match /admin/login with a URL regular expression, then wait for the Login button.

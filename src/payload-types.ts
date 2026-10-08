@@ -106,6 +106,7 @@ export interface Config {
     'contact-page': ContactPage;
     'site-settings': SiteSetting;
     'legal-pages': LegalPage;
+    'seo-settings': SeoSetting;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
@@ -115,6 +116,7 @@ export interface Config {
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
+    'seo-settings': SeoSettingsSelect<false> | SeoSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1123,6 +1125,199 @@ export interface LegalPage {
   createdAt?: string | null;
 }
 /**
+ * Control search and sharing metadata. Google and social platforms may rewrite or cache previews; publishing updates the website's tags.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-settings".
+ */
+export interface SeoSetting {
+  id: string;
+  siteName: string;
+  /**
+   * Default search title. Blank keeps the existing site title.
+   */
+  defaultTitle?: string | null;
+  /**
+   * Default search description. Aim for roughly 150–160 characters; search engines may rewrite it.
+   */
+  defaultDescription?: string | null;
+  /**
+   * Added after inner-page search titles. Blank removes the suffix.
+   */
+  titleSuffix?: string | null;
+  /**
+   * Leave blank to use the deployed domain. Controls canonical URLs, sitemap URLs and sharing URLs. Only set a domain that serves this website.
+   */
+  siteURL?: string | null;
+  /**
+   * Recommended: 1200 × 630 px. Alt text comes from Media.
+   */
+  sharingImage?: (string | null) | Media;
+  /**
+   * Square PNG recommended, 512 × 512 px. Used for browser tabs and search-result icons.
+   */
+  siteIcon?: (string | null) | Media;
+  /**
+   * Disable to ask search engines not to index the entire public site. This does not make pages private.
+   */
+  indexingEnabled?: boolean | null;
+  /**
+   * Paste only the content value from Google's HTML verification tag.
+   */
+  googleVerification?: string | null;
+  twitterHandle?: string | null;
+  /**
+   * Blank fields inherit the page/site defaults. Social fields can differ from the search snippet.
+   */
+  home?: {
+    title?: string | null;
+    description?: string | null;
+    sharingTitle?: string | null;
+    sharingDescription?: string | null;
+    /**
+     * Recommended: 1200 × 630 px. Alt text comes from Media.
+     */
+    sharingImage?: (string | null) | Media;
+    /**
+     * Advanced: optional preferred URL for this page. Leave blank for the normal page URL.
+     */
+    canonicalURL?: string | null;
+    /**
+     * Adds noindex and removes the page from the sitemap. The page remains public.
+     */
+    noIndex?: boolean | null;
+  };
+  /**
+   * Blank fields inherit the page/site defaults. Social fields can differ from the search snippet.
+   */
+  atelier?: {
+    title?: string | null;
+    description?: string | null;
+    sharingTitle?: string | null;
+    sharingDescription?: string | null;
+    /**
+     * Recommended: 1200 × 630 px. Alt text comes from Media.
+     */
+    sharingImage?: (string | null) | Media;
+    /**
+     * Advanced: optional preferred URL for this page. Leave blank for the normal page URL.
+     */
+    canonicalURL?: string | null;
+    /**
+     * Adds noindex and removes the page from the sitemap. The page remains public.
+     */
+    noIndex?: boolean | null;
+  };
+  /**
+   * Blank fields inherit the page/site defaults. Social fields can differ from the search snippet.
+   */
+  services?: {
+    title?: string | null;
+    description?: string | null;
+    sharingTitle?: string | null;
+    sharingDescription?: string | null;
+    /**
+     * Recommended: 1200 × 630 px. Alt text comes from Media.
+     */
+    sharingImage?: (string | null) | Media;
+    /**
+     * Advanced: optional preferred URL for this page. Leave blank for the normal page URL.
+     */
+    canonicalURL?: string | null;
+    /**
+     * Adds noindex and removes the page from the sitemap. The page remains public.
+     */
+    noIndex?: boolean | null;
+  };
+  /**
+   * Blank fields inherit the page/site defaults. Social fields can differ from the search snippet.
+   */
+  contact?: {
+    title?: string | null;
+    description?: string | null;
+    sharingTitle?: string | null;
+    sharingDescription?: string | null;
+    /**
+     * Recommended: 1200 × 630 px. Alt text comes from Media.
+     */
+    sharingImage?: (string | null) | Media;
+    /**
+     * Advanced: optional preferred URL for this page. Leave blank for the normal page URL.
+     */
+    canonicalURL?: string | null;
+    /**
+     * Adds noindex and removes the page from the sitemap. The page remains public.
+     */
+    noIndex?: boolean | null;
+  };
+  /**
+   * Blank fields inherit the page/site defaults. Social fields can differ from the search snippet.
+   */
+  terms?: {
+    title?: string | null;
+    description?: string | null;
+    sharingTitle?: string | null;
+    sharingDescription?: string | null;
+    /**
+     * Recommended: 1200 × 630 px. Alt text comes from Media.
+     */
+    sharingImage?: (string | null) | Media;
+    /**
+     * Advanced: optional preferred URL for this page. Leave blank for the normal page URL.
+     */
+    canonicalURL?: string | null;
+    /**
+     * Adds noindex and removes the page from the sitemap. The page remains public.
+     */
+    noIndex?: boolean | null;
+  };
+  /**
+   * Blank fields inherit the page/site defaults. Social fields can differ from the search snippet.
+   */
+  privacy?: {
+    title?: string | null;
+    description?: string | null;
+    sharingTitle?: string | null;
+    sharingDescription?: string | null;
+    /**
+     * Recommended: 1200 × 630 px. Alt text comes from Media.
+     */
+    sharingImage?: (string | null) | Media;
+    /**
+     * Advanced: optional preferred URL for this page. Leave blank for the normal page URL.
+     */
+    canonicalURL?: string | null;
+    /**
+     * Adds noindex and removes the page from the sitemap. The page remains public.
+     */
+    noIndex?: boolean | null;
+  };
+  /**
+   * Blank fields inherit the page/site defaults. Social fields can differ from the search snippet.
+   */
+  cookies?: {
+    title?: string | null;
+    description?: string | null;
+    sharingTitle?: string | null;
+    sharingDescription?: string | null;
+    /**
+     * Recommended: 1200 × 630 px. Alt text comes from Media.
+     */
+    sharingImage?: (string | null) | Media;
+    /**
+     * Advanced: optional preferred URL for this page. Leave blank for the normal page URL.
+     */
+    canonicalURL?: string | null;
+    /**
+     * Adds noindex and removes the page from the sitemap. The page remains public.
+     */
+    noIndex?: boolean | null;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page_select".
  */
@@ -1348,6 +1543,103 @@ export interface LegalPagesSelect<T extends boolean = true> {
     | {
         title?: T;
         body?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-settings_select".
+ */
+export interface SeoSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  defaultTitle?: T;
+  defaultDescription?: T;
+  titleSuffix?: T;
+  siteURL?: T;
+  sharingImage?: T;
+  siteIcon?: T;
+  indexingEnabled?: T;
+  googleVerification?: T;
+  twitterHandle?: T;
+  home?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        sharingTitle?: T;
+        sharingDescription?: T;
+        sharingImage?: T;
+        canonicalURL?: T;
+        noIndex?: T;
+      };
+  atelier?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        sharingTitle?: T;
+        sharingDescription?: T;
+        sharingImage?: T;
+        canonicalURL?: T;
+        noIndex?: T;
+      };
+  services?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        sharingTitle?: T;
+        sharingDescription?: T;
+        sharingImage?: T;
+        canonicalURL?: T;
+        noIndex?: T;
+      };
+  contact?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        sharingTitle?: T;
+        sharingDescription?: T;
+        sharingImage?: T;
+        canonicalURL?: T;
+        noIndex?: T;
+      };
+  terms?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        sharingTitle?: T;
+        sharingDescription?: T;
+        sharingImage?: T;
+        canonicalURL?: T;
+        noIndex?: T;
+      };
+  privacy?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        sharingTitle?: T;
+        sharingDescription?: T;
+        sharingImage?: T;
+        canonicalURL?: T;
+        noIndex?: T;
+      };
+  cookies?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        sharingTitle?: T;
+        sharingDescription?: T;
+        sharingImage?: T;
+        canonicalURL?: T;
+        noIndex?: T;
       };
   _status?: T;
   updatedAt?: T;

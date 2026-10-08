@@ -19,6 +19,7 @@ import { ContactPage } from "./globals/ContactPage";
 import { HomePage } from "./globals/HomePage";
 import { ServicesPage } from "./globals/ServicesPage";
 import { SiteSettings } from "./globals/SiteSettings";
+import { SEOSettings } from "./globals/SEOSettings";
 import { LegalPages } from "./globals/LegalPages";
 import { WorkPage } from "./globals/WorkPage";
 
@@ -70,6 +71,7 @@ export default buildConfig({
     ContactPage,
     SiteSettings,
     LegalPages,
+    SEOSettings,
   ],
   graphQL: {
     disable: true,

@@ -169,3 +169,14 @@ Constraints: Preserve current published copy, layout, CMS records and approved p
 Verification adjustment: Payload's D1 version writer exceeded the 100-parameter limit when saving long legal block arrays. Use the existing rich-text editor with JSON storage for legal bodies instead. Generated migration table rebuilds also required correction; final migration will be tested against an exported production snapshot before applying remotely. No production schema changes have been made yet.
 
 Review: Corrected Alexandra/Yoana portraits and initialized real Media selections. Added CMS controls for all visible content on seven public pages and their existing media slots, plus header/footer labels/logos and legal rich-text editors. Existing service content and team text remain editable. Eight tests, lint, typecheck and OpenNext build passed. Editor Local API and browser login/edit/publish passed; drafts stayed off published reads and anonymous writes were rejected. Additive schema verified against production snapshot before remote migration. Live 1440/390px checks passed for all seven pages, exact approved policy text, correctly served portrait bytes and matching profile heights. Published Cloudflare version b0ceaabe-7227-457c-b04d-84603041830c. Editor guide: docs/cms-editing-guide.md; full evidence: docs/client-feedback/2026-10-08/verification/cms-complete-editing.md. Layout remains code-managed; email/booking unchanged. Browser checks used Chrome.
+
+## Dedicated SEO and social sharing settings
+
+Goal: Add SEO & Social Sharing beside Site Settings, with site defaults and seven per-page search/social/indexing controls.
+Constraints: Preserve existing metadata until editors change it; no keywords/ranking guarantees or new public layout. CMS must validate canonical URLs and protect editing. Draft SEO edits stay off published pages.
+- [x] Add site/per-page controls and wire metadata, robots and sitemap.
+- [x] Generate additive migration and preserve previous SEO defaults.
+- [x] Verify save/publish, rendered metadata/image inheritance/indexing and CMS UI.
+- [x] Deploy, verify live and document usage/limits.
+
+Review: Added Settings → SEO & Social Sharing for all seven public pages. Published values drive search/social tags, canonical URLs, uploaded sharing images/site icon, Google verification, structured data, robots and sitemap. Existing defaults and editor data preserved with two additive tables; production snapshot checks found no changed existing rows. Eleven tests, lint, TypeScript and OpenNext build passed. Local authenticated save/publish, drafts, image selection, URL validation and anonymous-write checks passed. Live metadata, icons, robots/sitemap and public SEO values verified. Cloudflare Worker 4d72e9c1-19d5-4069-9de0-67d02929226c deployed. Guide: docs/seo-editing-guide.md. Actual Google/social platform previews were not checked and may cache or rewrite website metadata.
