@@ -2677,18 +2677,6 @@ html[data-home-header-on-milk] .site-logo .site-logo__milk,
   margin-top: 2rem;
 }
 
-.home-hero__play {
-  background: var(--etera-maroon);
-  border: 1px solid var(--etera-milk-white);
-  color: var(--etera-milk-white);
-  cursor: pointer;
-  padding: 0.75rem 1rem;
-  position: absolute;
-  right: var(--gutter);
-  bottom: 2rem;
-  z-index: 3;
-}
-
 .inquiry-form input[aria-invalid="true"],
 .inquiry-form textarea[aria-invalid="true"] {
   border-bottom-width: 2px;

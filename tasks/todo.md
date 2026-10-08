@@ -112,3 +112,7 @@ Constraints: no invented client content, no email sending integration, no secret
 Release correction: first deployment failed Home with No such module wrangler. Restored prior live Worker, added runtime guard using WebSocketPair, rebuilt with production site URL, and verified compiled Worker Home returns 200 locally. Publishing corrected build next.
 
 Production review: Application release 7f9dfd8 is live at https://etera.trakiyski.work, Cloudflare Worker version d91ebfa3-b31f-43e5-8d06-9c8121993971. Additive migration recorded in production and default values verified. GitHub checks passed for application release. Live browser checks passed 16 page/viewport combinations, inline form validation/email draft, navigation, accordion, reduced motion, hidden Work/sitemap and no console errors. Legal pages return 200/noindex; live red CTA and black footer, header hide, and final screenshot verified. Autoplay-block simulation adjusted to block native as well as scripted playback and fallback passed separately. Lint, tests, types, build and dry deploy passed. Generated Wrangler local artifacts now excluded from lint. Direct sending remains deferred; legal content and restricted portraits remain client inputs. Localhost production server remains available.
+
+## Remove autoplay fallback control
+
+Removed the visible Play background video button at user request. Retained autoplay and static poster when playback is blocked. Verify source/build, publish to main and Cloudflare, then check live DOM.
