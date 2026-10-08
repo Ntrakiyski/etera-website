@@ -1,0 +1,8 @@
+# CMS and inquiry verification, 8 October 2026
+
+- Payload types and additive migration `20261008_111621_client_feedback_editable_copy` generated. Local D1 migration succeeded, adding defaulted copy fields to current globals and version tables; no remote bindings or production data were changed.
+- Local temporary editor account saved and published Services capabilities copy, an empty optional capabilities intro, Experiences & Partnerships display label, and Company inquiry label through Payload Local API with `overrideAccess: false`. Public read helpers returned all edited values. Existing Services rich-text details were saved and returned by the public services helper. Test records/account were removed and globals restored afterward.
+- CMS verification used production initialization with explicit local bindings (`NODE_ENV=production PAYLOAD_CLOUDFLARE_LOCAL=1`) because development schema push attempted to recreate an existing `payload_preferences_rels_order_idx` index. This is an existing migration/schema-push mismatch; no remote changes were made to bypass it.
+- `npm run typecheck`, scoped ESLint and `git diff --check` passed after implementation.
+- `node --test --experimental-strip-types src/tests/inquiry.test.ts` passed. It covers valid multi-select with optional blanks, whitespace-only required fields, malformed email, missing services and trimmed email.
+- Browser-level errors, focus, draft opening and screenshots are checked in the main verification pass. Native email delivery is intentionally unchanged: submission prepares an email draft and requires the visitor to open/send it.

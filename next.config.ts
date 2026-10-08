@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
+    // Local Wrangler processes share SQLite state; serialize offline build workers.
+    ...(process.env.PAYLOAD_CLOUDFLARE_LOCAL === "1" ? { cpus: 1 } : {}),
     globalNotFound: true,
   },
   images: {

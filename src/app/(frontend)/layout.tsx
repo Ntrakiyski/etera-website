@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
+import { EntryMotion } from "@/components/EntryMotion";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getSiteSettings } from "@/lib/cms";
@@ -67,6 +68,7 @@ export default async function RootLayout({
           Skip to content
         </a>
         <SiteHeader />
+        <EntryMotion />
         {children}
         <SiteFooter settings={settings} />
         <script

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { AetherMedia } from "@/components/AetherMedia";
+import { EditorialLink } from "@/components/EditorialLink";
 import { MethodSequence } from "@/components/MethodSequence";
 import { getAtelierPage } from "@/lib/cms";
 import { buildPageMetadata } from "@/lib/metadata";
@@ -77,13 +78,19 @@ export default async function TheAtelierPage() {
 
       <section className="atelier-method">
         <div>
-          <h2>ETÉRA Method</h2>
+          <h2 className="atelier-method__heading">
+            <Image alt="ETÉRA" src="/design/assets/logo-etera-red-wordmark.svg" width={266} height={96} unoptimized />
+            <span>Method</span>
+          </h2>
           <p>
             A precise sequence that stays flexible enough to meet the project
             where it is.
           </p>
         </div>
-        <MethodSequence steps={methodSteps} />
+        <div>
+          <MethodSequence steps={methodSteps} />
+          <EditorialLink href="/services">Explore Services</EditorialLink>
+        </div>
       </section>
 
     </main>

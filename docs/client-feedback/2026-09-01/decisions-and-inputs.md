@@ -1,3 +1,7 @@
+# Superseded review decisions
+
+The latest meeting revision in `../2026-10-08/change-plan.md` overrides graphite black, restored public Work previews and the Home monogram described below. This file preserves historical context.
+
 # Client Decisions and Outstanding Inputs
 
 Meeting: 1 September 2026, 10:30 EEST. Times below refer to the meeting recording retained outside Git.

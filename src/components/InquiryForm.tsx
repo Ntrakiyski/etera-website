@@ -2,6 +2,13 @@
 
 import { useMemo, useState } from "react";
 
+import type { InquiryLabels } from "@/lib/cms";
+import {
+  validateInquiry,
+  type InquiryDraft,
+  type InquiryErrors,
+} from "@/lib/inquiry-validation";
+
 const serviceOptions = [
   "Brand Strategy",
   "Brand Identity",
@@ -18,16 +25,6 @@ const serviceOptions = [
   "Website / Landing Page",
   "Other",
 ];
-
-type InquiryDraft = {
-  additional: string;
-  brand: string;
-  budget: string;
-  email: string;
-  name: string;
-  project: string;
-  services: string[];
-};
 
 type InquiryTextField = Exclude<keyof InquiryDraft, "services">;
 
@@ -60,14 +57,26 @@ function buildMailto(recipient: string, draft: InquiryDraft) {
   return `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-export function InquiryForm({ email }: { email: string }) {
+export function InquiryForm({
+  email,
+  labels,
+}: {
+  email: string;
+  labels: InquiryLabels;
+}) {
   const [draft, setDraft] = useState<InquiryDraft>(emptyDraft);
   const [ready, setReady] = useState(false);
-  const [serviceError, setServiceError] = useState(false);
+  const [errors, setErrors] = useState<InquiryErrors>({});
   const mailto = useMemo(() => buildMailto(email, draft), [draft, email]);
 
   function update(field: InquiryTextField, value: string) {
-    setDraft((current) => ({ ...current, [field]: value }));
+    const next = { ...draft, [field]: value };
+    setDraft(next);
+    if (errors[field])
+      setErrors((current) => ({
+        ...current,
+        [field]: validateInquiry(next)[field],
+      }));
     setReady(false);
   }
 
@@ -79,45 +88,65 @@ export function InquiryForm({ email }: { email: string }) {
         : current.services.filter((item) => item !== service),
     }));
     setReady(false);
-    setServiceError(false);
+    setErrors((current) => ({ ...current, services: undefined }));
   }
 
   return (
     <form
       className="inquiry-form"
       id="inquiry"
+      noValidate
       onSubmit={(event) => {
         event.preventDefault();
 
-        if (draft.services.length === 0) {
-          setServiceError(true);
+        const nextErrors = validateInquiry(draft);
+        setErrors(nextErrors);
+        const firstInvalid = Object.keys(nextErrors)[0];
+        if (firstInvalid) {
+          event.currentTarget
+            .querySelector<HTMLElement>(`[name="${firstInvalid}"]`)
+            ?.focus();
           return;
         }
+        setDraft((current) => ({
+          ...current,
+          name: current.name.trim(),
+          email: current.email.trim(),
+          project: current.project.trim(),
+        }));
 
         setReady(true);
       }}
     >
       <div className="inquiry-form__intro">
-        <h2>Tell us what you are shaping.</h2>
-        <p>
-          Complete the form to prepare a project inquiry in your email app.
-          Nothing is sent until you review and send the message.
-        </p>
+        <h2>{labels.heading}</h2>
+        <p>{labels.help}</p>
       </div>
 
       <div className="inquiry-form__fields">
         <label>
-          <span>Full Name</span>
+          <span>{labels.name}</span>
           <input
             autoComplete="name"
+            aria-describedby={errors.name ? "inquiry-name-error" : undefined}
+            aria-invalid={Boolean(errors.name)}
             name="name"
             onChange={(event) => update("name", event.target.value)}
             required
             value={draft.name}
           />
+          {errors.name ? (
+            <span
+              className="inquiry-form__error"
+              id="inquiry-name-error"
+              role="alert"
+            >
+              {errors.name}
+            </span>
+          ) : null}
         </label>
         <label>
-          <span>Company Name</span>
+          <span>{labels.brand}</span>
           <input
             autoComplete="organization"
             name="brand"
@@ -126,24 +155,37 @@ export function InquiryForm({ email }: { email: string }) {
           />
         </label>
         <label>
-          <span>Email Address</span>
+          <span>{labels.email}</span>
           <input
             autoComplete="email"
+            aria-describedby={errors.email ? "inquiry-email-error" : undefined}
+            aria-invalid={Boolean(errors.email)}
             name="email"
             onChange={(event) => update("email", event.target.value)}
             required
             type="email"
             value={draft.email}
           />
+          {errors.email ? (
+            <span
+              className="inquiry-form__error"
+              id="inquiry-email-error"
+              role="alert"
+            >
+              {errors.email}
+            </span>
+          ) : null}
         </label>
         <fieldset
-          aria-describedby={serviceError ? "service-choice-error" : undefined}
-          aria-invalid={serviceError}
+          aria-describedby={
+            errors.services ? "service-choice-error" : undefined
+          }
+          aria-invalid={Boolean(errors.services)}
           className="inquiry-form__services inquiry-form__wide"
         >
           <legend>
-            What can we help with?
-            <span>Select all that apply</span>
+            {labels.services}
+            <span>{labels.servicesHelp}</span>
           </legend>
           <div className="inquiry-form__service-options">
             {serviceOptions.map((option) => (
@@ -161,28 +203,41 @@ export function InquiryForm({ email }: { email: string }) {
               </label>
             ))}
           </div>
-          {serviceError ? (
+          {errors.services ? (
             <p
               className="inquiry-form__error"
               id="service-choice-error"
               role="alert"
             >
-              Select at least one service.
+              {errors.services}
             </p>
           ) : null}
         </fieldset>
         <label className="inquiry-form__wide">
-          <span>Tell us about the project</span>
+          <span>{labels.project}</span>
           <textarea
+            aria-describedby={
+              errors.project ? "inquiry-project-error" : undefined
+            }
+            aria-invalid={Boolean(errors.project)}
             name="project"
             onChange={(event) => update("project", event.target.value)}
             required
             rows={5}
             value={draft.project}
           />
+          {errors.project ? (
+            <span
+              className="inquiry-form__error"
+              id="inquiry-project-error"
+              role="alert"
+            >
+              {errors.project}
+            </span>
+          ) : null}
         </label>
         <label>
-          <span>Budget (optional)</span>
+          <span>{labels.budget}</span>
           <input
             name="budget"
             onChange={(event) => update("budget", event.target.value)}
@@ -190,7 +245,7 @@ export function InquiryForm({ email }: { email: string }) {
           />
         </label>
         <label>
-          <span>Additional information (optional)</span>
+          <span>{labels.additional}</span>
           <input
             name="additional"
             onChange={(event) => update("additional", event.target.value)}
@@ -201,13 +256,13 @@ export function InquiryForm({ email }: { email: string }) {
 
       <div aria-live="polite" className="inquiry-form__actions">
         <button className="primary-action" type="submit">
-          Send Inquiry
+          {labels.submit}
         </button>
         {ready ? (
           <div className="inquiry-form__ready" role="status">
             <p>
-              Your inquiry draft is ready. Open it in your email app and send
-              it to complete the inquiry.
+              Your inquiry draft is ready. Open it in your email app and send it
+              to complete the inquiry.
             </p>
             <a className="editorial-link" href={mailto}>
               Open email draft

@@ -32,20 +32,21 @@ export default async function ServicesPage() {
         <p className="page-hero__intro">{page.intro}</p>
       </header>
 
-      <section aria-labelledby="services-capabilities-title" className="services-directory">
+      <section
+        aria-labelledby="services-capabilities-title"
+        className="services-directory"
+      >
         <aside className="services-directory__aside">
-          <p>Capabilities</p>
-          <h2 id="services-capabilities-title">
-            Strategy and execution, assembled around the brief.
-          </h2>
-          <p>
-            ETÉRA brings the relevant disciplines together as one considered
-            practice, with the approach and team shaped for each project.
-          </p>
+          <p>{page.capabilitiesKicker}</p>
+          <h2 id="services-capabilities-title">{page.capabilitiesHeadline}</h2>
+          <p>{page.capabilitiesIntro}</p>
         </aside>
-        <ServiceIndex services={services} tone="light" />
+        <ServiceIndex
+          groupLabels={page.groupLabels}
+          services={services}
+          tone="light"
+        />
       </section>
-
     </main>
   );
 }

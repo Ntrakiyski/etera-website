@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { RichText } from "@payloadcms/richtext-lexical/react";
+import type { SerializedEditorState } from "lexical";
 
 import type { ServiceSummary } from "@/lib/cms";
 
@@ -28,9 +30,11 @@ function groupServices(services: ServiceSummary[]) {
 export function ServiceIndex({
   services,
   tone = "light",
+  groupLabels,
 }: {
   services: ServiceSummary[];
   tone?: "dark" | "light";
+  groupLabels?: Record<string, string>;
 }) {
   const groups = useMemo(() => groupServices(services), [services]);
   const [openGroup, setOpenGroup] = useState<string | null>(
@@ -45,6 +49,7 @@ export function ServiceIndex({
     <div className="service-index" data-tone={tone}>
       {groups.map((group, index) => {
         const open = openGroup === group.area;
+        const groupName = groupLabels?.[group.area] ?? group.area;
         const triggerId = `service-trigger-${index}`;
         const panelId = `service-panel-${index}`;
 
@@ -61,7 +66,7 @@ export function ServiceIndex({
               <span className="service-index__number">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="service-index__name">{group.area}</span>
+              <span className="service-index__name">{groupName}</span>
               <span aria-hidden="true" className="service-index__plus" />
             </button>
             <div
@@ -77,6 +82,12 @@ export function ServiceIndex({
                   <div className="service-index__detail" key={item.id}>
                     {item.name !== group.area ? <h3>{item.name}</h3> : null}
                     <p>{item.summary}</p>
+                    {item.details ? (
+                      <RichText
+                        data={item.details as unknown as SerializedEditorState}
+                        disableIndent
+                      />
+                    ) : null}
                   </div>
                 ))}
               </div>

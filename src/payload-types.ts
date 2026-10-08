@@ -913,6 +913,16 @@ export interface ServicesPage {
   kicker: string;
   headline: string;
   intro?: string | null;
+  capabilitiesKicker: string;
+  capabilitiesHeadline: string;
+  capabilitiesIntro?: string | null;
+  groupLabels: {
+    brandCulture: string;
+    creativeVisual: string;
+    contentInfluence: string;
+    experiencesPartnerships: string;
+    digitalGrowth: string;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -927,6 +937,19 @@ export interface ContactPage {
   headline: string;
   intro: string;
   email: string;
+  inquiryLabels: {
+    heading: string;
+    help: string;
+    name: string;
+    brand: string;
+    email: string;
+    services: string;
+    servicesHelp: string;
+    project: string;
+    budget: string;
+    additional: string;
+    submit: string;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1020,6 +1043,18 @@ export interface ServicesPageSelect<T extends boolean = true> {
   kicker?: T;
   headline?: T;
   intro?: T;
+  capabilitiesKicker?: T;
+  capabilitiesHeadline?: T;
+  capabilitiesIntro?: T;
+  groupLabels?:
+    | T
+    | {
+        brandCulture?: T;
+        creativeVisual?: T;
+        contentInfluence?: T;
+        experiencesPartnerships?: T;
+        digitalGrowth?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1034,6 +1069,21 @@ export interface ContactPageSelect<T extends boolean = true> {
   headline?: T;
   intro?: T;
   email?: T;
+  inquiryLabels?:
+    | T
+    | {
+        heading?: T;
+        help?: T;
+        name?: T;
+        brand?: T;
+        email?: T;
+        services?: T;
+        servicesHelp?: T;
+        project?: T;
+        budget?: T;
+        additional?: T;
+        submit?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

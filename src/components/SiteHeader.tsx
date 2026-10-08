@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const primaryNavigation = [
-  { href: "/work", label: "Work" },
   { href: "/the-atelier", label: "The Atelier" },
   { href: "/services", label: "Services" },
   { href: "/contact", label: "Contact" },
@@ -27,6 +26,24 @@ export function SiteHeader() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const navigationRef = useRef<HTMLElement>(null);
   const [open, setOpen] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+
+  useEffect(() => {
+    const footer = document.querySelector(".footer-directory--navigation");
+    if (!footer) return;
+    // Hide when the black footer reaches the bottom edge of the sticky header.
+    const updateFooterVisibility = () => {
+      const headerHeight = navigationRef.current?.closest("header")?.getBoundingClientRect().height ?? 0;
+      setFooterVisible(footer.getBoundingClientRect().top <= headerHeight + 1);
+    };
+    updateFooterVisibility();
+    window.addEventListener("scroll", updateFooterVisibility, { passive: true });
+    window.addEventListener("resize", updateFooterVisibility);
+    return () => {
+      window.removeEventListener("scroll", updateFooterVisibility);
+      window.removeEventListener("resize", updateFooterVisibility);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     document.body.classList.toggle("menu-open", open);
@@ -81,6 +98,8 @@ export function SiteHeader() {
   return (
     <header
       className="site-header"
+      data-footer-visible={footerVisible && !open}
+      inert={footerVisible && !open}
       data-menu-open={open}
       data-overlay={overlaysHero}
     >
@@ -88,14 +107,19 @@ export function SiteHeader() {
         <Link href="/" className="site-logo" aria-label="ETÉRA home">
           <Image
             alt="ETÉRA Creative Atelier"
-            src={
-              overlaysHero && !open
-                ? "/design/assets/logo-etera-white.svg"
-                : "/design/assets/logo-etera-black.svg"
-            }
+            className="site-logo__red"
+            src="/design/assets/logo-etera-red.svg"
             width={177}
             height={80}
-            priority
+            unoptimized
+          />
+          <Image
+            alt=""
+            aria-hidden="true"
+            className="site-logo__milk"
+            src="/design/assets/logo-etera-white.svg"
+            width={177}
+            height={80}
             unoptimized
           />
         </Link>

@@ -39,9 +39,7 @@ export default async function ContactPage() {
         <div className="contact-calendar__intro">
           <p>Book a call</p>
           <h2 id="contact-calendar-title">Choose a time.</h2>
-          <p>
-            Schedule a conversation directly with ETÉRA using the calendar.
-          </p>
+          <p>Schedule a conversation directly with ETÉRA using the calendar.</p>
         </div>
         <div className="contact-calendar__embed">
           <iframe
@@ -52,7 +50,7 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      <InquiryForm email={page.email} />
+      <InquiryForm email={page.email} labels={page.inquiryLabels} />
     </main>
   );
 }

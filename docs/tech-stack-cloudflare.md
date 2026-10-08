@@ -65,6 +65,14 @@ npm install
 
 Create a local `.env` from `.env.example` and set a local `PAYLOAD_SECRET`.
 
+Apply committed migrations to the local database before starting development:
+
+```bash
+NODE_ENV=production PAYLOAD_CLOUDFLARE_LOCAL=1 npm run migrate
+```
+
+The adapter uses migrations rather than automatic development schema pushes. This avoids duplicate-index creation when multiple local processes start. Never use this local command without `PAYLOAD_CLOUDFLARE_LOCAL=1` during offline verification.
+
 Run the local Next.js dev server:
 
 ```bash

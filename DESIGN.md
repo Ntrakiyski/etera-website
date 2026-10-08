@@ -1,13 +1,12 @@
 ---
 name: ETÉRA Creative Atelier
-description: Aether editorial atelier: maroon, milk, and graphite in a restrained visual system for a boutique creative practice.
+description: Aether editorial atelier: maroon and milk in a restrained visual system for a boutique creative practice.
 colors:
   maroon: "#741018"
   milk-white: "#f9f4f4"
-  graphite-black: "#191818"
-  muted-ink: "rgb(25 24 24 / 0.68)"
-  faint-ink: "rgb(25 24 24 / 0.48)"
-  hairline: "rgb(25 24 24 / 0.18)"
+  muted-ink: "rgb(116 16 24 / 0.68)"
+  faint-ink: "rgb(116 16 24 / 0.48)"
+  hairline: "rgb(116 16 24 / 0.18)"
   maroon-hairline: "rgb(116 16 24 / 0.42)"
   milk-muted: "rgb(249 244 244 / 0.68)"
   maroon-wash: "rgb(116 16 24 / 0.1)"
@@ -65,17 +64,17 @@ components:
     padding: "0.9rem 1.2rem"
   button-secondary:
     backgroundColor: "transparent"
-    textColor: "{colors.graphite-black}"
+    textColor: "{colors.maroon}"
     rounded: "{rounded.none}"
     padding: "0.75rem 0"
   editorial-panel:
     backgroundColor: "{colors.milk-white}"
-    textColor: "{colors.graphite-black}"
+    textColor: "{colors.maroon}"
     rounded: "{rounded.panel}"
     padding: "1.5rem"
   project-tile:
     backgroundColor: "transparent"
-    textColor: "{colors.graphite-black}"
+    textColor: "{colors.maroon}"
     rounded: "{rounded.media}"
     padding: "0"
 ---
@@ -98,7 +97,7 @@ The system borrows Impeccable's discipline, not its visual style: every screen m
 - Low-radius, line-led structure instead of floating cards.
 - Avenir Next as the defining typographic voice.
 - Maroon used as a brand anchor, not scattered decoration.
-- Maroon, milk, and graphite own complete sections and interaction states without blue treatments.
+- Maroon and milk own complete sections and interaction states without blue treatments.
 
 ## Source Hierarchy
 
@@ -121,7 +120,7 @@ This section distinguishes confirmed client direction from design proposals and 
 - Keep launch compact: Home, The Atelier, Services, and Contact are the visible pages. Work stays hidden until approved projects are launch-ready.
 - Lead with `Define your era.` and the positioning `ETÉRA is a creative atelier that builds presence and shapes culture.`
 - Use Avenir Next Regular, Demi Bold, and Bold with the supplied primary, secondary, mark, and submark logo variants.
-- Use only the confirmed public palette: Maroon `#741018`, Milk White `#f9f4f4`, and Graphite Black `#191818`. Blue is not part of the public UI.
+- Use only the confirmed public palette: Maroon `#741018` and Milk White `#f9f4f4`. Blue is not part of the public UI.
 - Use the supplied Home video and founder portraits as the approved launch media. The system must create variety through crop, scale, sequencing, and motion rather than requiring a large image library.
 - The Gloria Rusenova reference was supplied in the August 24 follow-up. Alexandra likes its homepage scroll animation, but ETÉRA's interpretation should be quieter and use ETÉRA colors.
 
@@ -130,10 +129,10 @@ This section distinguishes confirmed client direction from design proposals and 
 - `Aether Editorial Atelier` is the working creative north star derived from the brand story and reference research.
 - Home opens directly on the supplied full-screen looping video with centered “Define your era.” and the underlined Enter the Atelier action.
 - The approved positioning statement follows as a large two-line desktop section aligned to the shared content gutter.
-- Selected Partners remains omitted when no approved records pass `src/lib/content-readiness.ts`. For the current client review, Work is visible in navigation and route discovery, Home shows three work-layout items, and Work shows six; missing approved records are filled with explicitly labelled, non-clickable review previews.
+- Selected Partners remains omitted when no approved records pass `src/lib/content-readiness.ts`. Work is deferred from public navigation, routes and Home; retain its CMS records for a later approved portfolio release.
 - Home keeps one What We Do preview and one Explore Services action. Discover / Define / Create / Elevate belongs on The Atelier only.
-- One reusable maroon “Let's define your era together.” CTA leads into a compact graphite footer across public pages.
-- The monogram may become a signature scale, crop, or 3D moment. Start with a flat motion study and add 3D only if it improves the supplied mark and remains performant.
+- One reusable maroon “Let's define your era together.” CTA leads into a compact maroon footer across public pages.
+- The Home transition omits the monogram and reveals the positioning statement directly.
 - The current generated Aether Studies establish mood, crop, and material language only. They are not final photography, portfolio work, or evidence of client projects.
 
 ### Pending Inputs That Affect Visual Design
@@ -197,7 +196,7 @@ Sources: NOT Studio, Le SMM Paris.
 Source: CHIC.
 
 - Commit to brand color at section scale instead of scattering small accents.
-- ETÉRA translation: maroon, milk, and graphite may each own a complete moment. Do not use blue treatments or blend the palette into gradients.
+- ETÉRA translation: maroon and milk may each own a complete moment. Do not use blue treatments or blend the palette into gradients.
 
 ### 6. Proof And Services Without Corporate Weight
 
@@ -219,19 +218,19 @@ Before approving a reference-derived component, write its source behavior in one
 
 ## Colors
 
-The public palette is warm, sharp, and boutique: milk-white paper, graphite ink, and deep maroon. Blue is intentionally excluded following the consolidated client review.
+The public palette is warm, sharp, and boutique: milk-white paper and deep maroon. Blue is intentionally excluded following the consolidated client review.
 
 ### Primary
 
-- **ETÉRA Maroon** (`#741018`): primary brand signal, CTAs, active lines, monogram moments, and rare high-emphasis typography.
+- **ETÉRA Maroon** (`#741018`): primary text and brand signal, section backgrounds, CTAs and active lines.
 - **Milk White** (`#f9f4f4`): primary page ground. Use instead of pure white.
-- **Graphite Black** (`#191818`): primary text, linework, dark sections, and the compact footer. Use instead of pure black.
+- Use brand maroon for text and linework on milk, and milk for text on maroon. No black interface treatments.
 
 ### Neutral
 
-- **Muted Ink** (`rgb(25 24 24 / 0.68)`): secondary copy, intro text, and meta.
-- **Faint Ink** (`rgb(25 24 24 / 0.48)`): captions, inactive nav, low-priority metadata.
-- **Hairline** (`rgb(25 24 24 / 0.18)`): default dividers, rules, grid lines.
+- **Muted Ink** (`rgb(116 16 24 / 0.68)`): secondary copy, intro text, and meta.
+- **Faint Ink** (`rgb(116 16 24 / 0.48)`): captions, inactive nav, low-priority metadata.
+- **Hairline** (`rgb(116 16 24 / 0.18)`): default dividers, rules, grid lines.
 
 ### Named Rules
 
@@ -288,7 +287,7 @@ This is the design proposal to present for confirmation.
 
 The Home page opens immediately on the supplied full-screen video, set to autoplay, loop, muted, and play inline. Center “Define your era.” over the media with one underlined Enter the Atelier action. Use a restrained contrast layer only when required for legibility.
 
-The approved scroll transition joins this hero to the milk positioning field in a 180–220svh pinned sequence. “Define your” rises and fades, `era.` travels continuously left until it clears the viewport, and the action retracts. As the milk field wipes upward over the white `era.`, the supplied red ETÉRA submark enters from the right, settles briefly in the milk field, then fades and drifts away. The two-line positioning statement then rises into its settled composition, beginning “We are a creative atelier”. The video continues normal autoplay with a subtle scale and no timeline scrubbing. Reduced-motion users receive the hero and positioning section in normal document flow with no pinning or scroll-linked transforms; the decorative submark is omitted from that static flow.
+The Home transition uses a short milk-field wipe directly into the positioning statement, with no monogram or staged logo hold. Cache geometry outside the scroll handler and preserve normal document flow under reduced motion.
 
 ### Home Hero
 
@@ -337,7 +336,7 @@ Until ETÉRA's final photography and project media arrive, the design proposal u
 
 - Themes: connection, motion, perception, craft, material, and invisible structure.
 - Subjects: translucent fabric, glass, shadow, reflective metal, anonymous human movement, hands editing materials.
-- Palette: source imagery is art-directed around the official maroon, milk, and graphite colors.
+- Palette: source imagery is art-directed around the official maroon and milk colors.
 - Composition: decisive crops, broad negative space, asymmetric balance, and stable landscape/portrait frames.
 - Texture: natural light, tactile materials, subtle grain, and realistic imperfections.
 
@@ -424,4 +423,12 @@ Don't:
 - Do not fill the site with cards inside cards.
 - Do not invent clients, KPIs, testimonials, project proof, policy text, or booking flows.
 - Do not over-explain services or expand launch into a corporate sitemap.
-- Do not make the site beige, gray, or neutral-only. Maroon, milk, and graphite must remain visibly intentional.
+- Do not make the site beige, gray, or neutral-only. Maroon and milk must remain visibly intentional.
+
+## Latest meeting revision — 8 October 2026
+
+The latest client feedback supersedes earlier review-only Work and monogram directions. Public UI uses only brand maroon and milk, red logos on milk and milk logos on red. Remove the Home monogram; preserve a short direct positioning reveal. Hide all public Work presentation while retaining CMS data. See `docs/client-feedback/2026-10-08/change-plan.md` for scope and unresolved client inputs.
+
+## 8 October footer refinement
+
+The project CTA uses maroon with milk-white typography, smaller than navigation, and centres vertically. The following navigation footer uses pure black with milk-white text, minimum one viewport height, vertically centred navigation/social/contact content and grouped legal links at the bottom. It slides over the sticky red CTA during scroll; reduced motion uses normal flow. Hide the site header as the black footer reaches the header. The Method section alone uses the red wordmark without its creative atelier tagline.

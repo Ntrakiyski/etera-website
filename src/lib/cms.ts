@@ -45,10 +45,33 @@ export type AtelierContent = PageContent & {
 
 export type ContactContent = PageContent & {
   email: string;
+  inquiryLabels: InquiryLabels;
+};
+
+export type InquiryLabels = {
+  heading: string;
+  help: string;
+  name: string;
+  brand: string;
+  email: string;
+  services: string;
+  servicesHelp: string;
+  project: string;
+  budget: string;
+  additional: string;
+  submit: string;
+};
+
+export type ServicesContent = PageContent & {
+  capabilitiesKicker: string;
+  capabilitiesHeadline: string;
+  capabilitiesIntro: string;
+  groupLabels: Record<string, string>;
 };
 
 export type ServiceSummary = {
   area: string;
+  details?: RichTextContent | null;
   id: string;
   name: string;
   summary: string;
@@ -193,11 +216,18 @@ export const fallbackAtelierPage: AtelierContent = {
   ],
 };
 
-export const fallbackServicesPage: PageContent = {
+export const fallbackServicesPage: ServicesContent = {
   headline: "Built around the brief.",
   intro:
     "ETÉRA connects strategy, creativity, culture and execution through a compact set of capabilities shaped for each project.",
   kicker: "Services",
+  capabilitiesKicker: "Capabilities",
+  capabilitiesHeadline: "Strategy and execution, assembled around the brief.",
+  capabilitiesIntro:
+    "ETÉRA brings the relevant disciplines together as one considered practice, with the approach and team shaped for each project.",
+  groupLabels: Object.fromEntries(
+    Object.values(serviceAreaLabels).map((label) => [label, label]),
+  ),
 };
 
 export const fallbackContactPage: ContactContent = {
@@ -206,6 +236,19 @@ export const fallbackContactPage: ContactContent = {
   intro:
     "Start with a project brief or a direct conversation. ETÉRA will shape the right approach from there.",
   kicker: "Contact",
+  inquiryLabels: {
+    heading: "Tell us what you are shaping.",
+    help: "Complete the form to prepare a project inquiry in your email app. Nothing is sent until you review and send the message.",
+    name: "Full Name",
+    brand: "Company Name (if applicable)",
+    email: "Email Address",
+    services: "What can we help with?",
+    servicesHelp: "Select all that apply",
+    project: "Tell us about the project",
+    budget: "Budget (optional)",
+    additional: "Additional information (optional)",
+    submit: "Send Inquiry",
+  },
 };
 
 export const fallbackSiteSettings: SiteSettingsContent = {
@@ -416,6 +459,7 @@ function serviceSummary(
 
   const summary = {
     area: serviceAreaLabel(service.area),
+    details: richTextContent(service.details),
     id: stringValue(service.id),
     name: stringValue(service.name),
     summary: stringValue(service.summary),
@@ -502,9 +546,7 @@ function teamMemberSummary(
     : null;
 }
 
-function projectDetail(
-  project: Record<string, unknown>,
-): ProjectDetail | null {
+function projectDetail(project: Record<string, unknown>): ProjectDetail | null {
   const summary = projectSummary(project);
 
   if (!summary) {
@@ -522,9 +564,8 @@ function projectDetail(
           }
         : null;
     })
-    .filter(
-      (collaborator): collaborator is ProjectCollaborator =>
-        Boolean(collaborator),
+    .filter((collaborator): collaborator is ProjectCollaborator =>
+      Boolean(collaborator),
     );
   const gallery = relatedDocuments(project.gallery)
     .map((item): ProjectGalleryItem | null => {
@@ -607,23 +648,20 @@ export const getHomePage = cache(async () => {
 });
 
 export const getWorkPage = cache(async () => {
-  return queryPayload(
-    async (payload) => {
-      const page = await payload.findGlobal({
-        draft: false,
-        slug: "work-page",
-      });
-      const content = pageContent(page, fallbackWorkPage);
+  return queryPayload(async (payload) => {
+    const page = await payload.findGlobal({
+      draft: false,
+      slug: "work-page",
+    });
+    const content = pageContent(page, fallbackWorkPage);
 
-      return {
-        ...content,
-        intro: launchStringValue(page.intro, fallbackWorkPage.intro, [
-          "A selection of projects, campaigns, and brand work. Final project content and visuals are pending from ETÉRA.",
-        ]),
-      };
-    },
-    fallbackWorkPage,
-  );
+    return {
+      ...content,
+      intro: launchStringValue(page.intro, fallbackWorkPage.intro, [
+        "A selection of projects, campaigns, and brand work. Final project content and visuals are pending from ETÉRA.",
+      ]),
+    };
+  }, fallbackWorkPage);
 });
 
 export const getAtelierPage = cache(async () => {
@@ -651,36 +689,57 @@ export const getAtelierPage = cache(async () => {
         .map(personSummary)
         .filter((person): person is PersonSummary => Boolean(person)),
       teamMembers:
-        teamMembers.length > 0
-          ? teamMembers
-          : fallbackAtelierPage.teamMembers,
+        teamMembers.length > 0 ? teamMembers : fallbackAtelierPage.teamMembers,
     };
   }, fallbackAtelierPage);
 });
 
 export const getServicesPage = cache(async () => {
-  return queryPayload(
-    async (payload) => {
-      const page = await payload.findGlobal({
-        draft: false,
-        slug: "services-page",
-      });
-      const content = pageContent(page, fallbackServicesPage);
+  return queryPayload(async (payload) => {
+    const page = await payload.findGlobal({
+      draft: false,
+      slug: "services-page",
+    });
+    const content = pageContent(page, fallbackServicesPage);
+    const labels = (page.groupLabels ?? {}) as Record<string, unknown>;
+    const labelFields: Record<string, string> = {
+      "brand-culture": "brandCulture",
+      "creative-visual": "creativeVisual",
+      "content-influence": "contentInfluence",
+      "experiences-partnerships": "experiencesPartnerships",
+      "digital-growth": "digitalGrowth",
+    };
 
-      return {
-        ...content,
-        headline: launchStringValue(
-          page.headline,
-          fallbackServicesPage.headline,
-          ["A compact services structure for launch."],
-        ),
-        intro: launchStringValue(page.intro, fallbackServicesPage.intro, [
-          "Services are grouped into clear editorial areas so the first version stays focused and visual.",
+    return {
+      ...content,
+      capabilitiesKicker: stringValue(
+        page.capabilitiesKicker,
+        fallbackServicesPage.capabilitiesKicker,
+      ),
+      capabilitiesHeadline: stringValue(
+        page.capabilitiesHeadline,
+        fallbackServicesPage.capabilitiesHeadline,
+      ),
+      capabilitiesIntro:
+        typeof page.capabilitiesIntro === "string"
+          ? page.capabilitiesIntro
+          : fallbackServicesPage.capabilitiesIntro,
+      groupLabels: Object.fromEntries(
+        Object.entries(labelFields).map(([key, field]) => [
+          serviceAreaLabels[key],
+          stringValue(labels[field], serviceAreaLabels[key]),
         ]),
-      };
-    },
-    fallbackServicesPage,
-  );
+      ),
+      headline: launchStringValue(
+        page.headline,
+        fallbackServicesPage.headline,
+        ["A compact services structure for launch."],
+      ),
+      intro: launchStringValue(page.intro, fallbackServicesPage.intro, [
+        "Services are grouped into clear editorial areas so the first version stays focused and visual.",
+      ]),
+    };
+  }, fallbackServicesPage);
 });
 
 export const getContactPage = cache(async () => {
@@ -693,6 +752,19 @@ export const getContactPage = cache(async () => {
     return {
       ...pageContent(page, fallbackContactPage),
       email: stringValue(page.email, fallbackContactPage.email),
+      inquiryLabels: Object.fromEntries(
+        Object.entries(fallbackContactPage.inquiryLabels).map(
+          ([key, fallback]) => [
+            key,
+            stringValue(
+              (page.inquiryLabels as Record<string, unknown> | undefined)?.[
+                key
+              ],
+              fallback,
+            ),
+          ],
+        ),
+      ) as InquiryLabels,
       intro: launchStringValue(page.intro, fallbackContactPage.intro, [
         "The project inquiry form, booking path, and success state will be wired after the preferred workflow and booking tool are confirmed.",
       ]),
@@ -812,9 +884,7 @@ export const getSiteSettings = cache(async () => {
       ),
       seoTitle: stringValue(settings.seoTitle, fallbackSiteSettings.seoTitle),
       socialLinks:
-        socialLinks.length > 0
-          ? socialLinks
-          : fallbackSiteSettings.socialLinks,
+        socialLinks.length > 0 ? socialLinks : fallbackSiteSettings.socialLinks,
     };
   }, fallbackSiteSettings);
 });

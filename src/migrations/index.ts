@@ -3,6 +3,7 @@ import * as migration_20260825_101707_resolve_review_findings from './20260825_1
 import * as migration_20260902_081859_add_atelier_team_members from './20260902_081859_add_atelier_team_members';
 import * as migration_20260902_083601_add_atelier_team_portraits from './20260902_083601_add_atelier_team_portraits';
 import * as migration_20260902_110929_add_payload_mcp_api_keys from './20260902_110929_add_payload_mcp_api_keys';
+import * as migration_20261008_111621_client_feedback_editable_copy from './20261008_111621_client_feedback_editable_copy';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20260902_110929_add_payload_mcp_api_keys.up,
     down: migration_20260902_110929_add_payload_mcp_api_keys.down,
-    name: '20260902_110929_add_payload_mcp_api_keys'
+    name: '20260902_110929_add_payload_mcp_api_keys',
+  },
+  {
+    up: migration_20261008_111621_client_feedback_editable_copy.up,
+    down: migration_20261008_111621_client_feedback_editable_copy.down,
+    name: '20261008_111621_client_feedback_editable_copy'
   },
 ];

@@ -74,6 +74,8 @@ export default buildConfig({
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
   db: sqliteD1Adapter({
+    // Keep schema changes in migrations; concurrent dev schema pushes can recreate indexes.
+    push: false,
     binding: cloudflare.env.D1 as D1Database,
     idType: "uuid",
   }),

@@ -91,3 +91,7 @@ Direction:
 Do not:
 
 - Hide labels, rely on placeholder-only inputs, or make the form feel like a generic SaaS contact page.
+
+## Latest meeting revision — 8 October 2026
+
+The latest client feedback supersedes earlier review-only Work and monogram directions. Public UI uses only brand maroon and milk, red logos on milk and milk logos on red. Remove the Home monogram; preserve a short direct positioning reveal. Hide all public Work presentation while retaining CMS data. See `docs/client-feedback/2026-10-08/change-plan.md` for scope and unresolved client inputs.
