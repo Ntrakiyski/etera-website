@@ -83,3 +83,10 @@ Mistake: Circular face crops cut off the tops of the founders’ heads.
 Why it happened: LinkedIn-style was interpreted as circular and tightly zoomed.
 Rule for next time: Use the requested taller rectangular framing and preserve the full head with space above it.
 Example check: Inspect both portraits before publishing, including the hairline and chin.
+
+## 2026-10-08 - Profile card alignment
+
+Mistake: Portraits remained above biographies when the desired layout was beside them.
+Why it happened: The first request focused on crop and dimensions rather than card composition.
+Rule for next time: Treat portrait size and placement as separate choices; verify equal-height side-by-side layout when requested.
+Example check: Compare image and biography bounding-box top and height on desktop and mobile.

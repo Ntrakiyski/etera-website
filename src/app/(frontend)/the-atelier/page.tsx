@@ -60,21 +60,23 @@ export default async function TheAtelierPage() {
               ? "/media/alexandra-profile.jpg"
               : /^(Yoana|Joana)/.test(person.name) ? "/media/joana-profile.jpg" : null);
             return (
-              <article key={person.id}>
+              <article className={portrait ? "people-grid__person--with-portrait" : undefined} key={person.id}>
                 {portrait ? (
                   <div className="people-grid__portrait">
                     <Image
                       alt={`Portrait of ${person.name}`}
                       fill
-                      sizes="160px"
+                      sizes="(max-width: 767px) 110px, 160px"
                       src={portrait}
                       unoptimized
                     />
                   </div>
                 ) : null}
-                <p>{person.position}</p>
-                <h3>{person.name}</h3>
-                <p>{person.description}</p>
+                <div className="people-grid__copy">
+                  <p>{person.position}</p>
+                  <h3>{person.name}</h3>
+                  <p>{person.description}</p>
+                </div>
               </article>
             );
           })}

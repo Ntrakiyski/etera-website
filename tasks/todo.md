@@ -146,3 +146,12 @@ Goal: Taller compact rectangles with looser head framing.
 - [x] Build, publish and verify live photos.
 
 Review: Portraits now use 160×240px rectangles and 1.25× zoom instead of circles and 1.65× zoom. Both full heads are visible in reviewed desktop/mobile screenshots. Lint, TypeScript production build and diff check passed; Cloudflare deployment and live geometry/image-load checks passed at 1440/390px. Original photos and CMS overrides preserved.
+
+## Portrait beside biography
+
+Goal: Place each profile image beside its text with equal rendered heights.
+- [x] Adjust card layout and responsive typography without changing CMS content.
+- [x] Review desktop/mobile screenshots and check image/text geometry.
+- [x] Build, publish and verify live layout.
+
+Review: Each portrait now sits beside its biography in a shared-height grid row. Cards become one column below 1100px, retaining portrait/text pairs; mobile uses compact typography and 110px image width. Local and live 1440/390px assertions verify equal top/height, side-by-side placement, loaded images and no horizontal overflow. Screenshots reviewed; lint, production build and diff check passed. Cloudflare published; CMS text and portrait overrides retained.
