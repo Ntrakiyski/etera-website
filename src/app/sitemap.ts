@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getSiteUrl } from "@/lib/site";
 
-const publicRoutes = ["/", "/the-atelier", "/services", "/contact"];
+const publicRoutes = ["/", "/the-atelier", "/services", "/contact", "/terms-and-conditions", "/privacy-policy", "/cookie-policy"];
 
 export const dynamic = "force-dynamic";
 

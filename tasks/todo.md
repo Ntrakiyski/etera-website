@@ -118,3 +118,11 @@ Production review: Application release 7f9dfd8 is live at https://etera.trakiysk
 Removed the visible Play background video button at user request. Retained autoplay and static poster when playback is blocked. Verify source/build, publish to main and Cloudflare, then check live DOM.
 
 Review: Button removal pushed to main (585271a) and deployed as Worker ada55264-7264-4e5f-9a28-40f710adb896. Lint/build/types passed. Live Home returns 200; browser confirmed no fallback button in normal and forced-blocked playback, with poster retained.
+
+## Publish supplied policies
+
+Goal: publish three client-supplied Word documents as readable website pages, deploy, and update singular-address Bulgarian email. Preserve legal wording rather than interpret or rewrite it. Safari email paragraph removed per user; iPhone playback reported working, desktop issue remains outside this task.
+- [x] Extract paragraphs, line breaks and lists from all documents.
+- [x] Populate Terms/Privacy, add Cookie Policy and footer/sitemap links.
+- [x] Verify text fidelity, responsive pages and build.
+- [ ] Push main, deploy and verify live policies; prepare updated email.

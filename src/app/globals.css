@@ -2792,19 +2792,6 @@ html[data-home-header-on-milk] .site-logo .site-logo__milk,
   padding-inline: clamp(0rem, 6vw, 6rem);
   font-size: 0.9rem;
 }
-.legal-pending {
-  margin-inline: auto;
-  max-width: 60rem;
-  min-height: calc(100svh - var(--header-height));
-  padding: var(--section-block) var(--gutter);
-}
-.legal-pending h1 {
-  font-size: var(--type-display-section);
-  letter-spacing: var(--tracking-display);
-  line-height: 1;
-  margin-bottom: 2rem;
-}
-.legal-pending p { max-width: 38rem; line-height: 1.5; }
 @media (max-width: 700px) {
   .footer-directory { padding-block: 2.5rem; }
   .footer-cta-container { padding-block: 0; }
@@ -2835,3 +2822,25 @@ html[data-home-header-on-milk] .site-logo .site-logo__milk,
     padding-top: 4rem;
   }
 }
+
+.legal-document {
+  margin-inline: auto;
+  max-width: 64rem;
+  padding: clamp(3rem, 7vw, 6rem) var(--gutter);
+  overflow-wrap: anywhere;
+}
+.legal-document h1 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
+  margin-bottom: 2.5rem;
+}
+.legal-document h2 { font-size: 1.6rem; line-height: 1.2; margin-block: 2.5rem 1rem; }
+.legal-document h3 { font-size: 1.2rem; margin-block: 1.75rem 0.75rem; }
+.legal-document p,
+.legal-document li { font-size: 1rem; line-height: 1.7; white-space: pre-line; }
+.legal-document p { margin-bottom: 1rem; }
+.legal-document ul { list-style: disc; padding-left: 1.4rem; margin-block: 1rem; }
+.legal-document li { margin-bottom: 0.4rem; }
+.legal-document__links { display: flex; flex-wrap: wrap; gap: 1rem 2rem; border-top: 1px solid var(--line); margin-top: 3rem; padding-top: 1.5rem; }
+.footer-directory__bottom { flex-wrap: wrap; }

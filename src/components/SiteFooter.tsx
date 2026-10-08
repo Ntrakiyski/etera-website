@@ -43,6 +43,7 @@ export function SiteFooter({ settings }: { settings: SiteSettingsContent }) {
           <p>© {new Date().getFullYear()} ETÉRA. All rights reserved.</p>
           <Link href="/terms-and-conditions">Terms and Conditions</Link>
           <Link href="/privacy-policy">Privacy Policy</Link>
+          <Link href="/cookie-policy">Cookie Policy</Link>
         </div>
       </div>
       </div>

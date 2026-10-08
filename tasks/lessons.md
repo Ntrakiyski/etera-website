@@ -69,3 +69,10 @@ Mistake: First release selected the Node-only Wrangler proxy in production and r
 Why it happened: Offline build local flag remained available in bundled configuration; Next server checks did not exercise Worker runtime.
 Rule for next time: Guard Node-only proxy with Worker runtime detection and run the compiled Worker locally before publishing.
 Example check: wrangler dev --local returns 200 for Home before deploy; verify live Home after deploy.
+
+## 2026-10-08 - Preserve reported Safari distinction
+
+Mistake: Earlier email treated iPhone playback as unverified after the user confirmed it works.
+Why it happened: Verification status was not updated from direct user testing.
+Rule for next time: Record user-confirmed iPhone behaviour separately from desktop Safari; omit the Safari paragraph from this client email as requested.
+Example check: iPhone works per user; desktop Safari issue remains outside policy publication scope.
