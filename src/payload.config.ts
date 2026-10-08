@@ -38,11 +38,14 @@ const isPayloadCLI = process.argv.some((value) =>
 const isProduction = process.env.NODE_ENV === "production";
 const shouldUseRemoteBindings =
   isProduction && process.env.PAYLOAD_CLOUDFLARE_LOCAL !== "1";
+// Build-time local flags must never select the Node-only Wrangler proxy in Workers.
 const shouldUseWranglerContext =
-  process.env.PAYLOAD_CLOUDFLARE_CONTEXT === "wrangler" ||
-  process.env.PAYLOAD_CLOUDFLARE_LOCAL === "1" ||
-  isPayloadCLI ||
-  !isProduction;
+  typeof WebSocketPair === "undefined" && (
+    process.env.PAYLOAD_CLOUDFLARE_CONTEXT === "wrangler" ||
+    process.env.PAYLOAD_CLOUDFLARE_LOCAL === "1" ||
+    isPayloadCLI ||
+    !isProduction
+  );
 
 const cloudflare =
   shouldUseWranglerContext

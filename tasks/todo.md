@@ -108,3 +108,5 @@ Constraints: no invented client content, no email sending integration, no secret
 - [ ] Commit and push main.
 - [ ] Deploy tested Worker (additive production CMS migration applied and verified).
 - [ ] Verify live routes, final footer and GitHub checks.
+
+Release correction: first deployment failed Home with No such module wrangler. Restored prior live Worker, added runtime guard using WebSocketPair, rebuilt with production site URL, and verified compiled Worker Home returns 200 locally. Publishing corrected build next.

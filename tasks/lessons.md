@@ -62,3 +62,10 @@ Mistake: Claimed header stayed through CTA although any footer intersection coul
 Why it happened: Verified broad sections, not the exact viewport boundary.
 Rule for next time: Define whether trigger means viewport entry or top crossing and test positions immediately before/after it.
 Example check: Header visible when footer top is 100 px below viewport top; hidden after top crosses 0.
+
+## 2026-10-08 - Verify deployment in Worker runtime
+
+Mistake: First release selected the Node-only Wrangler proxy in production and returned 500.
+Why it happened: Offline build local flag remained available in bundled configuration; Next server checks did not exercise Worker runtime.
+Rule for next time: Guard Node-only proxy with Worker runtime detection and run the compiled Worker locally before publishing.
+Example check: wrangler dev --local returns 200 for Home before deploy; verify live Home after deploy.
