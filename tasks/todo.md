@@ -214,11 +214,15 @@ Planning clarification, 12 October: User confirmed two founders side by side on 
 
 Goal: Implement approved feedback, review screenshots/interactions, push main and deploy Cloudflare.
 Constraints: Preserve CMS records, approved copy, founder identity, legal text, email routing and anti-abuse. Both founders side by side on mobile with bios below. Booking comparisons only until chosen; no paid account or actual bookings. No invented final roles or published Method descriptions. Keep new migrations additive and prove preservation before remote use.
-- [ ] Implement responsive layouts, interaction polish and CMS guidance.
-- [ ] Add Industry across form/server/emails and Method description controls/accordion.
-- [ ] Retrieve referenced images, investigate video delivery and prepare booking comparisons.
-- [ ] Run tests/build, browser responsive checks and screenshot review; correct findings.
-- [ ] Commit/push main, deploy and verify production; record limitations.
+- [x] Implement responsive layouts, interaction polish and CMS guidance.
+- [x] Add Industry across form/server/emails and Method description controls/accordion.
+- [x] Investigate referenced images (access blocked), improve video delivery and prepare booking comparisons.
+- [x] Run tests/build, browser responsive checks and screenshot review; correct findings.
+- [x] Commit/push main, deploy and verify production; record limitations.
 Verification: test desktop/mobile and reduced motion; preserve all existing DB rows; check real Worker runtime and video range behavior; validate email payload without sending; verify CMS publication and previews. Actual iPhone testing requires available device access.
 
 Implementation progress: responsive layout/CMS changes and Industry integration complete. Restricted Drive images retained; replacement access requested. Method copy proposed but not published; booking alternatives prepared without switching provider. 23 tests, lint, TypeScript, production build, 29 local browser cases and mocked form retry/success passed. Local editor draft/publication checks passed and values restored; additive migration preservation checked against production snapshot. Compiled Worker and final live checks in progress.
+
+Review: Application commit 13d3f90 pushed to main and deployed as Cloudflare Worker 10aa1794-93df-4109-9d6a-df8103854ce7 at https://etera.trakiyski.work. Local and compiled Worker browser checks passed 29 cases each; live checks passed the same 29 cases plus nine legal page/viewport cases, footer/header boundaries, arrow and hover behavior. Live invalid inquiry returned 400 without sending mail. Tests (23), lint, types, build, schema preservation and local CMS editor save/draft/publication passed. Remote migration name and Industry default explicitly verified. Updated Cloudflare-generated types after CI detected stale module metadata; CI verification recorded in the release document.
+
+Limitations: replacement Drive images inaccessible; Method descriptions/final roles need approved copy; booking provider/account still undecided. Safari transport and Chromium playback verified, but real iPhone autoplay not proven and desktop Safari did not auto-advance in this environment. Mac lock blocked real tap verification. Existing approved assets/roles retained, no unapproved Method copy published and no real enquiry sent. Booking comparison and editor guide are in docs/client-feedback/2026-10-12/.

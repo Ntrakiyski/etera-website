@@ -146,3 +146,10 @@ Mistake: cf:migrate exited successfully but inherited PAYLOAD_CLOUDFLARE_LOCAL=1
 Why it happened: The remote migration script selected production mode without explicitly overriding local binding selection.
 Rule for next time: Set PAYLOAD_CLOUDFLARE_LOCAL=0 in cf:migrate and verify the migration name against remote D1 before deploying.
 Example check: SELECT name FROM payload_migrations WHERE name = '20261012_144844_feedback_20261012' returns exactly one row remotely.
+
+## 2026-10-12 - Run every CI check before release
+
+Mistake: Initial release passed lint/types/tests/build but CI rejected stale generated Cloudflare module metadata.
+Why it happened: The local release checks omitted the workflow's cf:typegen --check step.
+Rule for next time: Run every existing CI check before pushing, including generated bindings checks; verify clean-build conditions when output references ignored artifacts.
+Example check: npm run cf:typegen -- --check succeeds with .open-next absent.

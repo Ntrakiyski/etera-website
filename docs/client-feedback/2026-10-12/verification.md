@@ -39,3 +39,11 @@ The new route requires this R2 object. The existing CMS media upload path is unc
 - Actual iPhone Safari was not tested because iPhone Mirroring was unavailable. Desktop Safari loaded the new video but did not advance automatically in the current browser context. The locked Mac prevented verifying a real tap or browser autoplay preference. Transport improvements are verified; reliable autoplay on the client's phone remains unproven. Browser/device restrictions cannot be guaranteed away.
 
 Screenshot evidence is retained in the task's feedback-20261012 visualization directory. Release identifiers and live verification are recorded below after deployment.
+
+## Release
+
+Application commit 13d3f90 is pushed to main and live at https://etera.trakiyski.work. Cloudflare Worker version: 10aa1794-93df-4109-9d6a-df8103854ce7. Remote additive migration 20261012_144844_feedback_20261012 and the default Industry label were queried successfully in production.
+
+The compiled local Worker passed the same 29 browser cases. Production passed all 29 cases and nine additional legal page/viewport cases, footer/header hide/restore checks, footer arrow and hover exception. Live malformed inquiry returned 400 without sending. Production Chromium video advanced and live range requests returned 206/1024 bytes; unsatisfiable ranges returned 416. Screenshots reviewed. Localhost is available on port 3000; booking comparisons are served on port 9081.
+
+GitHub CI initially rejected stale cloudflare-env.d.ts main-module metadata. Regenerated the types and verified typecheck/typegen-check without local OpenNext output, matching clean CI conditions. The migration command now explicitly selects remote bindings, preventing ignored local .env settings from silently changing its target.
