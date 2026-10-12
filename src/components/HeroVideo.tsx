@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 export function HeroVideo({
-  src = "/media/etera-hero.mp4",
+  src = "/api/hero-video",
   poster = "/media/etera-hero-poster.jpg",
 }: { src?: string; poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -13,6 +13,7 @@ export function HeroVideo({
     if (!video) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = true;
+    let active = true;
 
     function syncPlayback() {
       if (!video) return;
@@ -20,9 +21,13 @@ export function HeroVideo({
         video.pause();
         return;
       }
+      video.defaultMuted = true;
       video.muted = true;
       // Keep the poster visible when browser policy blocks autoplay.
-      void video.play().catch(() => {});
+      void video.play().catch(() => {
+        // Safari may require a real gesture; retry on the next tap without covering the hero.
+        if (active) document.addEventListener("pointerdown", syncPlayback, { once: true });
+      });
     }
 
     const observer = new IntersectionObserver(([entry]) => {
@@ -35,8 +40,10 @@ export function HeroVideo({
     document.addEventListener("visibilitychange", syncPlayback);
     video.addEventListener("canplay", syncPlayback);
     return () => {
+      active = false;
       observer.disconnect();
       video.pause();
+      document.removeEventListener("pointerdown", syncPlayback);
       reducedMotion.removeEventListener("change", syncPlayback);
       document.removeEventListener("visibilitychange", syncPlayback);
       video.removeEventListener("canplay", syncPlayback);
@@ -53,11 +60,11 @@ export function HeroVideo({
         muted
         playsInline
         poster={poster}
-        preload="metadata"
+        preload="auto"
         ref={videoRef}
         tabIndex={-1}
       >
-        <source src={src} />
+        <source src={src} type={src === "/api/hero-video" ? "video/mp4" : undefined} />
       </video>
     </>
   );

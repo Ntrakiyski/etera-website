@@ -14,6 +14,7 @@ export function buildInquiryEmail(draft: InquiryDraft) {
     ["Name", draft.name],
     ["Email", draft.email],
     ["Brand / organisation", draft.brand],
+    ["Industry", draft.industry ?? ""],
     ["Services", draft.services.join(", ")],
     ["Project brief", draft.project],
     ["Budget", draft.budget],

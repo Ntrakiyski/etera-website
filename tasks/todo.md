@@ -195,3 +195,30 @@ Verification: Unit tests; lint/types/build; local browser success/error/validati
 Template: responsive branded HTML with approved PNG logo, cream/red/black, website typography with email-safe fallbacks and complete plain-text alternative. Added managed Turnstile, five-attempt/minute per-location IP/address limits and fixed routing. Local desktop/mobile failure/retry/success flow and actual Worker rate binding passed. Additive copy migration verified against production snapshot; all existing rows preserved.
 
 Review: Direct Resend delivery deployed as Worker 69486882-cc46-491d-a209-96bf603d665a. Verified domain/DKIM/SPF, secured keys in Cloudflare secrets and confirmed no key in public build assets. TO/CC/BCC/Reply-To exactly match requested routing. One marked enquiry submitted through real Chrome with production Turnstile; website confirmed success and Resend message 01a11c3b-47e7-7b33-8db6-b1e1922628be reports delivered. Seventeen tests, lint, TypeScript/OpenNext build, local desktop/mobile failure/retry/success, actual Worker rate binding, additive schema preservation and live malformed/cross-origin rejection checks passed. Actual sent HTML visually rendered at desktop/mobile with live PNG logo. Automated clean-profile Chrome could not complete real Turnstile, so verification used normal Chrome without bypassing protection. Inbox/spam placement for each recipient and Outlook/Gmail rendering were not independently checked. Email clients may substitute fonts/block external images. Enquiries remain out of the CMS; no marketing subscription. Guide: docs/inquiry-email-setup.md.
+
+## 2026-10-12 feedback planning
+
+Goal: Review all seven PDF pages, including screenshots and linked assets, reconcile requested changes with current code, and produce an implementation plan. Planning only; no application or production changes.
+Constraints: Preserve approved desktop layout where mobile-only changes are requested. Do not invent founder roles or Method descriptions. Confirm Safari autoplay limits from primary documentation. Booking provider remains undecided; no subscriptions or account changes.
+- [x] Extract PDF text and visually inspect all seven pages.
+- [x] Map feedback to existing components, CMS controls and responsive rules.
+- [x] Identify decisions, dependencies and acceptance checks; save detailed plan.
+- [x] Explain proposed order, responsive independence and Safari limitations.
+Verification: Every PDF request accounted for; exact Industry list preserved; screenshot-specific targets recorded; distinguish source review from device testing.
+
+Review: Planning completed in docs/client-feedback/2026-10-12/implementation-plan.md. All seven PDF pages and embedded screenshots reviewed; CMS controls and responsive causes mapped; optional Industry preserved as 14 exact choices across form/email/server scope. Safari default asset already H.264/no audio; live range GET returned entire file with 200, an investigation lead only. Mobile team composition confirmed by user: both founders side by side with biographies below. Linked Drive assets, current booking costs and real iPhone behavior not verified. No application code or production changes.
+
+Planning clarification, 12 October: User confirmed two founders side by side on mobile, with biographies underneath. Detailed plan updated; no implementation or deployment performed.
+
+## 2026-10-12 implementation and release
+
+Goal: Implement approved feedback, review screenshots/interactions, push main and deploy Cloudflare.
+Constraints: Preserve CMS records, approved copy, founder identity, legal text, email routing and anti-abuse. Both founders side by side on mobile with bios below. Booking comparisons only until chosen; no paid account or actual bookings. No invented final roles or published Method descriptions. Keep new migrations additive and prove preservation before remote use.
+- [ ] Implement responsive layouts, interaction polish and CMS guidance.
+- [ ] Add Industry across form/server/emails and Method description controls/accordion.
+- [ ] Retrieve referenced images, investigate video delivery and prepare booking comparisons.
+- [ ] Run tests/build, browser responsive checks and screenshot review; correct findings.
+- [ ] Commit/push main, deploy and verify production; record limitations.
+Verification: test desktop/mobile and reduced motion; preserve all existing DB rows; check real Worker runtime and video range behavior; validate email payload without sending; verify CMS publication and previews. Actual iPhone testing requires available device access.
+
+Implementation progress: responsive layout/CMS changes and Industry integration complete. Restricted Drive images retained; replacement access requested. Method copy proposed but not published; booking alternatives prepared without switching provider. 23 tests, lint, TypeScript, production build, 29 local browser cases and mocked form retry/success passed. Local editor draft/publication checks passed and values restored; additive migration preservation checked against production snapshot. Compiled Worker and final live checks in progress.

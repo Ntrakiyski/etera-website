@@ -125,3 +125,24 @@ Mistake: Wrangler generated a mainModule import of the compiled OpenNext Worker,
 Why it happened: Type generation ran while the generated Worker artifact existed.
 Rule for next time: Generate binding types without inferring the compiled Worker module; keep generated bundle imports out of application declaration files.
 Example check: cloudflare-env.d.ts has environment bindings but no .open-next/worker import.
+
+## 2026-10-12 - Preserve discriminated field types
+
+Mistake: Spreading a helper typed as Payload Field and overriding admin lost the discriminated union guarantee.
+Why it happened: Group-specific help was added without narrowing the helper's return type.
+Rule for next time: Keep generic Field helpers intact unless their concrete return type is needed; place contextual help on the specific related fields.
+Example check: Typecheck the schema after admin metadata edits, not only ESLint.
+
+## 2026-10-12 - Responsive accessibility overrides and QA selectors
+
+Mistake: The compact mobile statement retained an older reduced-motion !important minimum height. The browser verification first matched server error copy that the form intentionally replaces, then also matched Next's announcer.
+Why it happened: Testing only normal motion missed the stronger existing CSS rule; selectors were broader than the form's actual UI contract.
+Rule for next time: Check responsive changes with reduced motion, and scope interaction assertions to the component's rendered state rather than arbitrary provider text.
+Example check: Mobile reduced-motion statement remains below 500px; failure assertion targets form [role=alert].
+
+## 2026-10-12 - Explicit remote migration context
+
+Mistake: cf:migrate exited successfully but inherited PAYLOAD_CLOUDFLARE_LOCAL=1 from .env and did not migrate production.
+Why it happened: The remote migration script selected production mode without explicitly overriding local binding selection.
+Rule for next time: Set PAYLOAD_CLOUDFLARE_LOCAL=0 in cf:migrate and verify the migration name against remote D1 before deploying.
+Example check: SELECT name FROM payload_migrations WHERE name = '20261012_144844_feedback_20261012' returns exactly one row remotely.

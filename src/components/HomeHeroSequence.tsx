@@ -18,6 +18,7 @@ export function HomeHeroSequence({ home }: { home: HomeContent }) {
     if (!sequence || !cta) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactLayout = window.matchMedia("(max-width: 767px)");
     let frame = 0;
     let top = 0;
     let travel = 1;
@@ -33,12 +34,13 @@ export function HomeHeroSequence({ home }: { home: HomeContent }) {
       const eased = reveal * reveal * (3 - 2 * reveal);
       sequence.style.setProperty("--home-panel-y", `${(1 - eased) * 100}%`);
       sequence.style.setProperty("--home-statement-opacity", "1");
-      const hidden = !reducedMotion.matches && reveal > 0.9;
+      const animated = !reducedMotion.matches && !compactLayout.matches;
+      const hidden = animated && reveal > 0.9;
       sequence.toggleAttribute("data-cta-hidden", hidden);
       cta.tabIndex = hidden ? -1 : 0;
       document.documentElement.toggleAttribute(
         "data-home-header-on-milk",
-        reducedMotion.matches ? window.scrollY >= top + window.innerHeight : reveal >= 0.9,
+        animated ? reveal >= 0.9 : window.scrollY >= top + (sequence.querySelector<HTMLElement>(".home-hero")?.offsetHeight ?? window.innerHeight),
       );
     }
 
@@ -50,11 +52,12 @@ export function HomeHeroSequence({ home }: { home: HomeContent }) {
 
     function measure() {
       if (!sequence) return;
-      if (reducedMotion.matches) sequence.removeAttribute("data-scroll-active");
+      const animated = !reducedMotion.matches && !compactLayout.matches;
+      if (!animated) sequence.removeAttribute("data-scroll-active");
       else sequence.setAttribute("data-scroll-active", "true");
-      document.documentElement.toggleAttribute("data-home-scroll-active", !reducedMotion.matches);
+      document.documentElement.toggleAttribute("data-home-scroll-active", animated);
       top = window.scrollY + sequence.getBoundingClientRect().top;
-      travel = reducedMotion.matches ? window.innerHeight : Math.max(sequence.offsetHeight - window.innerHeight, 1);
+      travel = animated ? Math.max(sequence.offsetHeight - window.innerHeight, 1) : window.innerHeight;
       lastProgress = -1;
       schedule();
     }

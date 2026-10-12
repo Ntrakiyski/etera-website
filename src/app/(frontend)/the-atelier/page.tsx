@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 
@@ -48,18 +49,26 @@ export default async function TheAtelierPage() {
           <p>{page.copy.teamIntro}</p>
         </div>
         <div className="people-grid">
-          {page.teamMembers.map((person) => {
+          {page.teamMembers.map((person, index) => {
             const portrait = person.portrait?.url ?? (person.name.startsWith("Alexandra")
               ? "/media/joana-profile.jpg"
               : /^(Yoana|Joana)/.test(person.name) ? "/media/alexandra-profile.jpg" : null);
             return (
-              <article className={portrait ? "people-grid__person--with-portrait" : undefined} key={person.id}>
+              <article
+                className={portrait ? "people-grid__person--with-portrait" : undefined}
+                key={person.id}
+                style={{
+                  "--person-column": index % 2 + 1,
+                  "--person-row": Math.floor(index / 2) * 4 + 1,
+                  "--person-bio-row": Math.floor(index / 2) * 4 + 3 + index % 2,
+                } as CSSProperties}
+              >
                 {portrait ? (
                   <div className="people-grid__portrait">
                     <Image
                       alt={`Portrait of ${person.name}`}
                       fill
-                      sizes="(max-width: 767px) 110px, 160px"
+                      sizes="(max-width: 767px) 45vw, 160px"
                       src={portrait}
                       unoptimized
                     />
@@ -68,8 +77,8 @@ export default async function TheAtelierPage() {
                 <div className="people-grid__copy">
                   <p>{person.position}</p>
                   <h3>{person.name}</h3>
-                  <p>{person.description}</p>
                 </div>
+                <p className="people-grid__biography"><strong className="people-grid__biography-name">{person.name}</strong>{person.description}</p>
               </article>
             );
           })}

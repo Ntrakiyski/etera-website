@@ -50,7 +50,7 @@ export type AtelierContent = PageContent & {
   copy: typeof atelierCopy;
   storyImage: MediaSummary | null;
   methodLogo: MediaSummary | null;
-  methodSteps: string[];
+  methodSteps: { label: string; description: string }[];
   aetherNarrative: string;
   featuredPeople: PersonSummary[];
   teamMembers: TeamMemberSummary[];
@@ -78,6 +78,7 @@ export type InquiryLabels = {
   help: string;
   name: string;
   brand: string;
+  industry: string;
   email: string;
   services: string;
   servicesHelp: string;
@@ -225,7 +226,7 @@ export const fallbackWorkPage: PageContent = {
 
 export const fallbackAtelierPage: AtelierContent = {
   copy: atelierCopy, storyImage: null, methodLogo: null,
-  methodSteps: ["Discover", "Define", "Create", "Elevate"],
+  methodSteps: ["Discover", "Define", "Create", "Elevate"].map(label => ({ label, description: "" })),
   aetherNarrative:
     "Like Aether, ETÉRA is the missing element: the invisible thread connecting identity, communication, visual language and perception.",
   headline: "Strategy, creativity and attention to every detail.",
@@ -285,6 +286,7 @@ export const fallbackContactPage: ContactContent = {
     help: "Send your project brief directly to ETÉRA. You will receive a copy by email.",
     name: "Full Name",
     brand: "Company Name (if applicable)",
+    industry: "Industry (Optional)",
     email: "Email Address",
     services: "What can we help with?",
     servicesHelp: "Select all that apply",
@@ -745,7 +747,14 @@ export const getAtelierPage = cache(async () => {
       copy: editableCopy(page.copy, atelierCopy),
       storyImage: mediaSummary(page.storyImage) ?? null,
       methodLogo: mediaSummary(page.methodLogo) ?? null,
-      methodSteps: labelsArray(page.methodSteps, fallbackAtelierPage.methodSteps),
+      methodSteps: Array.isArray(page.methodSteps) && page.methodSteps.length > 0
+        ? page.methodSteps.flatMap((step: unknown) => {
+            if (!step || typeof step !== "object") return [];
+            const value = step as Record<string, unknown>;
+            const label = stringValue(value.label);
+            return label ? [{ label, description: stringValue(value.description) }] : [];
+          })
+        : fallbackAtelierPage.methodSteps,
       aetherNarrative: launchStringValue(
         page.aetherNarrative,
         fallbackAtelierPage.aetherNarrative,

@@ -41,7 +41,8 @@ export async function deliverInquiry(request: Request, settings: DeliverySetting
     if (typeof data.website !== "string" || data.website) return reply(400, "Invalid inquiry.");
     if (typeof data.submissionId !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(data.submissionId)) return reply(400, "Invalid submission.");
     if (typeof data.turnstileToken !== "string" || !data.turnstileToken || data.turnstileToken.length > 2048) return reply(400, "Complete the security check.", "verification");
-    const limits = { name: 120, email: 254, brand: 200, budget: 200, project: 6000, additional: 3000 };
+    if (data.industry === undefined) data.industry = "";
+    const limits = { industry: 100, name: 120, email: 254, brand: 200, budget: 200, project: 6000, additional: 3000 };
     for (const [key, max] of Object.entries(limits)) {
       if (typeof data[key] !== "string" || data[key].length > max) return reply(400, "Check the inquiry fields.");
       data[key] = data[key].trim();

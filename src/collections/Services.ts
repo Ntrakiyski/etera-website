@@ -37,6 +37,7 @@ export const Services: CollectionConfig = {
     defaultColumns: ["name", "area", "sortOrder"],
     group: "Content",
     useAsTitle: "name",
+    description: "Entries shown in What We Do on Home and in Services. Edit category display titles under Pages → Services Page → Group Labels.",
   },
   defaultSort: "sortOrder",
   fields: [
@@ -47,6 +48,8 @@ export const Services: CollectionConfig = {
     },
     {
       name: "area",
+      label: "Service category",
+      admin: { description: "Assigns this entry to an accordion group. Rename the group's public title in Services Page → Group Labels." },
       type: "select",
       options: serviceAreaOptions,
       required: true,

@@ -9,6 +9,7 @@ import {
   getAtelierPage,
   getHomePage,
   getServices,
+  getServicesPage,
   getSiteSettings,
 } from "@/lib/cms";
 import { isLaunchReadyPartner } from "@/lib/content-readiness";
@@ -27,10 +28,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [home, atelier, services] = await Promise.all([
+  const [home, atelier, services, servicesPage] = await Promise.all([
     getHomePage(),
     getAtelierPage(),
     getServices(),
+    getServicesPage(),
   ]);
   const partners = home.featuredPartners.filter(isLaunchReadyPartner);
 
@@ -53,7 +55,7 @@ export default async function Home() {
           <p>{home.servicesIntro}</p>
           <EditorialLink href="/services">{home.servicesLinkLabel}</EditorialLink>
         </div>
-        <ServiceIndex services={services} tone="light" />
+        <ServiceIndex services={services} tone="light" groupLabels={servicesPage.groupLabels} />
       </section>
 
       {partners.length > 0 ? (

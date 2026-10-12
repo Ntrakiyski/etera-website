@@ -7,6 +7,7 @@ import * as migration_20261008_111621_client_feedback_editable_copy from './2026
 import * as migration_20261008_145106 from './20261008_145106';
 import * as migration_20261008_151809 from './20261008_151809';
 import * as migration_20261008_154613 from './20261008_154613';
+import * as migration_20261012_144844_feedback_20261012 from './20261012_144844_feedback_20261012';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20261008_154613.up,
     down: migration_20261008_154613.down,
-    name: '20261008_154613'
+    name: '20261008_154613',
+  },
+  {
+    up: migration_20261012_144844_feedback_20261012.up,
+    down: migration_20261012_144844_feedback_20261012.down,
+    name: '20261012_144844_feedback_20261012'
   },
 ];

@@ -81,6 +81,12 @@ export const ContactPage: GlobalConfig = {
           required: true,
         },
         {
+          name: "industry",
+          type: "text",
+          defaultValue: "Industry (Optional)",
+          required: true,
+        },
+        {
           name: "email",
           type: "text",
           defaultValue: "Email Address",

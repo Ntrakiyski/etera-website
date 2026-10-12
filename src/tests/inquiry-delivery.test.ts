@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { inquiryIndustries } from '../lib/inquiry-industries.ts';
 import { deliverInquiry } from '../lib/inquiry-delivery.ts';
 
 const data = { name:'Website test',email:'visitor@example.com',brand:'ETERA',budget:'1000',project:'A new brand',additional:'Details',services:['Brand Strategy'],website:'',submissionId:'b1a3e07d-8901-459a-a5a4-a0f93f88a111',turnstileToken:'valid' };
@@ -16,7 +17,7 @@ test('valid inquiry fixes recipients, protects BCC, and reuses idempotency key',
 test('invalid input and origin never call email API',async()=>{
  const original=globalThis.fetch;globalThis.fetch=async()=>{throw Error('Must not send')};
  try{
-  for(const body of [null,[],{...data,email:'victim@example.com,other@example.com'},{...data,project:''},{...data,services:['unknown']},{...data,website:'bot'},{...data,submissionId:'bad'},{...data,name:'a'.repeat(121)}])assert.equal((await deliverInquiry(request(body),config)).status,400);
+  for(const body of [null,[],{...data,email:'victim@example.com,other@example.com'},{...data,project:''},{...data,services:['unknown']},{...data,industry:'Unknown'},{...data,industry:42},{...data,industry:null},{...data,industry:'a'.repeat(101)},{...data,website:'bot'},{...data,submissionId:'bad'},{...data,name:'a'.repeat(121)}])assert.equal((await deliverInquiry(request(body),config)).status,400);
   assert.equal((await deliverInquiry(request(data,'https://attacker.example'),config)).status,403);
   assert.equal((await deliverInquiry(request({...data,project:'a'.repeat(17000)}),config)).status,413);
   assert.equal((await deliverInquiry(request(),{...config,apiKey:''})).status,503);
@@ -30,4 +31,27 @@ test('rate limits, wrong verification hostname/action and provider failures neve
   globalThis.fetch=async(input)=>String(input).includes('siteverify')?Response.json({success:true,hostname:'etera.trakiyski.work',action:'inquiry'}):Response.json({message:'rejected'},{status:422});assert.equal((await deliverInquiry(request(),config)).status,502);
   globalThis.fetch=async()=>{throw Error('network unavailable')};assert.equal((await deliverInquiry(request(),config)).status,503);
  }finally{globalThis.fetch=original;}
+});
+
+
+test('optional industry accepts omission, blanks, and all approved choices through delivery', async () => {
+ const original = globalThis.fetch;
+ let expected = '';
+ globalThis.fetch = async (input, init) => {
+  if (String(input).includes('siteverify')) return Response.json({success:true,hostname:'etera.trakiyski.work',action:'inquiry'});
+  const body = JSON.parse(String(init?.body));
+  if (expected) {
+   assert(body.text.includes(`Industry:\n${expected}`));
+   assert(body.html.includes(expected.replaceAll('&', '&amp;')));
+  } else {
+   assert(!body.text.includes('Industry:'));
+  }
+  return Response.json({id:'accepted'});
+ };
+ try {
+  for (const industry of [undefined, '', '  ', ...inquiryIndustries]) {
+   expected = industry?.trim() ?? '';
+   assert.equal((await deliverInquiry(request({...data,industry}),config)).status,200);
+  }
+ } finally { globalThis.fetch = original; }
 });

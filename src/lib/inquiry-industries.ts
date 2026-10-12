@@ -1,0 +1,16 @@
+export const inquiryIndustries: readonly string[] = [
+  "Fashion & Accessories",
+  "Beauty & Skincare",
+  "Luxury & Premium Goods",
+  "Jewelry & Watches",
+  "Lifestyle & Wellness",
+  "Hospitality & Travel",
+  "Food & Beverage",
+  "Art, Design & Culture",
+  "Entertainment & Media",
+  "Architecture & Interior Design",
+  "Technology & Innovation",
+  "Retail & E-commerce",
+  "Professional Services",
+  "Other",
+];

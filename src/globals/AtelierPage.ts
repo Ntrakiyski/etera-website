@@ -15,9 +15,21 @@ export const AtelierPage: GlobalConfig = {
   },
   fields: [
     copyFields(atelierCopy),
-    { name: "storyImage", type: "upload", relationTo: "media", filterOptions: { mimeType: { contains: "image/" } } },
+    {
+      name: "storyImage", label: "The Missing Element — Image", type: "upload", relationTo: "media",
+      filterOptions: { mimeType: { contains: "image/" } },
+      admin: { description: "Image beside ‘The missing element.’ on The Atelier page only. The Home introduction image is edited separately in Home Page." },
+    },
     { name: "methodLogo", type: "upload", relationTo: "media", filterOptions: { mimeType: { contains: "image/" } } },
-    { name: "methodSteps", type: "array", defaultValue: ["Discover", "Define", "Create", "Elevate"].map(label => ({ label })), fields: [{ name: "label", type: "text", required: true }] },
+    {
+      name: "methodSteps", label: "Method — Steps", type: "array",
+      admin: { description: "Reorder steps here. Add an approved description to enable its expandable row; an empty description keeps the step as a label." },
+      defaultValue: ["Discover", "Define", "Create", "Elevate"].map(label => ({ label })),
+      fields: [
+        { name: "label", label: "Step title", type: "text", required: true },
+        { name: "description", label: "Step description", type: "textarea", admin: { description: "Optional approved copy, shown when the visitor expands this step." } },
+      ],
+    },
     {
       name: "kicker",
       type: "text",
@@ -26,12 +38,16 @@ export const AtelierPage: GlobalConfig = {
     },
     {
       name: "headline",
+      label: "Headline — Atelier hero and Home introduction",
+      admin: { description: "Shared with the introduction below the video on Home. Editing this updates both pages." },
       type: "text",
       defaultValue: "Strategy, creativity and attention to every detail.",
       required: true,
     },
     {
       name: "intro",
+      label: "Introduction — Atelier hero and Home introduction",
+      admin: { description: "Shared with the introduction below the video on Home. Editing this updates both pages." },
       type: "textarea",
       defaultValue:
         "ETÉRA is an independent creative atelier built around the belief that strong brands are shaped through the right balance of strategy, creativity, cultural context, and effort.",

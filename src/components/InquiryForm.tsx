@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 
 import { InquiryTurnstile } from "@/components/InquiryTurnstile";
 
+import { inquiryIndustries } from "@/lib/inquiry-industries";
+
 import type { InquiryLabels } from "@/lib/cms";
 import {
   validateInquiry,
@@ -18,6 +20,7 @@ const emptyDraft: InquiryDraft = {
   brand: "",
   budget: "",
   email: "",
+  industry: "",
   name: "",
   project: "",
   services: [],
@@ -161,17 +164,6 @@ export function InquiryForm({
           ) : null}
         </label>
         <label>
-          <span>{labels.brand}</span>
-          <input
-            disabled={sending}
-            autoComplete="organization"
-            name="brand"
-            maxLength={200}
-            onChange={(event) => update("brand", event.target.value)}
-            value={draft.brand}
-          />
-        </label>
-        <label>
           <span>{labels.email}</span>
           <input
             disabled={sending}
@@ -194,6 +186,31 @@ export function InquiryForm({
               {labels.emailError}
             </span>
           ) : null}
+        </label>
+        <label>
+          <span>{labels.brand}</span>
+          <input
+            disabled={sending}
+            autoComplete="organization"
+            name="brand"
+            maxLength={200}
+            onChange={(event) => update("brand", event.target.value)}
+            value={draft.brand}
+          />
+        </label>
+        <label>
+          <span>{labels.industry}</span>
+          <select
+            disabled={sending}
+            name="industry"
+            onChange={(event) => update("industry", event.target.value)}
+            value={draft.industry ?? ""}
+          >
+            <option value=""></option>
+            {inquiryIndustries.map((industry) => (
+              <option key={industry} value={industry}>{industry}</option>
+            ))}
+          </select>
         </label>
         <fieldset
           disabled={sending}

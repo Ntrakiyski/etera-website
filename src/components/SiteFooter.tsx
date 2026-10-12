@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { SiteSettingsContent } from "@/lib/cms";
+import { EditorialLink } from "./EditorialLink";
 import { ArrowIcon } from "./ArrowIcon";
 
 export function SiteFooter({ settings }: { settings: SiteSettingsContent }) {
@@ -35,7 +36,7 @@ export function SiteFooter({ settings }: { settings: SiteSettingsContent }) {
             ) : null}
             <div className="footer-directory__contact">
               <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>
-              <Link href="/contact#inquiry">{settings.copy.project}</Link>
+              <EditorialLink href="/contact#inquiry">{settings.copy.project}</EditorialLink>
             </div>
           </div>
         </div>

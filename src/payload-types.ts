@@ -210,12 +210,17 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * Entries shown in What We Do on Home and in Services. Edit category display titles under Pages → Services Page → Group Labels.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
  */
 export interface Service {
   id: string;
   name: string;
+  /**
+   * Assigns this entry to an accordion group. Rename the group's public title in Services Page → Group Labels.
+   */
   area: 'brand-culture' | 'creative-visual' | 'content-influence' | 'experiences-partnerships' | 'digital-growth';
   summary: string;
   details?: {
@@ -868,11 +873,17 @@ export interface HomePage {
    * Still image shown while the video loads or autoplay is unavailable.
    */
   heroPoster?: (string | null) | Media;
+  /**
+   * Image below the Home video. Desktop fills the section height; mobile keeps the 3:2 frame. The heading and introduction alongside it are edited in The Atelier Page → Headline / Introduction.
+   */
   atelierPreviewImage?: (string | null) | Media;
   /**
-   * The preview heading and introduction use the Atelier page's headline and introduction.
+   * Link under the Home introduction. Its heading and body are shared with The Atelier Page → Headline / Introduction.
    */
   atelierLinkLabel: string;
+  /**
+   * Home section heading only. Accordion category titles are edited in Services Page → Group Labels; entries are edited in Content → Services.
+   */
   servicesHeading: string;
   servicesIntro: string;
   servicesLinkLabel: string;
@@ -916,16 +927,32 @@ export interface AtelierPage {
     methodIntro: string;
     servicesLink: string;
   };
+  /**
+   * Image beside ‘The missing element.’ on The Atelier page only. The Home introduction image is edited separately in Home Page.
+   */
   storyImage?: (string | null) | Media;
   methodLogo?: (string | null) | Media;
+  /**
+   * Reorder steps here. Add an approved description to enable its expandable row; an empty description keeps the step as a label.
+   */
   methodSteps?:
     | {
         label: string;
+        /**
+         * Optional approved copy, shown when the visitor expands this step.
+         */
+        description?: string | null;
         id?: string | null;
       }[]
     | null;
   kicker: string;
+  /**
+   * Shared with the introduction below the video on Home. Editing this updates both pages.
+   */
   headline: string;
+  /**
+   * Shared with the introduction below the video on Home. Editing this updates both pages.
+   */
   intro: string;
   aetherNarrative?: string | null;
   /**
@@ -1003,6 +1030,7 @@ export interface ContactPage {
     help: string;
     name: string;
     brand: string;
+    industry: string;
     email: string;
     services: string;
     servicesHelp: string;
@@ -1388,6 +1416,7 @@ export interface AtelierPageSelect<T extends boolean = true> {
     | T
     | {
         label?: T;
+        description?: T;
         id?: T;
       };
   kicker?: T;
@@ -1474,6 +1503,7 @@ export interface ContactPageSelect<T extends boolean = true> {
         help?: T;
         name?: T;
         brand?: T;
+        industry?: T;
         email?: T;
         services?: T;
         servicesHelp?: T;
