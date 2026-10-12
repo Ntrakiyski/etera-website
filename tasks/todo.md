@@ -226,3 +226,18 @@ Implementation progress: responsive layout/CMS changes and Industry integration 
 Review: Application commit 13d3f90 pushed to main and deployed as Cloudflare Worker 10aa1794-93df-4109-9d6a-df8103854ce7 at https://etera.trakiyski.work. Local and compiled Worker browser checks passed 29 cases each; live checks passed the same 29 cases plus nine legal page/viewport cases, footer/header boundaries, arrow and hover behavior. Live invalid inquiry returned 400 without sending mail. Tests (23), lint, types, build, schema preservation and local CMS editor save/draft/publication passed. Remote migration name and Industry default explicitly verified. Updated Cloudflare-generated types after CI detected stale module metadata; CI verification recorded in the release document.
 
 Limitations: replacement Drive images inaccessible; Method descriptions/final roles need approved copy; booking provider/account still undecided. Safari transport and Chromium playback verified, but real iPhone autoplay not proven and desktop Safari did not auto-advance in this environment. Mac lock blocked real tap verification. Existing approved assets/roles retained, no unapproved Method copy published and no real enquiry sent. Booking comparison and editor guide are in docs/client-feedback/2026-10-12/.
+
+## 2026-10-12 approved follow-up
+
+Goal: Publish approved editable Method descriptions, retrieve newly shared replacement images, and repeat real Safari verification after unlock.
+Constraints: Preserve existing custom CMS copy and asset identity; inspect both images before assigning slots. No guessed founder roles or booking provider switch. Do not change Drive sharing or Safari preferences.
+- [x] Verify Drive access and inspect replacement images.
+- [x] Publish approved Method descriptions through existing CMS and verify public expansion.
+- [x] Apply supplied replacement asset to the intended image slot and review desktop/mobile crops.
+- [x] Repeat native Safari loading/autoplay/tap verification.
+- [x] Push any necessary code/docs, verify production and record limitations.
+Verification: CMS readback and live DOM, responsive screenshots, real Safari evidence, unchanged unrequested page content.
+
+Review: Supplied color and monochrome moodboard JPEGs optimized without changing the originals; both available in CMS Media, with color published in the Home introduction only. Four exact approved Method descriptions published and editable. Fixed intrinsic image sizing so desktop photo height follows the adjacent text; mobile retains 3:2 with both faces visible. Local and live Home/Method checks passed at 320/390/768/1440px, including equal desktop columns, mobile ratio, loaded image, no overflow and pointer/keyboard expansion. Native Safari Method keyboard expansion also verified. Lint/types, 23 tests, OpenNext build and clean-output Cloudflare type check passed. Worker a4100d25-46c5-42fc-a727-c3555f0b6341 deployed; production CMS readback verified.
+
+Native desktop Safari's fresh autoplay request rejected with NotAllowedError despite muted/readyState 4/visible; real hero tap started playback (10.508s verified). Preferences read but unchanged. Real iPhone remains unverified. Founder roles and booking choice remain outstanding; Drive/image and Method-copy blockers are resolved.

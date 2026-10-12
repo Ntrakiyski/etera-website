@@ -153,3 +153,10 @@ Mistake: Initial release passed lint/types/tests/build but CI rejected stale gen
 Why it happened: The local release checks omitted the workflow's cf:typegen --check step.
 Rule for next time: Run every existing CI check before pushing, including generated bindings checks; verify clean-build conditions when output references ignored artifacts.
 Example check: npm run cf:typegen -- --check succeeds with .open-next absent.
+
+## 2026-10-12 - Portrait uploads must not dictate desktop section height
+
+Mistake: A new portrait-format Home image stretched the whole two-column introduction to its intrinsic height.
+Why it happened: Percentage image height resolved against a content-sized frame, letting the image determine the grid row.
+Rule for next time: In a cover frame that must match the adjacent text, remove the image from intrinsic row sizing and check both portrait and landscape sources.
+Example check: The desktop frame matches the text column height, while the mobile frame remains 3:2 and both faces stay visible.

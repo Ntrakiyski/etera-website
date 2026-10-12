@@ -978,6 +978,12 @@ html[data-home-header-on-milk] .site-logo .site-logo__milk,
   min-height: 0;
 }
 
+.atelier-preview > .aether-media .aether-media__frame img {
+  inset: 0;
+  object-position: 50% 35%;
+  position: absolute;
+}
+
 .atelier-preview > .aether-media figcaption {
   color: var(--etera-milk-white);
   padding: 0.8rem var(--gutter);

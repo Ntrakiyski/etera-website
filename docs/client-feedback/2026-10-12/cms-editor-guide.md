@@ -39,4 +39,8 @@ Pages → The Atelier Page → Team Members. Edit Name, Position, Description an
 - Wordmark: Method Logo.
 - Titles, descriptions and order: Method — Steps → Step title / Step description.
 
-A nonempty published description enables an expandable row. Without approved description text, the step is shown as a simple label. Proposed descriptions are in `method-copy-proposal.md`; they are not live copy.
+A nonempty published description enables an expandable row. Without approved description text, the step is shown as a simple label. The short descriptions approved on 12 October are in `method-copy-proposal.md` and are published as editable CMS content.
+
+## Supplied Home image alternatives
+
+The approved replacement color image is selected under Pages → Home Page → Atelier Introduction — Image. Media contains `etera-moodboard-color.webp` and `etera-moodboard-monochrome.webp`; select the latter there to switch to black-and-white, then Publish. The original full-resolution JPEGs remain untouched. The separate Atelier story image has not changed.
