@@ -2932,8 +2932,3 @@ html[data-home-header-on-milk] .site-logo .site-logo__milk,
 .booking-action svg { width: 1.1rem; }
 .footer-directory__cta-actions { display: grid; gap: 1.25rem; }
 .footer-directory__cta-actions .booking-action { justify-self: start; opacity: .85; }
-.contact-hero__actions { align-items: center; display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem; }
-.contact-hero__actions .primary-action {
-  background: var(--etera-milk-white);
-  color: var(--etera-maroon);
-}

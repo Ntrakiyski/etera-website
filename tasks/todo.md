@@ -285,3 +285,15 @@ Review: Official @calcom/embed-react 1.5.3 now renders the supplied first-meetin
 Verification: 25 tests, lint, TypeScript, OpenNext build, clean-output Cloudflare type check and diff whitespace check passed. Live real event/modal/inline checks passed at 320/390/768/1440px, no page/iframe horizontal overflow, Escape and focus return, shared Home CTA and red/cream values. Final screenshots reviewed after Cal hydration/fade completion. Final Worker: 37c2aed5-6b4c-4660-b8cc-3c6ceaad0b18. Publish to main and GitHub CI tracked with this release.
 
 Limits: No real reservation or enquiry submitted; Cal calendar creation, delivery notifications and actual iPhone Safari booking were not tested. Event settings and availability belong to the Cal.com account. Founder title follow-up remains separate.
+
+## 2026-10-14 Contact hero simplification
+
+Goal: Remove redundant enquiry/booking hero buttons only from Contact.
+Constraints: Preserve inline calendar, enquiry form, shared booking CTA and all colors/settings.
+- [x] Restore introduction-only Contact hero; remove unused imports and scoped styles.
+- [x] Verify lint/types/build and publish to main/Cloudflare.
+- [x] Check live desktop/mobile hero and retained lower sections.
+
+Verification: Hero has no action links; calendar/form and shared secondary booking action remain.
+
+Review: Removed only the Contact hero action row and unused imports/styles. Lint, TypeScript and OpenNext production build passed. Published Worker 10864566-d9a4-4dfa-8095-bbcf22176fa0; live checks at 390/1440px confirmed zero hero buttons, calendar/form/shared booking CTA retained and no horizontal overflow. Screenshot reviewed. No CMS change, appointment or email sent.

@@ -189,3 +189,10 @@ Mistake: Cal tests and screenshots matched server-rendered text while the vendor
 Why it happened: A title in the DOM and applied brand variables did not prove that event controls were ready or ancestor opacity had settled.
 Rule for next time: Use fresh viewport pages, exercise the requested trigger first, and wait for real controls, no loading skeleton and visible settled content before assertions/screenshots.
 Example check: Real Cal day controls visible, no visible pulse placeholders, event-title ancestor opacity at least 0.98, then inspect modal close and focus return.
+
+## 2026-10-14 - Avoid redundant Contact hero actions
+
+Mistake: Added both enquiry and booking buttons to Contact's hero when both destination sections are directly below.
+Why it happened: Reused the shared CTA pattern without accounting for the destination page context.
+Rule for next time: Keep booking shortcuts on shared CTAs; avoid duplicate actions on the page that already presents both flows.
+Example check: Contact hero contains introduction only, with inline calendar and enquiry below.

@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { BookingCalendar } from "@/components/BookingCalendar";
-import { BookingButton } from "@/components/BookingButton";
 import { getCalLink } from "@/lib/cal-booking";
 import type { Metadata } from "next";
 import { cloudflare } from "@/payload.config";
@@ -37,13 +35,7 @@ export default async function ContactPage() {
           <p>{page.kicker}</p>
           <h1>{page.headline}</h1>
         </div>
-        <div className="page-hero__intro">
-          <p>{page.intro}</p>
-          <div className="contact-hero__actions">
-            <Link className="primary-action" href="#inquiry">{settings.copy.project}</Link>
-            {calLink ? <BookingButton calLink={calLink} label={page.copy.bookingKicker} /> : null}
-          </div>
-        </div>
+        <p className="page-hero__intro">{page.intro}</p>
       </header>
 
       <section
