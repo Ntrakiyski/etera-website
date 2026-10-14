@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { EntryMotion } from "@/components/EntryMotion";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getSiteSettings } from "@/lib/cms";
+import { getContactPage, getSiteSettings } from "@/lib/cms";
 import { getSEOSettings, getSEOSiteUrl } from "@/lib/seo";
 
 import "../globals.css";
@@ -51,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [settings, seo] = await Promise.all([getSiteSettings(), getSEOSettings()]);
+  const [settings, seo, contact] = await Promise.all([getSiteSettings(), getSEOSettings(), getContactPage()]);
   const siteUrl = getSEOSiteUrl(seo);
   const organizationJsonLd = {
     "@context": "https://schema.org",
@@ -80,7 +80,7 @@ export default async function RootLayout({
         <SiteHeader settings={settings} />
         <EntryMotion />
         {children}
-        <SiteFooter settings={settings} />
+        <SiteFooter settings={settings} bookingLabel={contact.copy.bookingKicker} />
         <script
           dangerouslySetInnerHTML={{
             __html: JSON.stringify([organizationJsonLd, { "@context": "https://schema.org", "@type": "WebSite", name: seo.siteName, url: siteUrl.toString() }]).replace(/</g, "\\u003c"),

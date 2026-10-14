@@ -1,3 +1,4 @@
+import { defaultBookingURL } from "../lib/cal-booking";
 import type { GlobalConfig } from "payload";
 
 import { anyone, loggedIn } from "../access";
@@ -26,9 +27,9 @@ export const SiteSettings: GlobalConfig = {
     {
       name: "bookingURL",
       type: "text",
-      defaultValue:
-        "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1cN59tKh527V9JQcQH9yd31V3Z0VRf9Ue3MMUZ58UwPWM-gVdLhEacKQurbpdEbFh-pLZv07sm?gv=true",
+      defaultValue: defaultBookingURL,
       label: "Booking URL",
+      admin: { description: "Public Cal.com event URL, for example https://cal.com/etera-creative/first-meeting. Used by the inline calendar and Book a call buttons." },
     },
     {
       name: "footerTagline",

@@ -22,6 +22,7 @@
     "cf:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
+    "@calcom/embed-react": "^1.5.3",
     "@payloadcms/db-d1-sqlite": "^3.88.0",
     "@payloadcms/next": "^3.88.0",
     "@payloadcms/plugin-mcp": "^3.88.0",

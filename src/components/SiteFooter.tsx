@@ -1,19 +1,25 @@
+import { BookingButton } from "./BookingButton";
+import { getCalLink } from "@/lib/cal-booking";
 import Link from "next/link";
 
 import type { SiteSettingsContent } from "@/lib/cms";
 import { EditorialLink } from "./EditorialLink";
 import { ArrowIcon } from "./ArrowIcon";
 
-export function SiteFooter({ settings }: { settings: SiteSettingsContent }) {
+export function SiteFooter({ settings, bookingLabel }: { settings: SiteSettingsContent; bookingLabel: string }) {
+  const calLink = getCalLink(settings.bookingURL);
   return (
     <footer className="site-footer">
       <div className="footer-cta-band">
         <div className="footer-directory footer-cta-container">
         <div className="footer-directory__cta">
           <h2><span>{settings.copy.ctaLineOne}</span><span>{settings.copy.ctaLineTwo}</span></h2>
-          <Link className="footer-directory__cta-link" href="/contact#inquiry">
-            {settings.copy.project} <ArrowIcon />
-          </Link>
+          <div className="footer-directory__cta-actions">
+            <Link className="footer-directory__cta-link" href="/contact#inquiry">
+              {settings.copy.project} <ArrowIcon />
+            </Link>
+            {calLink ? <BookingButton calLink={calLink} label={bookingLabel} /> : null}
+          </div>
         </div>
         </div>
       </div>

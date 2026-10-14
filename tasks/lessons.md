@@ -160,3 +160,32 @@ Mistake: A new portrait-format Home image stretched the whole two-column introdu
 Why it happened: Percentage image height resolved against a content-sized frame, letting the image determine the grid row.
 Rule for next time: In a cover frame that must match the adjacent text, remove the image from intrinsic row sizing and check both portrait and landscape sources.
 Example check: The desktop frame matches the text column height, while the mobile frame remains 3:2 and both faces stay visible.
+
+## 2026-10-14 - Restore scroll state before testing sticky hero controls
+
+Mistake: The email audit's hero-link hover timed out after testing the lower Home preview link.
+Why it happened: The desktop statement correctly covered and disabled the hero CTA at the retained scroll position.
+Rule for next time: Restore the initial scroll position and wait for the hero CTA's active state before testing controls from the first viewport.
+Example check: Scroll to zero and wait for data-cta-hidden to be absent before hovering the hero link.
+
+## 2026-10-14 - Separate client verification from agent device coverage
+
+Mistake: The audit left Safari open because the agent had not tested a real iPhone; the user subsequently confirmed Alexandra had tested it successfully.
+Why it happened: Client acceptance evidence was not yet available when the audit was written.
+Rule for next time: Close an item when direct user confirmation provides client testing evidence, while preserving accurate attribution and the agent's own testing limits.
+Example check: Record “Safari confirmed working by Alexandra” without claiming a new agent iPhone test.
+
+## 2026-10-14 - Serialize type checks with Next build output
+
+Mistake: A standalone typecheck overlapped the OpenNext build and reported missing .next/types files while the build regenerated that directory.
+Why it happened: Both checks used the same generated output at the same time.
+Rule for next time: Finish dev shutdown and standalone checks before starting Next/OpenNext build; rerun sequentially if generated-file races occur.
+Example check: Run typecheck only after the build's .next/types output is stable.
+
+
+## 2026-10-14 - Wait for vendor widget controls and settled animation
+
+Mistake: Cal tests and screenshots matched server-rendered text while the vendor widget was still hydrating or fading in.
+Why it happened: A title in the DOM and applied brand variables did not prove that event controls were ready or ancestor opacity had settled.
+Rule for next time: Use fresh viewport pages, exercise the requested trigger first, and wait for real controls, no loading skeleton and visible settled content before assertions/screenshots.
+Example check: Real Cal day controls visible, no visible pulse placeholders, event-title ancestor opacity at least 0.98, then inspect modal close and focus return.

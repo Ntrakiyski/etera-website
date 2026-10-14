@@ -1,3 +1,4 @@
+import { defaultBookingURL } from "./cal-booking";
 import configPromise from "@payload-config";
 import { getPayload } from "payload";
 import { cache } from "react";
@@ -299,8 +300,7 @@ export const fallbackContactPage: ContactContent = {
 
 export const fallbackSiteSettings: SiteSettingsContent = {
   copy: siteCopy, redLogo: null, whiteLogo: null,
-  bookingURL:
-    "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1cN59tKh527V9JQcQH9yd31V3Z0VRf9Ue3MMUZ58UwPWM-gVdLhEacKQurbpdEbFh-pLZv07sm?gv=true",
+  bookingURL: defaultBookingURL,
   contactEmail: "hello@eteracreative.com",
   footerTagline: "Define your era.",
   seoDescription:

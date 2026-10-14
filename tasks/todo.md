@@ -241,3 +241,47 @@ Verification: CMS readback and live DOM, responsive screenshots, real Safari evi
 Review: Supplied color and monochrome moodboard JPEGs optimized without changing the originals; both available in CMS Media, with color published in the Home introduction only. Four exact approved Method descriptions published and editable. Fixed intrinsic image sizing so desktop photo height follows the adjacent text; mobile retains 3:2 with both faces visible. Local and live Home/Method checks passed at 320/390/768/1440px, including equal desktop columns, mobile ratio, loaded image, no overflow and pointer/keyboard expansion. Native Safari Method keyboard expansion also verified. Lint/types, 23 tests, OpenNext build and clean-output Cloudflare type check passed. Worker a4100d25-46c5-42fc-a727-c3555f0b6341 deployed; production CMS readback verified.
 
 Native desktop Safari's fresh autoplay request rejected with NotAllowedError despite muted/readyState 4/visible; real hero tap started playback (10.508s verified). Preferences read but unchanged. Real iPhone remains unverified. Founder roles and booking choice remain outstanding; Drive/image and Method-copy blockers are resolved.
+
+## 2026-10-14 email-to-live-site audit
+
+Goal: Read Alexandra's latest Gmail feedback and its PDF, compare each request against the live site, and report completed work and real remaining gaps.
+Constraints: Read-only Gmail and production inspection; do not send or draft an email, publish content, or alter client settings. Distinguish client requests from later user-authorized design changes. No blanket completion claim without current evidence.
+- [x] Read source emails and attachment.
+- [x] Map every request to current public/CMS behavior and earlier approvals.
+- [x] Check live desktop/mobile pages and key interactions.
+- [x] Save an evidence-based audit and report remaining items.
+Verification: actual email and PDF contents; fresh live checks; screenshots where visual evidence matters; no outbound email or production writes.
+
+Review: Read Alexandra's latest 12 October Gmail email/PDF and prior 6/8/9 October messages. Gmail attachment SHA-256 matches the existing PDF; all seven pages and screenshots reviewed. Fresh live checks passed 28 page/viewport cases at 320/390/768/1440px plus Method, hover, image/team/CTA/colors/font, optional Industry and validation checks. Zero enquiry requests, no outbound email, no CMS/production changes. Detailed audit: docs/client-feedback/2026-10-14/email-audit.md.
+
+Conclusion: implementable PDF changes are delivered, but cannot confirm every request fully closed. Real iPhone Safari autoplay unverified; current booking is Google Calendar with vendor choice/integration pending; roles remain CEO2/CEO. Black footer follows user's later decision rather than original red-footer request. Missing Element photo can be changed in CMS, but no new story-specific image was selected. No application changes or deployment performed in this audit.
+
+## 2026-10-14 confirmed remaining scope
+
+- [x] Safari playback confirmed working by Alexandra, relayed by Nikolay. No further Safari fix required.
+- [x] Black footer explicitly confirmed to stay.
+- [x] Cal.com selected; Nikolay will create the account.
+- [x] Integrate the supplied Cal.com first-meeting event (30 minutes, Google Meet; visitor timezone shown).
+- [ ] Apply approved final founder titles when provided.
+
+Review: Status updated from direct user confirmation. No application, production or Gmail changes made.
+
+## 2026-10-14 Cal.com integration
+
+Goal: Replace the current Contact calendar with the supplied Cal.com first-meeting event and add a secondary booking CTA using ETÉRA red/cream styling.
+Constraints: Preserve primary enquiry flow, black footer and approved content. Use existing editable booking URL/labels; no real appointment, email, paid account or preference change during verification. Existing unrelated audit docs remain intact.
+- [x] Integrate official React embed and modal trigger with shared red/light configuration.
+- [x] Wire Contact inline calendar and secondary CTAs through existing CMS settings.
+- [x] Verify actual embed, modal open/close, colors and mobile/desktop without booking.
+- [x] Run CI checks/build, publish to main/Cloudflare and update the CMS booking URL.
+- [x] Check live behavior and record evidence/limits.
+Verification: authentic Cal.com event loads, visible red controls, primary CTA preserved, no overflow, keyboard close/focus return, no booking submitted.
+
+Cal verification re-plan: three adapter attempts failed to observe the modal after interacting with inline booking. Stop broad retries. The doubtful assumption is that this is only iframe-navigation timing. Inspect SDK readiness, current URL and modal host before/after the failing click in a focused desktop case; fix the actual cause or the proven test issue, then rerun the acceptance flow.
+
+
+Review: Official @calcom/embed-react 1.5.3 now renders the supplied first-meeting event inline on Contact and in a modal from secondary Book a Call CTAs on Contact and the shared red CTA. Red/cream widget theme and stronger cream primary enquiry action verified. Existing black footer, enquiry/email flow and CMS copy preserved; Booking URL updated locally and remotely with readback. URL and button label remain editable through existing settings/Contact fields. Direct public event link remains available when the SDK is blocked.
+
+Verification: 25 tests, lint, TypeScript, OpenNext build, clean-output Cloudflare type check and diff whitespace check passed. Live real event/modal/inline checks passed at 320/390/768/1440px, no page/iframe horizontal overflow, Escape and focus return, shared Home CTA and red/cream values. Final screenshots reviewed after Cal hydration/fade completion. Final Worker: 37c2aed5-6b4c-4660-b8cc-3c6ceaad0b18. Publish to main and GitHub CI tracked with this release.
+
+Limits: No real reservation or enquiry submitted; Cal calendar creation, delivery notifications and actual iPhone Safari booking were not tested. Event settings and availability belong to the Cal.com account. Founder title follow-up remains separate.

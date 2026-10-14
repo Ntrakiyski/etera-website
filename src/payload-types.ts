@@ -1068,6 +1068,9 @@ export interface SiteSetting {
   redLogo?: (string | null) | Media;
   whiteLogo?: (string | null) | Media;
   contactEmail: string;
+  /**
+   * Public Cal.com event URL, for example https://cal.com/etera-creative/first-meeting. Used by the inline calendar and Book a call buttons.
+   */
   bookingURL?: string | null;
   footerTagline: string;
   socialLinks?:
